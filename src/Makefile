@@ -93,7 +93,7 @@ endif
 #
 
 # Define project name here
-PROJECT = e-puck3_programmer
+PROJECT = e-puck3_main-processor
 
 # Imported source files and paths
 CHIBIOS = ../ChibiOS
@@ -105,7 +105,7 @@ include $(CHIBIOS)/os/common/startup/ARMCMx/compilers/GCC/mk/startup_stm32f7xx.m
 # HAL-OSAL files (optional).
 include $(CHIBIOS)/os/hal/hal.mk
 include $(CHIBIOS)/os/hal/ports/STM32/STM32F7xx/platform.mk
-include ./e-puck3_programmer_board/board.mk
+include ./e-puck3_main-processor_board/board.mk
 include $(CHIBIOS)/os/hal/osal/rt-nil/osal.mk
 # RTOS files (optional).
 include $(CHIBIOS)/os/rt/rt.mk
@@ -117,12 +117,6 @@ include $(CHIBIOS)/os/common/ports/ARMCMx/compilers/GCC/mk/port_v7m.mk
 include $(CHIBIOS)/os/hal/lib/streams/streams.mk
 include $(CHIBIOS)/os/various/shell/shell.mk
 
-# BLACKMAGIC = ../blackmagic
-# include $(BLACKMAGIC)/src/platforms/stm32-ChibiOS/Blackmagic_ChibiOS.mk
-
-# PDBLIB = ../usb_pd_controller/pdblib
-# include $(PDBLIB)/pdblib.mk
-
 # THDULIB = ../threads_utilities_ChibiOS
 # USE_THREADS_TIMESTAMPS = true
 # THREADS_TIMESTAMPS_LOG_SIZE = 5000
@@ -130,7 +124,7 @@ include $(CHIBIOS)/os/various/shell/shell.mk
 # include $(THDULIB)/threads_utilities.mk
 
 # Define linker script file here
-LDSCRIPT= ./STM32F746xG_max.ld
+LDSCRIPT= ./STM32F76xxI_MAX.ld
 
 # C sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.
