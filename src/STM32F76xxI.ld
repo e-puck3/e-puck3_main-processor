@@ -15,13 +15,15 @@
 */
 
 /*
- * STM32F76xxI generic setup.
+ * STM32F76xxI maximum RAM setup.
  * 
- * RAM0 - Data, Heap.
- * RAM3 - Main Stack, Process Stack, BSS, NOCACHE, ETH.
+ * RAM0 - Data, BSS, Heap.
+ * RAM3 - Main Stack, Process Stack, NOCACHE, ETH.
  *
  * Notes:
- * BSS is placed in DTCM RAM in order to simplify DMA buffers management.
+ * BSS is placed in cached RAM, DMA buffers management is delegated to the
+ * application code. This setup maximizes the linear RAM available to BSS and
+ * Heap.
  */
 MEMORY
 {
@@ -82,7 +84,7 @@ REGION_ALIAS("DATA_RAM", ram0);
 REGION_ALIAS("DATA_RAM_LMA", flash0);
 
 /* RAM region to be used for BSS segment.*/
-REGION_ALIAS("BSS_RAM", ram3);
+REGION_ALIAS("BSS_RAM", ram0);
 
 /* RAM region to be used for the default heap.*/
 REGION_ALIAS("HEAP_RAM", ram0);
