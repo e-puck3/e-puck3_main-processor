@@ -58,7 +58,7 @@
 #define STM32_PPRE2                         STM32_PPRE2_DIV2
 #define STM32_RTCSEL                        STM32_RTCSEL_LSI
 #define STM32_RTCPRE_VALUE                  25
-#define STM32_MCO1SEL                       STM32_MCO1SEL_HSI
+#define STM32_MCO1SEL                       STM32_MCO1SEL_HSE
 #define STM32_MCO1PRE                       STM32_MCO1PRE_DIV1
 #define STM32_MCO2SEL                       STM32_MCO2SEL_SYSCLK
 #define STM32_MCO2PRE                       STM32_MCO2PRE_DIV4
@@ -79,16 +79,16 @@
 #define STM32_SAI2SEL                       STM32_SAI2SEL_OFF
 #define STM32_LCDTFT_REQUIRED               FALSE
 #define STM32_USART1SEL                     STM32_USART1SEL_SYSCLK
-#define STM32_USART2SEL                     STM32_USART2SEL_PCLK1
+#define STM32_USART2SEL                     STM32_USART2SEL_SYSCLK
 #define STM32_USART3SEL                     STM32_USART3SEL_SYSCLK
-#define STM32_UART4SEL                      STM32_UART4SEL_PCLK1
-#define STM32_UART5SEL                      STM32_UART5SEL_PCLK1
-#define STM32_USART6SEL                     STM32_USART6SEL_PCLK2
-#define STM32_UART7SEL                      STM32_UART7SEL_PCLK1
+#define STM32_UART4SEL                      STM32_UART4SEL_SYSCLK
+#define STM32_UART5SEL                      STM32_UART5SEL_SYSCLK
+#define STM32_USART6SEL                     STM32_USART6SEL_SYSCLK
+#define STM32_UART7SEL                      STM32_UART7SEL_SYSCLK
 #define STM32_UART8SEL                      STM32_UART8SEL_SYSCLK
-#define STM32_I2C1SEL                       STM32_I2C1SEL_PCLK1
-#define STM32_I2C2SEL                       STM32_I2C2SEL_PCLK1
-#define STM32_I2C3SEL                       STM32_I2C3SEL_PCLK1
+#define STM32_I2C1SEL                       STM32_I2C1SEL_SYSCLK
+#define STM32_I2C2SEL                       STM32_I2C2SEL_SYSCLK
+#define STM32_I2C3SEL                       STM32_I2C3SEL_SYSCLK
 #define STM32_I2C4SEL                       STM32_I2C4SEL_SYSCLK
 #define STM32_LPTIM1SEL                     STM32_LPTIM1SEL_PCLK1
 #define STM32_CECSEL                        STM32_CECSEL_LSE
@@ -148,7 +148,7 @@
 #define STM32_ADC_USE_ADC3                  FALSE
 #define STM32_ADC_ADC1_DMA_STREAM           STM32_DMA_STREAM_ID(2, 0)
 #define STM32_ADC_ADC2_DMA_STREAM           STM32_DMA_STREAM_ID(2, 3)
-#define STM32_ADC_ADC3_DMA_STREAM           STM32_DMA_STREAM_ID(2, 1)
+#define STM32_ADC_ADC3_DMA_STREAM           STM32_DMA_STREAM_ID(2, 0)
 #define STM32_ADC_ADC1_DMA_PRIORITY         2
 #define STM32_ADC_ADC2_DMA_PRIORITY         2
 #define STM32_ADC_ADC3_DMA_PRIORITY         2
@@ -335,9 +335,9 @@
 #define STM32_SPI_SPI1_RX_DMA_STREAM        STM32_DMA_STREAM_ID(2, 0)
 #define STM32_SPI_SPI1_TX_DMA_STREAM        STM32_DMA_STREAM_ID(2, 3)
 #define STM32_SPI_SPI2_RX_DMA_STREAM        STM32_DMA_STREAM_ID(1, 3)
-#define STM32_SPI_SPI2_TX_DMA_STREAM        STM32_DMA_STREAM_ID(1, 4)
-#define STM32_SPI_SPI3_RX_DMA_STREAM        STM32_DMA_STREAM_ID(1, 0)
-#define STM32_SPI_SPI3_TX_DMA_STREAM        STM32_DMA_STREAM_ID(1, 7)
+#define STM32_SPI_SPI2_TX_DMA_STREAM        STM32_DMA_STREAM_ID(1, 6)
+#define STM32_SPI_SPI3_RX_DMA_STREAM        STM32_DMA_STREAM_ID(1, 2)
+#define STM32_SPI_SPI3_TX_DMA_STREAM        STM32_DMA_STREAM_ID(1, 5)
 #define STM32_SPI_SPI4_RX_DMA_STREAM        STM32_DMA_STREAM_ID(2, 0)
 #define STM32_SPI_SPI4_TX_DMA_STREAM        STM32_DMA_STREAM_ID(2, 1)
 #define STM32_SPI_SPI5_RX_DMA_STREAM        STM32_DMA_STREAM_ID(2, 3)
