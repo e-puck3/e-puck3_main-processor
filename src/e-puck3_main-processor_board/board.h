@@ -27,13 +27,13 @@
 /*===========================================================================*/
 
 /*
- * Setup for STMicroelectronics STM32 Nucleo144-F767ZI board.
+ * Setup for e-puck3 main processor board.
  */
 
 /*
  * Board identifier.
  */
-#define BOARD_ST_NUCLEO144_F767ZI
+#define BOARD_EPUCK3_MAIN_PROCESSOR
 #define BOARD_NAME                  "e-puck3 main processor"
 
 /*
@@ -71,231 +71,154 @@
 /*
  * IO pins assignments.
  */
-#define GPIOA_ZIO_D32               0U
-#define GPIOA_TIM2_CH1              0U
-#define GPIOA_RMII_REF_CLK          1U
-#define GPIOA_RMII_MDIO             2U
-#define GPIOA_ARD_A0                3U
-#define GPIOA_ADC123_IN3            3U
-#define GPIOA_ZIO_D24               4U
-#define GPIOA_SPI3_NSS              4U
-#define GPIOA_ARD_D13               5U
-#define GPIOA_SPI1_SCK              5U
-#define GPIOA_ARD_D12               6U
-#define GPIOA_SPI1_MISO             6U
-#define GPIOA_ARD_D11               7U
-#define GPIOA_SPI1_MOSI             7U
-#define GPIOA_ZIO_D71               7U
-#define GPIOA_RMII_RX_DV            7U
-#define GPIOA_USB_SOF               8U
-#define GPIOA_USB_VBUS              9U
-#define GPIOA_USB_ID                10U
-#define GPIOA_USB_DM                11U
-#define GPIOA_USB_DP                12U
+#define GPIOA_ADC3_IN0              0U
+#define GPIOA_ADC3_IN1              1U
+#define GPIOA_ADC3_IN2              2U
+#define GPIOA_USB_OTG_HS_ULPI_D0    3U
+#define GPIOA_DAC_OUT1              4U
+#define GPIOA_USB_OTG_HS_ULPI_CK    5U
+#define GPIOA_DCMI_PIXCLK           6U
+#define GPIOA_SDMMC_DET_N           7U
+#define GPIOA_MHZ_26_CLK_OUT        8U
+#define GPIOA_USB_FS_VBUS           9U
+#define GPIOA_DCMI_D1               10U
+#define GPIOA_USB_FS_DM             11U
+#define GPIOA_USB_FS_DP             12U
 #define GPIOA_SWDIO                 13U
 #define GPIOA_SWCLK                 14U
-#define GPIOA_ZIO_D20               15U
-#define GPIOA_I2S3_WS               15U
+#define GPIOA_UART7_TX              15U
 
-#define GPIOB_ZIO_D33               0U
-#define GPIOB_TIM3_CH3              0U
-#define GPIOB_LED1                  0U
-#define GPIOB_ZIO_A6                1U
-#define GPIOB_ADC12_IN9             1U
-#define GPIOB_ZIO_D27               2U
-#define GPIOB_QSPI_CLK              2U
-#define GPIOB_ZIO_D23               3U
-#define GPIOB_I2S3_CK               3U
-#define GPIOB_ZIO_D25               4U
-#define GPIOB_SPI3_MISO             4U
-#define GPIOB_ZIO_D22               5U
-#define GPIOB_I2S3_SD               5U
-#define GPIOB_ZIO_D26               6U
-#define GPIOB_QSPI_BK1_NCS          6U
-#define GPIOB_LED2                  7U
-#define GPIOB_ARD_D15               8U
-#define GPIOB_I2C1_SCL              8U
-#define GPIOB_ARD_D14               9U
-#define GPIOB_I2C1_SDA              9U
-#define GPIOB_ZIO_D36               10U
-#define GPIOB_TIM2_CH3              10U
-#define GPIOB_ZIO_D35               11U
-#define GPIOB_TIM2_CH4              11U
-#define GPIOB_ZIO_D19               12U
-#define GPIOB_I2S2_WS               12U
-#define GPIOB_ZIO_D18               13U
-#define GPIOB_I2S2_CK               13U
-#define GPIOB_RMII_TXD1             13U
-#define GPIOB_LED3                  14U
-#define GPIOB_ZIO_D17               15U
-#define GPIOB_I2S2_SD               15U
+#define GPIOB_USB_OTG_HS_ULPI_D1    0U
+#define GPIOB_USB_OTG_HS_ULPI_D2    1U
+#define GPIOB_SPI3_MOSI_ESP32       2U
+#define GPIOB_SPI3_SCK_ESP32        3U
+#define GPIOB_SPI3_MISO_ESP32       4U
+#define GPIOB_USB_OTG_HS_ULPI_D7    5U
+#define GPIOB_I2C1_SCL              6U
+#define GPIOB_I2C1_SDA              7U
+#define GPIOB_UART5_RX_ESP32_PROG   8U
+#define GPIOB_UART5_TX_ESP32_PROG   9U
+#define GPIOB_USB_OTG_HS_ULPI_D3    10U
+#define GPIOB_USB_OTG_HS_ULPI_D4    11U
+#define GPIOB_USB_OTG_HS_ULPI_D5    12U
+#define GPIOB_USB_OTG_HS_ULPI_D6    13U
+#define GPIOB_SPI2_MISO_IMU_PRESS   14U
+#define GPIOB_SPI2_MOSI_IMU_PRESS   15U
 
-#define GPIOC_ARD_A1                0U
-#define GPIOC_ADC123_IN10           0U
-#define GPIOC_RMII_MDC              1U
-#define GPIOC_ZIO_A7                2U
-#define GPIOC_ADC123_IN12           2U
-#define GPIOC_ARD_A2                3U
-#define GPIOC_ADC123_IN13           3U
-#define GPIOC_RMII_RXD0             4U
-#define GPIOC_RMII_RXD1             5U
-#define GPIOC_ZIO_D16               6U
-#define GPIOC_I2S2_MCK              6U
-#define GPIOC_ZIO_D21               7U
-#define GPIOC_I2S3_MCK              7U
-#define GPIOC_ZIO_D43               8U
-#define GPIOC_SDMMC_D0              8U
-#define GPIOC_ZIO_D44               9U
-#define GPIOC_SDMMC_D1              9U
-#define GPIOC_ZIO_D45               10U
-#define GPIOC_SDMMC_D2              10U
-#define GPIOC_ZIO_D46               11U
-#define GPIOC_SDMMC_D3              11U
-#define GPIOC_ZIO_D47               12U
-#define GPIOC_SDMMC_CK              12U
-#define GPIOC_BUTTON                13U
-#define GPIOC_OSC32_IN              14U
-#define GPIOC_OSC32_OUT             15U
+#define GPIOC_USB_OTG_HS_ULPI_STP   0U
+#define GPIOC_ADC3_IN11             1U
+#define GPIOC_PIN2                  2U
+#define GPIOC_PIN3                  3U
+#define GPIOC_PIN4                  4U
+#define GPIOC_PIN5                  5U
+#define GPIOC_USART6_TX             6U
+#define GPIOC_USART6_RX             7U
+#define GPIOC_SDMMC1_D0             8U
+#define GPIOC_SDMMC1_D1             9U
+#define GPIOC_SDMMC1_D2             10U
+#define GPIOC_SDMMC1_D3             11U
+#define GPIOC_SDMMC1_CK             12U
+#define GPIOC_PIN13                 13U
+#define GPIOC_PIN14                 14U
+#define GPIOC_PIN15                 15U
 
-#define GPIOD_ZIO_D67               0U
 #define GPIOD_CAN1_RX               0U
-#define GPIOD_ZIO_D66               1U
 #define GPIOD_CAN1_TX               1U
-#define GPIOD_ZIO_D48               2U
-#define GPIOD_SDMMC_CMD             2U
-#define GPIOD_ZIO_D55               3U
-#define GPIOD_USART2_CTS            3U
-#define GPIOD_ZIO_D54               4U
-#define GPIOD_USART2_RTS            4U
-#define GPIOD_ZIO_D53               5U
+#define GPIOD_SDMMC1_CMD            2U
+#define GPIOD_SPI2_SCK_IMU_PRESS    3U
+#define GPIOD_IMU_INT1              4U
 #define GPIOD_USART2_TX             5U
-#define GPIOD_ZIO_D52               6U
 #define GPIOD_USART2_RX             6U
-#define GPIOD_ZIO_D51               7U
-#define GPIOD_USART2_SCLK           7U
-#define GPIOD_USART3_RX             8U
-#define GPIOD_STLK_RX               8U
-#define GPIOD_USART3_TX             9U
-#define GPIOD_STLK_TX               9U
-#define GPIOD_PIN10                 10U
-#define GPIOD_ZIO_D30               11U
-#define GPIOD_QSPI_BK1_IO0          11U
-#define GPIOD_ZIO_D29               12U
-#define GPIOD_QSPI_BK1_IO1          12U
-#define GPIOD_ZIO_D28               13U
-#define GPIOD_QSPI_BK1_IO3          13U
-#define GPIOD_ARD_D10               14U
-#define GPIOD_SPI1_NSS              14U
-#define GPIOD_ARD_D9                15U
-#define GPIOD_TIM4_CH4              15U
+#define GPIOD_SPI1_MOSI             7U
+#define GPIOD_USART3_TX_CMD_PROG    8U
+#define GPIOD_USART3_RX_CMD_PROG    9U
+#define GPIOD_DFSDM1_CKOUT          10U
+#define GPIOD_PRESS_INT             11U
+#define GPIOD_I2C4_SCL              12U
+#define GPIOD_I2C4_SDA              13U
+#define GPIOD_BYPASS_PROG           14U
+#define GPIOD_TIM4_CH4_EXTCLK_DCMI  15U
 
-#define GPIOE_ZIO_D34               0U
-#define GPIOE_TIM4_ETR              0U
-#define GPIOE_PIN1                  1U
-#define GPIOE_ZIO_D31               2U
-#define GPIOE_ZIO_D56               2U
-#define GPIOE_SAI1_MCLK_A           2U
-#define GPIOE_ZIO_D60               3U
-#define GPIOE_SAI1_SD_B             3U
-#define GPIOE_ZIO_D57               4U
-#define GPIOE_SAI1_FS_A             4U
-#define GPIOE_ZIO_D58               5U
-#define GPIOE_SAI1_SCK_A            5U
-#define GPIOE_ZIO_D59               6U
-#define GPIOE_SAI1_SD_A             6U
-#define GPIOE_ZIO_D41               7U
-#define GPIOE_TIM1_ETR              7U
-#define GPIOE_ZIO_D42               8U
-#define GPIOE_TIM1_CH1N             8U
-#define GPIOE_ARD_D6                9U
-#define GPIOE_TIM1_CH1              9U
-#define GPIOE_ZIO_D40               10U
-#define GPIOE_TIM1_CH2N             10U
-#define GPIOE_ARD_D5                11U
-#define GPIOE_TIM1_CH2              11U
-#define GPIOE_ZIO_D39               12U
-#define GPIOE_TIM1_CH3N             12U
-#define GPIOE_ARD_D3                13U
-#define GPIOE_TIM1_CH3              13U
-#define GPIOE_ZIO_D38               14U
-#define GPIOE_ZIO_D37               15U
-#define GPIOE_TIM1_BKIN1            15U
+#define GPIOE_OE_CAM1_N             0U
+#define GPIOE_OE_CAM2_N             1U
+#define GPIOE_SPI4_SCK              2U
+#define GPIOE_IR_SIGNAL             3U
+#define GPIOE_DSFDM1_DATIN3_MIC12   4U
+#define GPIOE_SPI4_MISO             5U
+#define GPIOE_SPI4_MOSI             6U
+#define GPIOE_UART7_RX              7U
+#define GPIOE_IMU_INT2              8U
+#define GPIOE_UART7_RTS             9U
+#define GPIOE_UART7_CTS             10U
+#define GPIOE_SPI3_CS_N_ESP32       11U
+#define GPIOE_DFSDM1_DATIN5_MIC34   12U
+#define GPIOE_FRONT_LED_R           13U
+#define GPIOE_FRONT_LED_G           14U
+#define GPIOE_FRONT_LED_B           15U
 
-#define GPIOF_ZIO_D68               0U
-#define GPIOF_I2C2_SDA              0U
-#define GPIOF_ZIO_D69               1U
+#define GPIOF_USSR_BUTTON_N         0U
 #define GPIOF_I2C2_SCL              1U
-#define GPIOF_ZIO_D70               2U
-#define GPIOF_I2C2_SMBA             2U
-#define GPIOF_ARD_A3                3U
+#define GPIOF_POWER_ON              2U
 #define GPIOF_ADC3_IN9              3U
-#define GPIOF_ZIO_A8                4U
 #define GPIOF_ADC3_IN14             4U
-#define GPIOF_ARD_A4                5U
 #define GPIOF_ADC3_IN15             5U
 #define GPIOF_PIN6                  6U
-#define GPIOF_ZIO_D62               7U
-#define GPIOF_SAI1_MCLK_B           7U
-#define GPIOF_ZIO_D61               8U
-#define GPIOF_SAI1_SCK_B            8U
-#define GPIOF_ZIO_D63               9U
-#define GPIOF_SAI1_FS_B             9U
-#define GPIOF_ARD_A5                10U
+#define GPIOF_PIN7                  7U
+#define GPIOF_PIN8                  8U
+#define GPIOF_PIN9                  9U
 #define GPIOF_ADC3_IN8              10U
-#define GPIOF_PIN11                 11U
-#define GPIOF_ARD_D8                12U
-#define GPIOF_ARD_D7                13U
-#define GPIOF_ARD_D4                14U
-#define GPIOF_ARD_D2                15U
+#define GPIOF_SPI2_CS_N_IMU         11U
+#define GPIOF_SPI2_CS_N_PRESS       12U
+#define GPIOF_RIGHT_LED_R           13U
+#define GPIOF_RIGHT_LED_G           14U
+#define GPIOF_RIGHT_LED_B           15U
 
-#define GPIOG_ZIO_D65               0U
-#define GPIOG_ZIO_D64               1U
-#define GPIOG_ZIO_D49               2U
-#define GPIOG_ZIO_D50               3U
-#define GPIOG_PIN4                  4U
-#define GPIOG_PIN5                  5U
-#define GPIOG_USB_GPIO_OUT          6U
-#define GPIOG_USB_GPIO_IN           7U
-#define GPIOG_PIN8                  8U
-#define GPIOG_ARD_D0                9U
-#define GPIOG_USART6_RX             9U
-#define GPIOG_PIN10                 10U
-#define GPIOG_RMII_TX_EN            11U
-#define GPIOG_PIN12                 12U
-#define GPIOG_RMII_TXD0             13U
-#define GPIOG_ARD_D1                14U
-#define GPIOG_USART6_TX             14U
-#define GPIOG_PIN15                 15U
+#define GPIOG_REAR_LED_R            0U
+#define GPIOG_REAR_LED_G            1U
+#define GPIOG_REAR_LED_B            2U
+#define GPIOG_LEFT_LED_R            3U
+#define GPIOG_LEFT_LED_G            4U
+#define GPIOG_LEFT_LED_B            5U
+#define GPIOG_PIN6                  6U
+#define GPIOG_SWCLK_PROG            7U
+#define GPIOG_SWDIO_PROG            8U
+#define GPIOG_SPI1_MISO             9U
+#define GPIOG_DCMI_D2               10U
+#define GPIOG_SPI1_SCK              11U
+#define GPIOG_USART6_RTS            12U
+#define GPIOG_USART6_CTS            13U
+#define GPIOG_PIN14                 14U
+#define GPIOG_EN_N_CAN_UC           15U
 
 #define GPIOH_OSC_IN                0U
 #define GPIOH_OSC_OUT               1U
-#define GPIOH_PIN2                  2U
-#define GPIOH_PIN3                  3U
-#define GPIOH_PIN4                  4U
-#define GPIOH_PIN5                  5U
+#define GPIOH_PWR_BTN_STATE_N       2U
+#define GPIOH_EN_TOF                3U
+#define GPIOH_USB_OTG_HS_ULPI_NXT   4U
+#define GPIOH_I2C2_SDA              5U
 #define GPIOH_PIN6                  6U
 #define GPIOH_PIN7                  7U
-#define GPIOH_PIN8                  8U
-#define GPIOH_PIN9                  9U
-#define GPIOH_PIN10                 10U
-#define GPIOH_PIN11                 11U
-#define GPIOH_PIN12                 12U
-#define GPIOH_PIN13                 13U
-#define GPIOH_PIN14                 14U
-#define GPIOH_PIN15                 15U
+#define GPIOH_DCMI_HSYNC            8U
+#define GPIOH_DCMI_D0               9U
+#define GPIOH_EN_CAM1               10U
+#define GPIOH_EN_CAM2               11U
+#define GPIOH_DCMI_D3               12U
+#define GPIOH_UART4_TX              13U
+#define GPIOH_DCMI_D4               14U
+#define GPIOH_DCMI_D11              15U
 
 #define GPIOI_PIN0                  0U
-#define GPIOI_PIN1                  1U
-#define GPIOI_PIN2                  2U
-#define GPIOI_PIN3                  3U
-#define GPIOI_PIN4                  4U
-#define GPIOI_PIN5                  5U
-#define GPIOI_PIN6                  6U
-#define GPIOI_PIN7                  7U
+#define GPIOI_DCMI_D8               1U
+#define GPIOI_DCMI_D9               2U
+#define GPIOI_DCMI_D10              3U
+#define GPIOI_DCMI_D5               4U
+#define GPIOI_DCMI_VSYNC            5U
+#define GPIOI_DCMI_D6               6U
+#define GPIOI_DCMI_D7               7U
 #define GPIOI_PIN8                  8U
-#define GPIOI_PIN9                  9U
-#define GPIOI_PIN10                 10U
-#define GPIOI_PIN11                 11U
+#define GPIOI_UART4_RX              9U
+#define GPIOI_EN_PHY_HS             10U
+#define GPIOI_USB_OTG_HS_ULPI_DIR   11U
 #define GPIOI_PIN12                 12U
 #define GPIOI_PIN13                 13U
 #define GPIOI_PIN14                 14U
@@ -338,187 +261,129 @@
 /*
  * IO lines assignments.
  */
-#define LINE_ZIO_D32                PAL_LINE(GPIOA, 0U)
-#define LINE_TIM2_CH1               PAL_LINE(GPIOA, 0U)
-#define LINE_RMII_REF_CLK           PAL_LINE(GPIOA, 1U)
-#define LINE_RMII_MDIO              PAL_LINE(GPIOA, 2U)
-#define LINE_ARD_A0                 PAL_LINE(GPIOA, 3U)
-#define LINE_ADC123_IN3             PAL_LINE(GPIOA, 3U)
-#define LINE_ZIO_D24                PAL_LINE(GPIOA, 4U)
-#define LINE_SPI3_NSS               PAL_LINE(GPIOA, 4U)
-#define LINE_ARD_D13                PAL_LINE(GPIOA, 5U)
-#define LINE_SPI1_SCK               PAL_LINE(GPIOA, 5U)
-#define LINE_ARD_D12                PAL_LINE(GPIOA, 6U)
-#define LINE_SPI1_MISO              PAL_LINE(GPIOA, 6U)
-#define LINE_ARD_D11                PAL_LINE(GPIOA, 7U)
-#define LINE_SPI1_MOSI              PAL_LINE(GPIOA, 7U)
-#define LINE_ZIO_D71                PAL_LINE(GPIOA, 7U)
-#define LINE_RMII_RX_DV             PAL_LINE(GPIOA, 7U)
-#define LINE_USB_SOF                PAL_LINE(GPIOA, 8U)
-#define LINE_USB_VBUS               PAL_LINE(GPIOA, 9U)
-#define LINE_USB_ID                 PAL_LINE(GPIOA, 10U)
-#define LINE_USB_DM                 PAL_LINE(GPIOA, 11U)
-#define LINE_USB_DP                 PAL_LINE(GPIOA, 12U)
+#define LINE_ADC3_IN0               PAL_LINE(GPIOA, 0U)
+#define LINE_ADC3_IN1               PAL_LINE(GPIOA, 1U)
+#define LINE_ADC3_IN2               PAL_LINE(GPIOA, 2U)
+#define LINE_USB_OTG_HS_ULPI_D0     PAL_LINE(GPIOA, 3U)
+#define LINE_DAC_OUT1               PAL_LINE(GPIOA, 4U)
+#define LINE_USB_OTG_HS_ULPI_CK     PAL_LINE(GPIOA, 5U)
+#define LINE_DCMI_PIXCLK            PAL_LINE(GPIOA, 6U)
+#define LINE_SDMMC_DET_N            PAL_LINE(GPIOA, 7U)
+#define LINE_MHZ_26_CLK_OUT         PAL_LINE(GPIOA, 8U)
+#define LINE_USB_FS_VBUS            PAL_LINE(GPIOA, 9U)
+#define LINE_DCMI_D1                PAL_LINE(GPIOA, 10U)
+#define LINE_USB_FS_DM              PAL_LINE(GPIOA, 11U)
+#define LINE_USB_FS_DP              PAL_LINE(GPIOA, 12U)
 #define LINE_SWDIO                  PAL_LINE(GPIOA, 13U)
 #define LINE_SWCLK                  PAL_LINE(GPIOA, 14U)
-#define LINE_ZIO_D20                PAL_LINE(GPIOA, 15U)
-#define LINE_I2S3_WS                PAL_LINE(GPIOA, 15U)
-#define LINE_ZIO_D33                PAL_LINE(GPIOB, 0U)
-#define LINE_TIM3_CH3               PAL_LINE(GPIOB, 0U)
-#define LINE_LED1                   PAL_LINE(GPIOB, 0U)
-#define LINE_ZIO_A6                 PAL_LINE(GPIOB, 1U)
-#define LINE_ADC12_IN9              PAL_LINE(GPIOB, 1U)
-#define LINE_ZIO_D27                PAL_LINE(GPIOB, 2U)
-#define LINE_QSPI_CLK               PAL_LINE(GPIOB, 2U)
-#define LINE_ZIO_D23                PAL_LINE(GPIOB, 3U)
-#define LINE_I2S3_CK                PAL_LINE(GPIOB, 3U)
-#define LINE_ZIO_D25                PAL_LINE(GPIOB, 4U)
-#define LINE_SPI3_MISO              PAL_LINE(GPIOB, 4U)
-#define LINE_ZIO_D22                PAL_LINE(GPIOB, 5U)
-#define LINE_I2S3_SD                PAL_LINE(GPIOB, 5U)
-#define LINE_ZIO_D26                PAL_LINE(GPIOB, 6U)
-#define LINE_QSPI_BK1_NCS           PAL_LINE(GPIOB, 6U)
-#define LINE_LED2                   PAL_LINE(GPIOB, 7U)
-#define LINE_ARD_D15                PAL_LINE(GPIOB, 8U)
-#define LINE_I2C1_SCL               PAL_LINE(GPIOB, 8U)
-#define LINE_ARD_D14                PAL_LINE(GPIOB, 9U)
-#define LINE_I2C1_SDA               PAL_LINE(GPIOB, 9U)
-#define LINE_ZIO_D36                PAL_LINE(GPIOB, 10U)
-#define LINE_TIM2_CH3               PAL_LINE(GPIOB, 10U)
-#define LINE_ZIO_D35                PAL_LINE(GPIOB, 11U)
-#define LINE_TIM2_CH4               PAL_LINE(GPIOB, 11U)
-#define LINE_ZIO_D19                PAL_LINE(GPIOB, 12U)
-#define LINE_I2S2_WS                PAL_LINE(GPIOB, 12U)
-#define LINE_ZIO_D18                PAL_LINE(GPIOB, 13U)
-#define LINE_I2S2_CK                PAL_LINE(GPIOB, 13U)
-#define LINE_RMII_TXD1              PAL_LINE(GPIOB, 13U)
-#define LINE_LED3                   PAL_LINE(GPIOB, 14U)
-#define LINE_ZIO_D17                PAL_LINE(GPIOB, 15U)
-#define LINE_I2S2_SD                PAL_LINE(GPIOB, 15U)
-#define LINE_ARD_A1                 PAL_LINE(GPIOC, 0U)
-#define LINE_ADC123_IN10            PAL_LINE(GPIOC, 0U)
-#define LINE_RMII_MDC               PAL_LINE(GPIOC, 1U)
-#define LINE_ZIO_A7                 PAL_LINE(GPIOC, 2U)
-#define LINE_ADC123_IN12            PAL_LINE(GPIOC, 2U)
-#define LINE_ARD_A2                 PAL_LINE(GPIOC, 3U)
-#define LINE_ADC123_IN13            PAL_LINE(GPIOC, 3U)
-#define LINE_RMII_RXD0              PAL_LINE(GPIOC, 4U)
-#define LINE_RMII_RXD1              PAL_LINE(GPIOC, 5U)
-#define LINE_ZIO_D16                PAL_LINE(GPIOC, 6U)
-#define LINE_I2S2_MCK               PAL_LINE(GPIOC, 6U)
-#define LINE_ZIO_D21                PAL_LINE(GPIOC, 7U)
-#define LINE_I2S3_MCK               PAL_LINE(GPIOC, 7U)
-#define LINE_ZIO_D43                PAL_LINE(GPIOC, 8U)
-#define LINE_SDMMC_D0               PAL_LINE(GPIOC, 8U)
-#define LINE_ZIO_D44                PAL_LINE(GPIOC, 9U)
-#define LINE_SDMMC_D1               PAL_LINE(GPIOC, 9U)
-#define LINE_ZIO_D45                PAL_LINE(GPIOC, 10U)
-#define LINE_SDMMC_D2               PAL_LINE(GPIOC, 10U)
-#define LINE_ZIO_D46                PAL_LINE(GPIOC, 11U)
-#define LINE_SDMMC_D3               PAL_LINE(GPIOC, 11U)
-#define LINE_ZIO_D47                PAL_LINE(GPIOC, 12U)
-#define LINE_SDMMC_CK               PAL_LINE(GPIOC, 12U)
-#define LINE_BUTTON                 PAL_LINE(GPIOC, 13U)
-#define LINE_OSC32_IN               PAL_LINE(GPIOC, 14U)
-#define LINE_OSC32_OUT              PAL_LINE(GPIOC, 15U)
-#define LINE_ZIO_D67                PAL_LINE(GPIOD, 0U)
+#define LINE_UART7_TX               PAL_LINE(GPIOA, 15U)
+#define LINE_USB_OTG_HS_ULPI_D1     PAL_LINE(GPIOB, 0U)
+#define LINE_USB_OTG_HS_ULPI_D2     PAL_LINE(GPIOB, 1U)
+#define LINE_SPI3_MOSI_ESP32        PAL_LINE(GPIOB, 2U)
+#define LINE_SPI3_SCK_ESP32         PAL_LINE(GPIOB, 3U)
+#define LINE_SPI3_MISO_ESP32        PAL_LINE(GPIOB, 4U)
+#define LINE_USB_OTG_HS_ULPI_D7     PAL_LINE(GPIOB, 5U)
+#define LINE_I2C1_SCL               PAL_LINE(GPIOB, 6U)
+#define LINE_I2C1_SDA               PAL_LINE(GPIOB, 7U)
+#define LINE_UART5_RX_ESP32_PROG    PAL_LINE(GPIOB, 8U)
+#define LINE_UART5_TX_ESP32_PROG    PAL_LINE(GPIOB, 9U)
+#define LINE_USB_OTG_HS_ULPI_D3     PAL_LINE(GPIOB, 10U)
+#define LINE_USB_OTG_HS_ULPI_D4     PAL_LINE(GPIOB, 11U)
+#define LINE_USB_OTG_HS_ULPI_D5     PAL_LINE(GPIOB, 12U)
+#define LINE_USB_OTG_HS_ULPI_D6     PAL_LINE(GPIOB, 13U)
+#define LINE_SPI2_MISO_IMU_PRESS    PAL_LINE(GPIOB, 14U)
+#define LINE_SPI2_MOSI_IMU_PRESS    PAL_LINE(GPIOB, 15U)
+#define LINE_USB_OTG_HS_ULPI_STP    PAL_LINE(GPIOC, 0U)
+#define LINE_ADC3_IN11              PAL_LINE(GPIOC, 1U)
+#define LINE_USART6_TX              PAL_LINE(GPIOC, 6U)
+#define LINE_USART6_RX              PAL_LINE(GPIOC, 7U)
+#define LINE_SDMMC1_D0              PAL_LINE(GPIOC, 8U)
+#define LINE_SDMMC1_D1              PAL_LINE(GPIOC, 9U)
+#define LINE_SDMMC1_D2              PAL_LINE(GPIOC, 10U)
+#define LINE_SDMMC1_D3              PAL_LINE(GPIOC, 11U)
+#define LINE_SDMMC1_CK              PAL_LINE(GPIOC, 12U)
 #define LINE_CAN1_RX                PAL_LINE(GPIOD, 0U)
-#define LINE_ZIO_D66                PAL_LINE(GPIOD, 1U)
 #define LINE_CAN1_TX                PAL_LINE(GPIOD, 1U)
-#define LINE_ZIO_D48                PAL_LINE(GPIOD, 2U)
-#define LINE_SDMMC_CMD              PAL_LINE(GPIOD, 2U)
-#define LINE_ZIO_D55                PAL_LINE(GPIOD, 3U)
-#define LINE_USART2_CTS             PAL_LINE(GPIOD, 3U)
-#define LINE_ZIO_D54                PAL_LINE(GPIOD, 4U)
-#define LINE_USART2_RTS             PAL_LINE(GPIOD, 4U)
-#define LINE_ZIO_D53                PAL_LINE(GPIOD, 5U)
+#define LINE_SDMMC1_CMD             PAL_LINE(GPIOD, 2U)
+#define LINE_SPI2_SCK_IMU_PRESS     PAL_LINE(GPIOD, 3U)
+#define LINE_IMU_INT1               PAL_LINE(GPIOD, 4U)
 #define LINE_USART2_TX              PAL_LINE(GPIOD, 5U)
-#define LINE_ZIO_D52                PAL_LINE(GPIOD, 6U)
 #define LINE_USART2_RX              PAL_LINE(GPIOD, 6U)
-#define LINE_ZIO_D51                PAL_LINE(GPIOD, 7U)
-#define LINE_USART2_SCLK            PAL_LINE(GPIOD, 7U)
-#define LINE_USART3_RX              PAL_LINE(GPIOD, 8U)
-#define LINE_STLK_RX                PAL_LINE(GPIOD, 8U)
-#define LINE_USART3_TX              PAL_LINE(GPIOD, 9U)
-#define LINE_STLK_TX                PAL_LINE(GPIOD, 9U)
-#define LINE_ZIO_D30                PAL_LINE(GPIOD, 11U)
-#define LINE_QSPI_BK1_IO0           PAL_LINE(GPIOD, 11U)
-#define LINE_ZIO_D29                PAL_LINE(GPIOD, 12U)
-#define LINE_QSPI_BK1_IO1           PAL_LINE(GPIOD, 12U)
-#define LINE_ZIO_D28                PAL_LINE(GPIOD, 13U)
-#define LINE_QSPI_BK1_IO3           PAL_LINE(GPIOD, 13U)
-#define LINE_ARD_D10                PAL_LINE(GPIOD, 14U)
-#define LINE_SPI1_NSS               PAL_LINE(GPIOD, 14U)
-#define LINE_ARD_D9                 PAL_LINE(GPIOD, 15U)
-#define LINE_TIM4_CH4               PAL_LINE(GPIOD, 15U)
-#define LINE_ZIO_D34                PAL_LINE(GPIOE, 0U)
-#define LINE_TIM4_ETR               PAL_LINE(GPIOE, 0U)
-#define LINE_ZIO_D31                PAL_LINE(GPIOE, 2U)
-#define LINE_ZIO_D56                PAL_LINE(GPIOE, 2U)
-#define LINE_SAI1_MCLK_A            PAL_LINE(GPIOE, 2U)
-#define LINE_ZIO_D60                PAL_LINE(GPIOE, 3U)
-#define LINE_SAI1_SD_B              PAL_LINE(GPIOE, 3U)
-#define LINE_ZIO_D57                PAL_LINE(GPIOE, 4U)
-#define LINE_SAI1_FS_A              PAL_LINE(GPIOE, 4U)
-#define LINE_ZIO_D58                PAL_LINE(GPIOE, 5U)
-#define LINE_SAI1_SCK_A             PAL_LINE(GPIOE, 5U)
-#define LINE_ZIO_D59                PAL_LINE(GPIOE, 6U)
-#define LINE_SAI1_SD_A              PAL_LINE(GPIOE, 6U)
-#define LINE_ZIO_D41                PAL_LINE(GPIOE, 7U)
-#define LINE_TIM1_ETR               PAL_LINE(GPIOE, 7U)
-#define LINE_ZIO_D42                PAL_LINE(GPIOE, 8U)
-#define LINE_TIM1_CH1N              PAL_LINE(GPIOE, 8U)
-#define LINE_ARD_D6                 PAL_LINE(GPIOE, 9U)
-#define LINE_TIM1_CH1               PAL_LINE(GPIOE, 9U)
-#define LINE_ZIO_D40                PAL_LINE(GPIOE, 10U)
-#define LINE_TIM1_CH2N              PAL_LINE(GPIOE, 10U)
-#define LINE_ARD_D5                 PAL_LINE(GPIOE, 11U)
-#define LINE_TIM1_CH2               PAL_LINE(GPIOE, 11U)
-#define LINE_ZIO_D39                PAL_LINE(GPIOE, 12U)
-#define LINE_TIM1_CH3N              PAL_LINE(GPIOE, 12U)
-#define LINE_ARD_D3                 PAL_LINE(GPIOE, 13U)
-#define LINE_TIM1_CH3               PAL_LINE(GPIOE, 13U)
-#define LINE_ZIO_D38                PAL_LINE(GPIOE, 14U)
-#define LINE_ZIO_D37                PAL_LINE(GPIOE, 15U)
-#define LINE_TIM1_BKIN1             PAL_LINE(GPIOE, 15U)
-#define LINE_ZIO_D68                PAL_LINE(GPIOF, 0U)
-#define LINE_I2C2_SDA               PAL_LINE(GPIOF, 0U)
-#define LINE_ZIO_D69                PAL_LINE(GPIOF, 1U)
+#define LINE_SPI1_MOSI              PAL_LINE(GPIOD, 7U)
+#define LINE_USART3_TX_CMD_PROG     PAL_LINE(GPIOD, 8U)
+#define LINE_USART3_RX_CMD_PROG     PAL_LINE(GPIOD, 9U)
+#define LINE_DFSDM1_CKOUT           PAL_LINE(GPIOD, 10U)
+#define LINE_PRESS_INT              PAL_LINE(GPIOD, 11U)
+#define LINE_I2C4_SCL               PAL_LINE(GPIOD, 12U)
+#define LINE_I2C4_SDA               PAL_LINE(GPIOD, 13U)
+#define LINE_BYPASS_PROG            PAL_LINE(GPIOD, 14U)
+#define LINE_TIM4_CH4_EXTCLK_DCMI   PAL_LINE(GPIOD, 15U)
+#define LINE_OE_CAM1_N              PAL_LINE(GPIOE, 0U)
+#define LINE_OE_CAM2_N              PAL_LINE(GPIOE, 1U)
+#define LINE_SPI4_SCK               PAL_LINE(GPIOE, 2U)
+#define LINE_IR_SIGNAL              PAL_LINE(GPIOE, 3U)
+#define LINE_DSFDM1_DATIN3_MIC12    PAL_LINE(GPIOE, 4U)
+#define LINE_SPI4_MISO              PAL_LINE(GPIOE, 5U)
+#define LINE_SPI4_MOSI              PAL_LINE(GPIOE, 6U)
+#define LINE_UART7_RX               PAL_LINE(GPIOE, 7U)
+#define LINE_IMU_INT2               PAL_LINE(GPIOE, 8U)
+#define LINE_UART7_RTS              PAL_LINE(GPIOE, 9U)
+#define LINE_UART7_CTS              PAL_LINE(GPIOE, 10U)
+#define LINE_SPI3_CS_N_ESP32        PAL_LINE(GPIOE, 11U)
+#define LINE_DFSDM1_DATIN5_MIC34    PAL_LINE(GPIOE, 12U)
+#define LINE_FRONT_LED_R            PAL_LINE(GPIOE, 13U)
+#define LINE_FRONT_LED_G            PAL_LINE(GPIOE, 14U)
+#define LINE_FRONT_LED_B            PAL_LINE(GPIOE, 15U)
+#define LINE_USSR_BUTTON_N          PAL_LINE(GPIOF, 0U)
 #define LINE_I2C2_SCL               PAL_LINE(GPIOF, 1U)
-#define LINE_ZIO_D70                PAL_LINE(GPIOF, 2U)
-#define LINE_I2C2_SMBA              PAL_LINE(GPIOF, 2U)
-#define LINE_ARD_A3                 PAL_LINE(GPIOF, 3U)
+#define LINE_POWER_ON               PAL_LINE(GPIOF, 2U)
 #define LINE_ADC3_IN9               PAL_LINE(GPIOF, 3U)
-#define LINE_ZIO_A8                 PAL_LINE(GPIOF, 4U)
 #define LINE_ADC3_IN14              PAL_LINE(GPIOF, 4U)
-#define LINE_ARD_A4                 PAL_LINE(GPIOF, 5U)
 #define LINE_ADC3_IN15              PAL_LINE(GPIOF, 5U)
-#define LINE_ZIO_D62                PAL_LINE(GPIOF, 7U)
-#define LINE_SAI1_MCLK_B            PAL_LINE(GPIOF, 7U)
-#define LINE_ZIO_D61                PAL_LINE(GPIOF, 8U)
-#define LINE_SAI1_SCK_B             PAL_LINE(GPIOF, 8U)
-#define LINE_ZIO_D63                PAL_LINE(GPIOF, 9U)
-#define LINE_SAI1_FS_B              PAL_LINE(GPIOF, 9U)
-#define LINE_ARD_A5                 PAL_LINE(GPIOF, 10U)
 #define LINE_ADC3_IN8               PAL_LINE(GPIOF, 10U)
-#define LINE_ARD_D8                 PAL_LINE(GPIOF, 12U)
-#define LINE_ARD_D7                 PAL_LINE(GPIOF, 13U)
-#define LINE_ARD_D4                 PAL_LINE(GPIOF, 14U)
-#define LINE_ARD_D2                 PAL_LINE(GPIOF, 15U)
-#define LINE_ZIO_D65                PAL_LINE(GPIOG, 0U)
-#define LINE_ZIO_D64                PAL_LINE(GPIOG, 1U)
-#define LINE_ZIO_D49                PAL_LINE(GPIOG, 2U)
-#define LINE_ZIO_D50                PAL_LINE(GPIOG, 3U)
-#define LINE_USB_GPIO_OUT           PAL_LINE(GPIOG, 6U)
-#define LINE_USB_GPIO_IN            PAL_LINE(GPIOG, 7U)
-#define LINE_ARD_D0                 PAL_LINE(GPIOG, 9U)
-#define LINE_USART6_RX              PAL_LINE(GPIOG, 9U)
-#define LINE_RMII_TX_EN             PAL_LINE(GPIOG, 11U)
-#define LINE_RMII_TXD0              PAL_LINE(GPIOG, 13U)
-#define LINE_ARD_D1                 PAL_LINE(GPIOG, 14U)
-#define LINE_USART6_TX              PAL_LINE(GPIOG, 14U)
+#define LINE_SPI2_CS_N_IMU          PAL_LINE(GPIOF, 11U)
+#define LINE_SPI2_CS_N_PRESS        PAL_LINE(GPIOF, 12U)
+#define LINE_RIGHT_LED_R            PAL_LINE(GPIOF, 13U)
+#define LINE_RIGHT_LED_G            PAL_LINE(GPIOF, 14U)
+#define LINE_RIGHT_LED_B            PAL_LINE(GPIOF, 15U)
+#define LINE_REAR_LED_R             PAL_LINE(GPIOG, 0U)
+#define LINE_REAR_LED_G             PAL_LINE(GPIOG, 1U)
+#define LINE_REAR_LED_B             PAL_LINE(GPIOG, 2U)
+#define LINE_LEFT_LED_R             PAL_LINE(GPIOG, 3U)
+#define LINE_LEFT_LED_G             PAL_LINE(GPIOG, 4U)
+#define LINE_LEFT_LED_B             PAL_LINE(GPIOG, 5U)
+#define LINE_SWCLK_PROG             PAL_LINE(GPIOG, 7U)
+#define LINE_SWDIO_PROG             PAL_LINE(GPIOG, 8U)
+#define LINE_SPI1_MISO              PAL_LINE(GPIOG, 9U)
+#define LINE_DCMI_D2                PAL_LINE(GPIOG, 10U)
+#define LINE_SPI1_SCK               PAL_LINE(GPIOG, 11U)
+#define LINE_USART6_RTS             PAL_LINE(GPIOG, 12U)
+#define LINE_USART6_CTS             PAL_LINE(GPIOG, 13U)
+#define LINE_EN_N_CAN_UC            PAL_LINE(GPIOG, 15U)
 #define LINE_OSC_IN                 PAL_LINE(GPIOH, 0U)
 #define LINE_OSC_OUT                PAL_LINE(GPIOH, 1U)
+#define LINE_PWR_BTN_STATE_N        PAL_LINE(GPIOH, 2U)
+#define LINE_EN_TOF                 PAL_LINE(GPIOH, 3U)
+#define LINE_USB_OTG_HS_ULPI_NXT    PAL_LINE(GPIOH, 4U)
+#define LINE_I2C2_SDA               PAL_LINE(GPIOH, 5U)
+#define LINE_DCMI_HSYNC             PAL_LINE(GPIOH, 8U)
+#define LINE_DCMI_D0                PAL_LINE(GPIOH, 9U)
+#define LINE_EN_CAM1                PAL_LINE(GPIOH, 10U)
+#define LINE_EN_CAM2                PAL_LINE(GPIOH, 11U)
+#define LINE_DCMI_D3                PAL_LINE(GPIOH, 12U)
+#define LINE_UART4_TX               PAL_LINE(GPIOH, 13U)
+#define LINE_DCMI_D4                PAL_LINE(GPIOH, 14U)
+#define LINE_DCMI_D11               PAL_LINE(GPIOH, 15U)
+#define LINE_DCMI_D8                PAL_LINE(GPIOI, 1U)
+#define LINE_DCMI_D9                PAL_LINE(GPIOI, 2U)
+#define LINE_DCMI_D10               PAL_LINE(GPIOI, 3U)
+#define LINE_DCMI_D5                PAL_LINE(GPIOI, 4U)
+#define LINE_DCMI_VSYNC             PAL_LINE(GPIOI, 5U)
+#define LINE_DCMI_D6                PAL_LINE(GPIOI, 6U)
+#define LINE_DCMI_D7                PAL_LINE(GPIOI, 7U)
+#define LINE_UART4_RX               PAL_LINE(GPIOI, 9U)
+#define LINE_EN_PHY_HS              PAL_LINE(GPIOI, 10U)
+#define LINE_USB_OTG_HS_ULPI_DIR    PAL_LINE(GPIOI, 11U)
 
 /*===========================================================================*/
 /* Driver pre-compile time settings.                                         */
@@ -561,1051 +426,1051 @@
 /*
  * GPIOA setup:
  *
- * PA0  - ZIO_D32 TIM2_CH1          (input pullup).
- * PA1  - RMII_REF_CLK              (alternate 11).
- * PA2  - RMII_MDIO                 (alternate 11).
- * PA3  - ARD_A0 ADC123_IN3         (input pullup).
- * PA4  - ZIO_D24 SPI3_NSS          (input pullup).
- * PA5  - ARD_D13 SPI1_SCK          (input pullup).
- * PA6  - ARD_D12 SPI1_MISO         (input pullup).
- * PA7  - ARD_D11 SPI1_MOSI ZIO_D71 RMII_RX_DV(alternate 11).
- * PA8  - USB_SOF                   (alternate 10).
- * PA9  - USB_VBUS                  (analog).
- * PA10 - USB_ID                    (alternate 10).
- * PA11 - USB_DM                    (alternate 10).
- * PA12 - USB_DP                    (alternate 10).
+ * PA0  - ADC3_IN0                  (analog).
+ * PA1  - ADC3_IN1                  (analog).
+ * PA2  - ADC3_IN2                  (analog).
+ * PA3  - USB_OTG_HS_ULPI_D0        (alternate 10).
+ * PA4  - DAC_OUT1                  (analog).
+ * PA5  - USB_OTG_HS_ULPI_CK        (alternate 10).
+ * PA6  - DCMI_PIXCLK               (alternate 13).
+ * PA7  - SDMMC_DET_N               (input pullup).
+ * PA8  - MHZ_26_CLK_OUT            (alternate 0).
+ * PA9  - USB_FS_VBUS               (input floating).
+ * PA10 - DCMI_D1                   (alternate 13).
+ * PA11 - USB_FS_DM                 (alternate 10).
+ * PA12 - USB_FS_DP                 (alternate 10).
  * PA13 - SWDIO                     (alternate 0).
  * PA14 - SWCLK                     (alternate 0).
- * PA15 - ZIO_D20 I2S3_WS           (input pullup).
+ * PA15 - UART7_TX                  (alternate 12).
  */
-#define VAL_GPIOA_MODER             (PIN_MODE_INPUT(GPIOA_ZIO_D32) |        \
-                                     PIN_MODE_ALTERNATE(GPIOA_RMII_REF_CLK) |\
-                                     PIN_MODE_ALTERNATE(GPIOA_RMII_MDIO) |  \
-                                     PIN_MODE_INPUT(GPIOA_ARD_A0) |         \
-                                     PIN_MODE_INPUT(GPIOA_ZIO_D24) |        \
-                                     PIN_MODE_INPUT(GPIOA_ARD_D13) |        \
-                                     PIN_MODE_INPUT(GPIOA_ARD_D12) |        \
-                                     PIN_MODE_ALTERNATE(GPIOA_ARD_D11) |    \
-                                     PIN_MODE_ALTERNATE(GPIOA_USB_SOF) |    \
-                                     PIN_MODE_ANALOG(GPIOA_USB_VBUS) |      \
-                                     PIN_MODE_ALTERNATE(GPIOA_USB_ID) |     \
-                                     PIN_MODE_ALTERNATE(GPIOA_USB_DM) |     \
-                                     PIN_MODE_ALTERNATE(GPIOA_USB_DP) |     \
+#define VAL_GPIOA_MODER             (PIN_MODE_ANALOG(GPIOA_ADC3_IN0) |      \
+                                     PIN_MODE_ANALOG(GPIOA_ADC3_IN1) |      \
+                                     PIN_MODE_ANALOG(GPIOA_ADC3_IN2) |      \
+                                     PIN_MODE_ALTERNATE(GPIOA_USB_OTG_HS_ULPI_D0) |\
+                                     PIN_MODE_ANALOG(GPIOA_DAC_OUT1) |      \
+                                     PIN_MODE_ALTERNATE(GPIOA_USB_OTG_HS_ULPI_CK) |\
+                                     PIN_MODE_ALTERNATE(GPIOA_DCMI_PIXCLK) |\
+                                     PIN_MODE_INPUT(GPIOA_SDMMC_DET_N) |    \
+                                     PIN_MODE_ALTERNATE(GPIOA_MHZ_26_CLK_OUT) |\
+                                     PIN_MODE_INPUT(GPIOA_USB_FS_VBUS) |    \
+                                     PIN_MODE_ALTERNATE(GPIOA_DCMI_D1) |    \
+                                     PIN_MODE_ALTERNATE(GPIOA_USB_FS_DM) |  \
+                                     PIN_MODE_ALTERNATE(GPIOA_USB_FS_DP) |  \
                                      PIN_MODE_ALTERNATE(GPIOA_SWDIO) |      \
                                      PIN_MODE_ALTERNATE(GPIOA_SWCLK) |      \
-                                     PIN_MODE_INPUT(GPIOA_ZIO_D20))
-#define VAL_GPIOA_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOA_ZIO_D32) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOA_RMII_REF_CLK) |\
-                                     PIN_OTYPE_PUSHPULL(GPIOA_RMII_MDIO) |  \
-                                     PIN_OTYPE_PUSHPULL(GPIOA_ARD_A0) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOA_ZIO_D24) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOA_ARD_D13) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOA_ARD_D12) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOA_ARD_D11) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOA_USB_SOF) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOA_USB_VBUS) |   \
-                                     PIN_OTYPE_PUSHPULL(GPIOA_USB_ID) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOA_USB_DM) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOA_USB_DP) |     \
+                                     PIN_MODE_ALTERNATE(GPIOA_UART7_TX))
+#define VAL_GPIOA_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOA_ADC3_IN0) |   \
+                                     PIN_OTYPE_PUSHPULL(GPIOA_ADC3_IN1) |   \
+                                     PIN_OTYPE_PUSHPULL(GPIOA_ADC3_IN2) |   \
+                                     PIN_OTYPE_PUSHPULL(GPIOA_USB_OTG_HS_ULPI_D0) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOA_DAC_OUT1) |   \
+                                     PIN_OTYPE_PUSHPULL(GPIOA_USB_OTG_HS_ULPI_CK) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOA_DCMI_PIXCLK) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOA_SDMMC_DET_N) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOA_MHZ_26_CLK_OUT) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOA_USB_FS_VBUS) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOA_DCMI_D1) |    \
+                                     PIN_OTYPE_PUSHPULL(GPIOA_USB_FS_DM) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOA_USB_FS_DP) |  \
                                      PIN_OTYPE_PUSHPULL(GPIOA_SWDIO) |      \
                                      PIN_OTYPE_PUSHPULL(GPIOA_SWCLK) |      \
-                                     PIN_OTYPE_PUSHPULL(GPIOA_ZIO_D20))
-#define VAL_GPIOA_OSPEEDR           (PIN_OSPEED_HIGH(GPIOA_ZIO_D32) |       \
-                                     PIN_OSPEED_HIGH(GPIOA_RMII_REF_CLK) |  \
-                                     PIN_OSPEED_HIGH(GPIOA_RMII_MDIO) |     \
-                                     PIN_OSPEED_HIGH(GPIOA_ARD_A0) |        \
-                                     PIN_OSPEED_HIGH(GPIOA_ZIO_D24) |       \
-                                     PIN_OSPEED_HIGH(GPIOA_ARD_D13) |       \
-                                     PIN_OSPEED_HIGH(GPIOA_ARD_D12) |       \
-                                     PIN_OSPEED_HIGH(GPIOA_ARD_D11) |       \
-                                     PIN_OSPEED_HIGH(GPIOA_USB_SOF) |       \
-                                     PIN_OSPEED_HIGH(GPIOA_USB_VBUS) |      \
-                                     PIN_OSPEED_HIGH(GPIOA_USB_ID) |        \
-                                     PIN_OSPEED_HIGH(GPIOA_USB_DM) |        \
-                                     PIN_OSPEED_HIGH(GPIOA_USB_DP) |        \
+                                     PIN_OTYPE_PUSHPULL(GPIOA_UART7_TX))
+#define VAL_GPIOA_OSPEEDR           (PIN_OSPEED_VERYLOW(GPIOA_ADC3_IN0) |   \
+                                     PIN_OSPEED_VERYLOW(GPIOA_ADC3_IN1) |   \
+                                     PIN_OSPEED_VERYLOW(GPIOA_ADC3_IN2) |   \
+                                     PIN_OSPEED_HIGH(GPIOA_USB_OTG_HS_ULPI_D0) |\
+                                     PIN_OSPEED_HIGH(GPIOA_DAC_OUT1) |      \
+                                     PIN_OSPEED_HIGH(GPIOA_USB_OTG_HS_ULPI_CK) |\
+                                     PIN_OSPEED_HIGH(GPIOA_DCMI_PIXCLK) |   \
+                                     PIN_OSPEED_VERYLOW(GPIOA_SDMMC_DET_N) |\
+                                     PIN_OSPEED_HIGH(GPIOA_MHZ_26_CLK_OUT) |\
+                                     PIN_OSPEED_HIGH(GPIOA_USB_FS_VBUS) |   \
+                                     PIN_OSPEED_HIGH(GPIOA_DCMI_D1) |       \
+                                     PIN_OSPEED_HIGH(GPIOA_USB_FS_DM) |     \
+                                     PIN_OSPEED_HIGH(GPIOA_USB_FS_DP) |     \
                                      PIN_OSPEED_HIGH(GPIOA_SWDIO) |         \
                                      PIN_OSPEED_HIGH(GPIOA_SWCLK) |         \
-                                     PIN_OSPEED_HIGH(GPIOA_ZIO_D20))
-#define VAL_GPIOA_PUPDR             (PIN_PUPDR_PULLUP(GPIOA_ZIO_D32) |      \
-                                     PIN_PUPDR_FLOATING(GPIOA_RMII_REF_CLK) |\
-                                     PIN_PUPDR_PULLUP(GPIOA_RMII_MDIO) |    \
-                                     PIN_PUPDR_PULLUP(GPIOA_ARD_A0) |       \
-                                     PIN_PUPDR_PULLUP(GPIOA_ZIO_D24) |      \
-                                     PIN_PUPDR_PULLUP(GPIOA_ARD_D13) |      \
-                                     PIN_PUPDR_PULLUP(GPIOA_ARD_D12) |      \
-                                     PIN_PUPDR_PULLUP(GPIOA_ARD_D11) |      \
-                                     PIN_PUPDR_FLOATING(GPIOA_USB_SOF) |    \
-                                     PIN_PUPDR_FLOATING(GPIOA_USB_VBUS) |   \
-                                     PIN_PUPDR_FLOATING(GPIOA_USB_ID) |     \
-                                     PIN_PUPDR_FLOATING(GPIOA_USB_DM) |     \
-                                     PIN_PUPDR_FLOATING(GPIOA_USB_DP) |     \
+                                     PIN_OSPEED_HIGH(GPIOA_UART7_TX))
+#define VAL_GPIOA_PUPDR             (PIN_PUPDR_FLOATING(GPIOA_ADC3_IN0) |   \
+                                     PIN_PUPDR_FLOATING(GPIOA_ADC3_IN1) |   \
+                                     PIN_PUPDR_FLOATING(GPIOA_ADC3_IN2) |   \
+                                     PIN_PUPDR_FLOATING(GPIOA_USB_OTG_HS_ULPI_D0) |\
+                                     PIN_PUPDR_FLOATING(GPIOA_DAC_OUT1) |   \
+                                     PIN_PUPDR_FLOATING(GPIOA_USB_OTG_HS_ULPI_CK) |\
+                                     PIN_PUPDR_FLOATING(GPIOA_DCMI_PIXCLK) |\
+                                     PIN_PUPDR_PULLUP(GPIOA_SDMMC_DET_N) |  \
+                                     PIN_PUPDR_FLOATING(GPIOA_MHZ_26_CLK_OUT) |\
+                                     PIN_PUPDR_FLOATING(GPIOA_USB_FS_VBUS) |\
+                                     PIN_PUPDR_FLOATING(GPIOA_DCMI_D1) |    \
+                                     PIN_PUPDR_FLOATING(GPIOA_USB_FS_DM) |  \
+                                     PIN_PUPDR_FLOATING(GPIOA_USB_FS_DP) |  \
                                      PIN_PUPDR_FLOATING(GPIOA_SWDIO) |      \
                                      PIN_PUPDR_FLOATING(GPIOA_SWCLK) |      \
-                                     PIN_PUPDR_PULLUP(GPIOA_ZIO_D20))
-#define VAL_GPIOA_ODR               (PIN_ODR_HIGH(GPIOA_ZIO_D32) |          \
-                                     PIN_ODR_HIGH(GPIOA_RMII_REF_CLK) |     \
-                                     PIN_ODR_HIGH(GPIOA_RMII_MDIO) |        \
-                                     PIN_ODR_HIGH(GPIOA_ARD_A0) |           \
-                                     PIN_ODR_HIGH(GPIOA_ZIO_D24) |          \
-                                     PIN_ODR_HIGH(GPIOA_ARD_D13) |          \
-                                     PIN_ODR_HIGH(GPIOA_ARD_D12) |          \
-                                     PIN_ODR_HIGH(GPIOA_ARD_D11) |          \
-                                     PIN_ODR_HIGH(GPIOA_USB_SOF) |          \
-                                     PIN_ODR_HIGH(GPIOA_USB_VBUS) |         \
-                                     PIN_ODR_HIGH(GPIOA_USB_ID) |           \
-                                     PIN_ODR_HIGH(GPIOA_USB_DM) |           \
-                                     PIN_ODR_HIGH(GPIOA_USB_DP) |           \
+                                     PIN_PUPDR_FLOATING(GPIOA_UART7_TX))
+#define VAL_GPIOA_ODR               (PIN_ODR_LOW(GPIOA_ADC3_IN0) |          \
+                                     PIN_ODR_LOW(GPIOA_ADC3_IN1) |          \
+                                     PIN_ODR_LOW(GPIOA_ADC3_IN2) |          \
+                                     PIN_ODR_HIGH(GPIOA_USB_OTG_HS_ULPI_D0) |\
+                                     PIN_ODR_LOW(GPIOA_DAC_OUT1) |          \
+                                     PIN_ODR_HIGH(GPIOA_USB_OTG_HS_ULPI_CK) |\
+                                     PIN_ODR_HIGH(GPIOA_DCMI_PIXCLK) |      \
+                                     PIN_ODR_HIGH(GPIOA_SDMMC_DET_N) |      \
+                                     PIN_ODR_HIGH(GPIOA_MHZ_26_CLK_OUT) |   \
+                                     PIN_ODR_HIGH(GPIOA_USB_FS_VBUS) |      \
+                                     PIN_ODR_HIGH(GPIOA_DCMI_D1) |          \
+                                     PIN_ODR_HIGH(GPIOA_USB_FS_DM) |        \
+                                     PIN_ODR_HIGH(GPIOA_USB_FS_DP) |        \
                                      PIN_ODR_HIGH(GPIOA_SWDIO) |            \
                                      PIN_ODR_HIGH(GPIOA_SWCLK) |            \
-                                     PIN_ODR_HIGH(GPIOA_ZIO_D20))
-#define VAL_GPIOA_AFRL              (PIN_AFIO_AF(GPIOA_ZIO_D32, 0U) |       \
-                                     PIN_AFIO_AF(GPIOA_RMII_REF_CLK, 11U) | \
-                                     PIN_AFIO_AF(GPIOA_RMII_MDIO, 11U) |    \
-                                     PIN_AFIO_AF(GPIOA_ARD_A0, 0U) |        \
-                                     PIN_AFIO_AF(GPIOA_ZIO_D24, 0U) |       \
-                                     PIN_AFIO_AF(GPIOA_ARD_D13, 0U) |       \
-                                     PIN_AFIO_AF(GPIOA_ARD_D12, 0U) |       \
-                                     PIN_AFIO_AF(GPIOA_ARD_D11, 11U))
-#define VAL_GPIOA_AFRH              (PIN_AFIO_AF(GPIOA_USB_SOF, 10U) |      \
-                                     PIN_AFIO_AF(GPIOA_USB_VBUS, 0U) |      \
-                                     PIN_AFIO_AF(GPIOA_USB_ID, 10U) |       \
-                                     PIN_AFIO_AF(GPIOA_USB_DM, 10U) |       \
-                                     PIN_AFIO_AF(GPIOA_USB_DP, 10U) |       \
+                                     PIN_ODR_HIGH(GPIOA_UART7_TX))
+#define VAL_GPIOA_AFRL              (PIN_AFIO_AF(GPIOA_ADC3_IN0, 0U) |      \
+                                     PIN_AFIO_AF(GPIOA_ADC3_IN1, 0U) |      \
+                                     PIN_AFIO_AF(GPIOA_ADC3_IN2, 0U) |      \
+                                     PIN_AFIO_AF(GPIOA_USB_OTG_HS_ULPI_D0, 10U) |\
+                                     PIN_AFIO_AF(GPIOA_DAC_OUT1, 0U) |      \
+                                     PIN_AFIO_AF(GPIOA_USB_OTG_HS_ULPI_CK, 10U) |\
+                                     PIN_AFIO_AF(GPIOA_DCMI_PIXCLK, 13U) |  \
+                                     PIN_AFIO_AF(GPIOA_SDMMC_DET_N, 0U))
+#define VAL_GPIOA_AFRH              (PIN_AFIO_AF(GPIOA_MHZ_26_CLK_OUT, 0U) |\
+                                     PIN_AFIO_AF(GPIOA_USB_FS_VBUS, 0U) |   \
+                                     PIN_AFIO_AF(GPIOA_DCMI_D1, 13U) |      \
+                                     PIN_AFIO_AF(GPIOA_USB_FS_DM, 10U) |    \
+                                     PIN_AFIO_AF(GPIOA_USB_FS_DP, 10U) |    \
                                      PIN_AFIO_AF(GPIOA_SWDIO, 0U) |         \
                                      PIN_AFIO_AF(GPIOA_SWCLK, 0U) |         \
-                                     PIN_AFIO_AF(GPIOA_ZIO_D20, 0U))
+                                     PIN_AFIO_AF(GPIOA_UART7_TX, 12U))
 
 /*
  * GPIOB setup:
  *
- * PB0  - ZIO_D33 TIM3_CH3 LED1     (output pushpull maximum).
- * PB1  - ZIO_A6 ADC12_IN9          (input pullup).
- * PB2  - ZIO_D27 QSPI_CLK          (input pullup).
- * PB3  - ZIO_D23 I2S3_CK           (input pullup).
- * PB4  - ZIO_D25 SPI3_MISO         (input pullup).
- * PB5  - ZIO_D22 I2S3_SD           (input pullup).
- * PB6  - ZIO_D26 QSPI_BK1_NCS      (input pullup).
- * PB7  - LED2                      (output pushpull maximum).
- * PB8  - ARD_D15 I2C1_SCL          (input pullup).
- * PB9  - ARD_D14 I2C1_SDA          (input pullup).
- * PB10 - ZIO_D36 TIM2_CH3          (input pullup).
- * PB11 - ZIO_D35 TIM2_CH4          (input pullup).
- * PB12 - ZIO_D19 I2S2_WS           (input pullup).
- * PB13 - ZIO_D18 I2S2_CK RMII_TXD1 (alternate 11).
- * PB14 - LED3                      (output pushpull maximum).
- * PB15 - ZIO_D17 I2S2_SD           (input pullup).
+ * PB0  - USB_OTG_HS_ULPI_D1        (alternate 10).
+ * PB1  - USB_OTG_HS_ULPI_D2        (alternate 10).
+ * PB2  - SPI3_MOSI_ESP32           (alternate 7).
+ * PB3  - SPI3_SCK_ESP32            (alternate 6).
+ * PB4  - SPI3_MISO_ESP32           (alternate 6).
+ * PB5  - USB_OTG_HS_ULPI_D7        (alternate 10).
+ * PB6  - I2C1_SCL                  (alternate 4).
+ * PB7  - I2C1_SDA                  (alternate 4).
+ * PB8  - UART5_RX_ESP32_PROG       (alternate 7).
+ * PB9  - UART5_TX_ESP32_PROG       (alternate 7).
+ * PB10 - USB_OTG_HS_ULPI_D3        (alternate 10).
+ * PB11 - USB_OTG_HS_ULPI_D4        (alternate 10).
+ * PB12 - USB_OTG_HS_ULPI_D5        (alternate 10).
+ * PB13 - USB_OTG_HS_ULPI_D6        (alternate 10).
+ * PB14 - SPI2_MISO_IMU_PRESS       (alternate 5).
+ * PB15 - SPI2_MOSI_IMU_PRESS       (alternate 5).
  */
-#define VAL_GPIOB_MODER             (PIN_MODE_OUTPUT(GPIOB_ZIO_D33) |       \
-                                     PIN_MODE_INPUT(GPIOB_ZIO_A6) |         \
-                                     PIN_MODE_INPUT(GPIOB_ZIO_D27) |        \
-                                     PIN_MODE_INPUT(GPIOB_ZIO_D23) |        \
-                                     PIN_MODE_INPUT(GPIOB_ZIO_D25) |        \
-                                     PIN_MODE_INPUT(GPIOB_ZIO_D22) |        \
-                                     PIN_MODE_INPUT(GPIOB_ZIO_D26) |        \
-                                     PIN_MODE_OUTPUT(GPIOB_LED2) |          \
-                                     PIN_MODE_INPUT(GPIOB_ARD_D15) |        \
-                                     PIN_MODE_INPUT(GPIOB_ARD_D14) |        \
-                                     PIN_MODE_INPUT(GPIOB_ZIO_D36) |        \
-                                     PIN_MODE_INPUT(GPIOB_ZIO_D35) |        \
-                                     PIN_MODE_INPUT(GPIOB_ZIO_D19) |        \
-                                     PIN_MODE_ALTERNATE(GPIOB_ZIO_D18) |    \
-                                     PIN_MODE_OUTPUT(GPIOB_LED3) |          \
-                                     PIN_MODE_INPUT(GPIOB_ZIO_D17))
-#define VAL_GPIOB_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOB_ZIO_D33) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOB_ZIO_A6) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOB_ZIO_D27) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOB_ZIO_D23) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOB_ZIO_D25) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOB_ZIO_D22) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOB_ZIO_D26) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOB_LED2) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOB_ARD_D15) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOB_ARD_D14) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOB_ZIO_D36) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOB_ZIO_D35) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOB_ZIO_D19) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOB_ZIO_D18) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOB_LED3) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOB_ZIO_D17))
-#define VAL_GPIOB_OSPEEDR           (PIN_OSPEED_HIGH(GPIOB_ZIO_D33) |       \
-                                     PIN_OSPEED_HIGH(GPIOB_ZIO_A6) |        \
-                                     PIN_OSPEED_HIGH(GPIOB_ZIO_D27) |       \
-                                     PIN_OSPEED_HIGH(GPIOB_ZIO_D23) |       \
-                                     PIN_OSPEED_HIGH(GPIOB_ZIO_D25) |       \
-                                     PIN_OSPEED_HIGH(GPIOB_ZIO_D22) |       \
-                                     PIN_OSPEED_HIGH(GPIOB_ZIO_D26) |       \
-                                     PIN_OSPEED_HIGH(GPIOB_LED2) |          \
-                                     PIN_OSPEED_HIGH(GPIOB_ARD_D15) |       \
-                                     PIN_OSPEED_HIGH(GPIOB_ARD_D14) |       \
-                                     PIN_OSPEED_HIGH(GPIOB_ZIO_D36) |       \
-                                     PIN_OSPEED_HIGH(GPIOB_ZIO_D35) |       \
-                                     PIN_OSPEED_HIGH(GPIOB_ZIO_D19) |       \
-                                     PIN_OSPEED_HIGH(GPIOB_ZIO_D18) |       \
-                                     PIN_OSPEED_HIGH(GPIOB_LED3) |          \
-                                     PIN_OSPEED_HIGH(GPIOB_ZIO_D17))
-#define VAL_GPIOB_PUPDR             (PIN_PUPDR_FLOATING(GPIOB_ZIO_D33) |    \
-                                     PIN_PUPDR_PULLUP(GPIOB_ZIO_A6) |       \
-                                     PIN_PUPDR_PULLUP(GPIOB_ZIO_D27) |      \
-                                     PIN_PUPDR_PULLUP(GPIOB_ZIO_D23) |      \
-                                     PIN_PUPDR_PULLUP(GPIOB_ZIO_D25) |      \
-                                     PIN_PUPDR_PULLUP(GPIOB_ZIO_D22) |      \
-                                     PIN_PUPDR_PULLUP(GPIOB_ZIO_D26) |      \
-                                     PIN_PUPDR_FLOATING(GPIOB_LED2) |       \
-                                     PIN_PUPDR_PULLUP(GPIOB_ARD_D15) |      \
-                                     PIN_PUPDR_PULLUP(GPIOB_ARD_D14) |      \
-                                     PIN_PUPDR_PULLUP(GPIOB_ZIO_D36) |      \
-                                     PIN_PUPDR_PULLUP(GPIOB_ZIO_D35) |      \
-                                     PIN_PUPDR_PULLUP(GPIOB_ZIO_D19) |      \
-                                     PIN_PUPDR_PULLUP(GPIOB_ZIO_D18) |      \
-                                     PIN_PUPDR_FLOATING(GPIOB_LED3) |       \
-                                     PIN_PUPDR_PULLUP(GPIOB_ZIO_D17))
-#define VAL_GPIOB_ODR               (PIN_ODR_LOW(GPIOB_ZIO_D33) |           \
-                                     PIN_ODR_HIGH(GPIOB_ZIO_A6) |           \
-                                     PIN_ODR_HIGH(GPIOB_ZIO_D27) |          \
-                                     PIN_ODR_HIGH(GPIOB_ZIO_D23) |          \
-                                     PIN_ODR_HIGH(GPIOB_ZIO_D25) |          \
-                                     PIN_ODR_HIGH(GPIOB_ZIO_D22) |          \
-                                     PIN_ODR_HIGH(GPIOB_ZIO_D26) |          \
-                                     PIN_ODR_LOW(GPIOB_LED2) |              \
-                                     PIN_ODR_HIGH(GPIOB_ARD_D15) |          \
-                                     PIN_ODR_HIGH(GPIOB_ARD_D14) |          \
-                                     PIN_ODR_HIGH(GPIOB_ZIO_D36) |          \
-                                     PIN_ODR_HIGH(GPIOB_ZIO_D35) |          \
-                                     PIN_ODR_HIGH(GPIOB_ZIO_D19) |          \
-                                     PIN_ODR_HIGH(GPIOB_ZIO_D18) |          \
-                                     PIN_ODR_LOW(GPIOB_LED3) |              \
-                                     PIN_ODR_HIGH(GPIOB_ZIO_D17))
-#define VAL_GPIOB_AFRL              (PIN_AFIO_AF(GPIOB_ZIO_D33, 0U) |       \
-                                     PIN_AFIO_AF(GPIOB_ZIO_A6, 0U) |        \
-                                     PIN_AFIO_AF(GPIOB_ZIO_D27, 0U) |       \
-                                     PIN_AFIO_AF(GPIOB_ZIO_D23, 0U) |       \
-                                     PIN_AFIO_AF(GPIOB_ZIO_D25, 0U) |       \
-                                     PIN_AFIO_AF(GPIOB_ZIO_D22, 0U) |       \
-                                     PIN_AFIO_AF(GPIOB_ZIO_D26, 0U) |       \
-                                     PIN_AFIO_AF(GPIOB_LED2, 0U))
-#define VAL_GPIOB_AFRH              (PIN_AFIO_AF(GPIOB_ARD_D15, 0U) |       \
-                                     PIN_AFIO_AF(GPIOB_ARD_D14, 0U) |       \
-                                     PIN_AFIO_AF(GPIOB_ZIO_D36, 0U) |       \
-                                     PIN_AFIO_AF(GPIOB_ZIO_D35, 0U) |       \
-                                     PIN_AFIO_AF(GPIOB_ZIO_D19, 0U) |       \
-                                     PIN_AFIO_AF(GPIOB_ZIO_D18, 11U) |      \
-                                     PIN_AFIO_AF(GPIOB_LED3, 0U) |          \
-                                     PIN_AFIO_AF(GPIOB_ZIO_D17, 0U))
+#define VAL_GPIOB_MODER             (PIN_MODE_ALTERNATE(GPIOB_USB_OTG_HS_ULPI_D1) |\
+                                     PIN_MODE_ALTERNATE(GPIOB_USB_OTG_HS_ULPI_D2) |\
+                                     PIN_MODE_ALTERNATE(GPIOB_SPI3_MOSI_ESP32) |\
+                                     PIN_MODE_ALTERNATE(GPIOB_SPI3_SCK_ESP32) |\
+                                     PIN_MODE_ALTERNATE(GPIOB_SPI3_MISO_ESP32) |\
+                                     PIN_MODE_ALTERNATE(GPIOB_USB_OTG_HS_ULPI_D7) |\
+                                     PIN_MODE_ALTERNATE(GPIOB_I2C1_SCL) |   \
+                                     PIN_MODE_ALTERNATE(GPIOB_I2C1_SDA) |   \
+                                     PIN_MODE_ALTERNATE(GPIOB_UART5_RX_ESP32_PROG) |\
+                                     PIN_MODE_ALTERNATE(GPIOB_UART5_TX_ESP32_PROG) |\
+                                     PIN_MODE_ALTERNATE(GPIOB_USB_OTG_HS_ULPI_D3) |\
+                                     PIN_MODE_ALTERNATE(GPIOB_USB_OTG_HS_ULPI_D4) |\
+                                     PIN_MODE_ALTERNATE(GPIOB_USB_OTG_HS_ULPI_D5) |\
+                                     PIN_MODE_ALTERNATE(GPIOB_USB_OTG_HS_ULPI_D6) |\
+                                     PIN_MODE_ALTERNATE(GPIOB_SPI2_MISO_IMU_PRESS) |\
+                                     PIN_MODE_ALTERNATE(GPIOB_SPI2_MOSI_IMU_PRESS))
+#define VAL_GPIOB_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOB_USB_OTG_HS_ULPI_D1) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOB_USB_OTG_HS_ULPI_D2) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOB_SPI3_MOSI_ESP32) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOB_SPI3_SCK_ESP32) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOB_SPI3_MISO_ESP32) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOB_USB_OTG_HS_ULPI_D7) |\
+                                     PIN_OTYPE_OPENDRAIN(GPIOB_I2C1_SCL) |  \
+                                     PIN_OTYPE_OPENDRAIN(GPIOB_I2C1_SDA) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOB_UART5_RX_ESP32_PROG) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOB_UART5_TX_ESP32_PROG) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOB_USB_OTG_HS_ULPI_D3) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOB_USB_OTG_HS_ULPI_D4) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOB_USB_OTG_HS_ULPI_D5) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOB_USB_OTG_HS_ULPI_D6) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOB_SPI2_MISO_IMU_PRESS) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOB_SPI2_MOSI_IMU_PRESS))
+#define VAL_GPIOB_OSPEEDR           (PIN_OSPEED_HIGH(GPIOB_USB_OTG_HS_ULPI_D1) |\
+                                     PIN_OSPEED_HIGH(GPIOB_USB_OTG_HS_ULPI_D2) |\
+                                     PIN_OSPEED_HIGH(GPIOB_SPI3_MOSI_ESP32) |\
+                                     PIN_OSPEED_HIGH(GPIOB_SPI3_SCK_ESP32) |\
+                                     PIN_OSPEED_HIGH(GPIOB_SPI3_MISO_ESP32) |\
+                                     PIN_OSPEED_HIGH(GPIOB_USB_OTG_HS_ULPI_D7) |\
+                                     PIN_OSPEED_HIGH(GPIOB_I2C1_SCL) |      \
+                                     PIN_OSPEED_HIGH(GPIOB_I2C1_SDA) |      \
+                                     PIN_OSPEED_HIGH(GPIOB_UART5_RX_ESP32_PROG) |\
+                                     PIN_OSPEED_HIGH(GPIOB_UART5_TX_ESP32_PROG) |\
+                                     PIN_OSPEED_HIGH(GPIOB_USB_OTG_HS_ULPI_D3) |\
+                                     PIN_OSPEED_HIGH(GPIOB_USB_OTG_HS_ULPI_D4) |\
+                                     PIN_OSPEED_HIGH(GPIOB_USB_OTG_HS_ULPI_D5) |\
+                                     PIN_OSPEED_HIGH(GPIOB_USB_OTG_HS_ULPI_D6) |\
+                                     PIN_OSPEED_HIGH(GPIOB_SPI2_MISO_IMU_PRESS) |\
+                                     PIN_OSPEED_HIGH(GPIOB_SPI2_MOSI_IMU_PRESS))
+#define VAL_GPIOB_PUPDR             (PIN_PUPDR_FLOATING(GPIOB_USB_OTG_HS_ULPI_D1) |\
+                                     PIN_PUPDR_FLOATING(GPIOB_USB_OTG_HS_ULPI_D2) |\
+                                     PIN_PUPDR_FLOATING(GPIOB_SPI3_MOSI_ESP32) |\
+                                     PIN_PUPDR_FLOATING(GPIOB_SPI3_SCK_ESP32) |\
+                                     PIN_PUPDR_FLOATING(GPIOB_SPI3_MISO_ESP32) |\
+                                     PIN_PUPDR_FLOATING(GPIOB_USB_OTG_HS_ULPI_D7) |\
+                                     PIN_PUPDR_FLOATING(GPIOB_I2C1_SCL) |   \
+                                     PIN_PUPDR_FLOATING(GPIOB_I2C1_SDA) |   \
+                                     PIN_PUPDR_FLOATING(GPIOB_UART5_RX_ESP32_PROG) |\
+                                     PIN_PUPDR_FLOATING(GPIOB_UART5_TX_ESP32_PROG) |\
+                                     PIN_PUPDR_FLOATING(GPIOB_USB_OTG_HS_ULPI_D3) |\
+                                     PIN_PUPDR_FLOATING(GPIOB_USB_OTG_HS_ULPI_D4) |\
+                                     PIN_PUPDR_FLOATING(GPIOB_USB_OTG_HS_ULPI_D5) |\
+                                     PIN_PUPDR_FLOATING(GPIOB_USB_OTG_HS_ULPI_D6) |\
+                                     PIN_PUPDR_FLOATING(GPIOB_SPI2_MISO_IMU_PRESS) |\
+                                     PIN_PUPDR_FLOATING(GPIOB_SPI2_MOSI_IMU_PRESS))
+#define VAL_GPIOB_ODR               (PIN_ODR_HIGH(GPIOB_USB_OTG_HS_ULPI_D1) |\
+                                     PIN_ODR_HIGH(GPIOB_USB_OTG_HS_ULPI_D2) |\
+                                     PIN_ODR_HIGH(GPIOB_SPI3_MOSI_ESP32) |  \
+                                     PIN_ODR_HIGH(GPIOB_SPI3_SCK_ESP32) |   \
+                                     PIN_ODR_HIGH(GPIOB_SPI3_MISO_ESP32) |  \
+                                     PIN_ODR_HIGH(GPIOB_USB_OTG_HS_ULPI_D7) |\
+                                     PIN_ODR_HIGH(GPIOB_I2C1_SCL) |         \
+                                     PIN_ODR_HIGH(GPIOB_I2C1_SDA) |         \
+                                     PIN_ODR_HIGH(GPIOB_UART5_RX_ESP32_PROG) |\
+                                     PIN_ODR_HIGH(GPIOB_UART5_TX_ESP32_PROG) |\
+                                     PIN_ODR_HIGH(GPIOB_USB_OTG_HS_ULPI_D3) |\
+                                     PIN_ODR_HIGH(GPIOB_USB_OTG_HS_ULPI_D4) |\
+                                     PIN_ODR_HIGH(GPIOB_USB_OTG_HS_ULPI_D5) |\
+                                     PIN_ODR_HIGH(GPIOB_USB_OTG_HS_ULPI_D6) |\
+                                     PIN_ODR_HIGH(GPIOB_SPI2_MISO_IMU_PRESS) |\
+                                     PIN_ODR_HIGH(GPIOB_SPI2_MOSI_IMU_PRESS))
+#define VAL_GPIOB_AFRL              (PIN_AFIO_AF(GPIOB_USB_OTG_HS_ULPI_D1, 10U) |\
+                                     PIN_AFIO_AF(GPIOB_USB_OTG_HS_ULPI_D2, 10U) |\
+                                     PIN_AFIO_AF(GPIOB_SPI3_MOSI_ESP32, 7U) |\
+                                     PIN_AFIO_AF(GPIOB_SPI3_SCK_ESP32, 6U) |\
+                                     PIN_AFIO_AF(GPIOB_SPI3_MISO_ESP32, 6U) |\
+                                     PIN_AFIO_AF(GPIOB_USB_OTG_HS_ULPI_D7, 10U) |\
+                                     PIN_AFIO_AF(GPIOB_I2C1_SCL, 4U) |      \
+                                     PIN_AFIO_AF(GPIOB_I2C1_SDA, 4U))
+#define VAL_GPIOB_AFRH              (PIN_AFIO_AF(GPIOB_UART5_RX_ESP32_PROG, 7U) |\
+                                     PIN_AFIO_AF(GPIOB_UART5_TX_ESP32_PROG, 7U) |\
+                                     PIN_AFIO_AF(GPIOB_USB_OTG_HS_ULPI_D3, 10U) |\
+                                     PIN_AFIO_AF(GPIOB_USB_OTG_HS_ULPI_D4, 10U) |\
+                                     PIN_AFIO_AF(GPIOB_USB_OTG_HS_ULPI_D5, 10U) |\
+                                     PIN_AFIO_AF(GPIOB_USB_OTG_HS_ULPI_D6, 10U) |\
+                                     PIN_AFIO_AF(GPIOB_SPI2_MISO_IMU_PRESS, 5U) |\
+                                     PIN_AFIO_AF(GPIOB_SPI2_MOSI_IMU_PRESS, 5U))
 
 /*
  * GPIOC setup:
  *
- * PC0  - ARD_A1 ADC123_IN10        (input pullup).
- * PC1  - RMII_MDC                  (alternate 11).
- * PC2  - ZIO_A7 ADC123_IN12        (input pullup).
- * PC3  - ARD_A2 ADC123_IN13        (input pullup).
- * PC4  - RMII_RXD0                 (alternate 11).
- * PC5  - RMII_RXD1                 (alternate 11).
- * PC6  - ZIO_D16 I2S2_MCK          (input pullup).
- * PC7  - ZIO_D21 I2S3_MCK          (input pullup).
- * PC8  - ZIO_D43 SDMMC_D0          (input pullup).
- * PC9  - ZIO_D44 SDMMC_D1          (input pullup).
- * PC10 - ZIO_D45 SDMMC_D2          (input pullup).
- * PC11 - ZIO_D46 SDMMC_D3          (input pullup).
- * PC12 - ZIO_D47 SDMMC_CK          (input pullup).
- * PC13 - BUTTON                    (input floating).
- * PC14 - OSC32_IN                  (input floating).
- * PC15 - OSC32_OUT                 (input floating).
+ * PC0  - USB_OTG_HS_ULPI_STP       (alternate 10).
+ * PC1  - ADC3_IN11                 (analog).
+ * PC2  - PIN2                      (input pulldown).
+ * PC3  - PIN3                      (input pulldown).
+ * PC4  - PIN4                      (input pulldown).
+ * PC5  - PIN5                      (input pulldown).
+ * PC6  - USART6_TX                 (alternate 8).
+ * PC7  - USART6_RX                 (alternate 8).
+ * PC8  - SDMMC1_D0                 (alternate 12).
+ * PC9  - SDMMC1_D1                 (alternate 12).
+ * PC10 - SDMMC1_D2                 (alternate 12).
+ * PC11 - SDMMC1_D3                 (alternate 12).
+ * PC12 - SDMMC1_CK                 (alternate 12).
+ * PC13 - PIN13                     (input pulldown).
+ * PC14 - PIN14                     (input pulldown).
+ * PC15 - PIN15                     (input pulldown).
  */
-#define VAL_GPIOC_MODER             (PIN_MODE_INPUT(GPIOC_ARD_A1) |         \
-                                     PIN_MODE_ALTERNATE(GPIOC_RMII_MDC) |   \
-                                     PIN_MODE_INPUT(GPIOC_ZIO_A7) |         \
-                                     PIN_MODE_INPUT(GPIOC_ARD_A2) |         \
-                                     PIN_MODE_ALTERNATE(GPIOC_RMII_RXD0) |  \
-                                     PIN_MODE_ALTERNATE(GPIOC_RMII_RXD1) |  \
-                                     PIN_MODE_INPUT(GPIOC_ZIO_D16) |        \
-                                     PIN_MODE_INPUT(GPIOC_ZIO_D21) |        \
-                                     PIN_MODE_INPUT(GPIOC_ZIO_D43) |        \
-                                     PIN_MODE_INPUT(GPIOC_ZIO_D44) |        \
-                                     PIN_MODE_INPUT(GPIOC_ZIO_D45) |        \
-                                     PIN_MODE_INPUT(GPIOC_ZIO_D46) |        \
-                                     PIN_MODE_INPUT(GPIOC_ZIO_D47) |        \
-                                     PIN_MODE_INPUT(GPIOC_BUTTON) |         \
-                                     PIN_MODE_INPUT(GPIOC_OSC32_IN) |       \
-                                     PIN_MODE_INPUT(GPIOC_OSC32_OUT))
-#define VAL_GPIOC_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOC_ARD_A1) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOC_RMII_MDC) |   \
-                                     PIN_OTYPE_PUSHPULL(GPIOC_ZIO_A7) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOC_ARD_A2) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOC_RMII_RXD0) |  \
-                                     PIN_OTYPE_PUSHPULL(GPIOC_RMII_RXD1) |  \
-                                     PIN_OTYPE_PUSHPULL(GPIOC_ZIO_D16) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOC_ZIO_D21) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOC_ZIO_D43) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOC_ZIO_D44) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOC_ZIO_D45) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOC_ZIO_D46) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOC_ZIO_D47) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOC_BUTTON) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOC_OSC32_IN) |   \
-                                     PIN_OTYPE_PUSHPULL(GPIOC_OSC32_OUT))
-#define VAL_GPIOC_OSPEEDR           (PIN_OSPEED_HIGH(GPIOC_ARD_A1) |        \
-                                     PIN_OSPEED_HIGH(GPIOC_RMII_MDC) |      \
-                                     PIN_OSPEED_HIGH(GPIOC_ZIO_A7) |        \
-                                     PIN_OSPEED_HIGH(GPIOC_ARD_A2) |        \
-                                     PIN_OSPEED_HIGH(GPIOC_RMII_RXD0) |     \
-                                     PIN_OSPEED_HIGH(GPIOC_RMII_RXD1) |     \
-                                     PIN_OSPEED_HIGH(GPIOC_ZIO_D16) |       \
-                                     PIN_OSPEED_HIGH(GPIOC_ZIO_D21) |       \
-                                     PIN_OSPEED_HIGH(GPIOC_ZIO_D43) |       \
-                                     PIN_OSPEED_HIGH(GPIOC_ZIO_D44) |       \
-                                     PIN_OSPEED_HIGH(GPIOC_ZIO_D45) |       \
-                                     PIN_OSPEED_HIGH(GPIOC_ZIO_D46) |       \
-                                     PIN_OSPEED_HIGH(GPIOC_ZIO_D47) |       \
-                                     PIN_OSPEED_HIGH(GPIOC_BUTTON) |        \
-                                     PIN_OSPEED_VERYLOW(GPIOC_OSC32_IN) |   \
-                                     PIN_OSPEED_VERYLOW(GPIOC_OSC32_OUT))
-#define VAL_GPIOC_PUPDR             (PIN_PUPDR_PULLUP(GPIOC_ARD_A1) |       \
-                                     PIN_PUPDR_FLOATING(GPIOC_RMII_MDC) |   \
-                                     PIN_PUPDR_PULLUP(GPIOC_ZIO_A7) |       \
-                                     PIN_PUPDR_PULLUP(GPIOC_ARD_A2) |       \
-                                     PIN_PUPDR_FLOATING(GPIOC_RMII_RXD0) |  \
-                                     PIN_PUPDR_FLOATING(GPIOC_RMII_RXD1) |  \
-                                     PIN_PUPDR_PULLUP(GPIOC_ZIO_D16) |      \
-                                     PIN_PUPDR_PULLUP(GPIOC_ZIO_D21) |      \
-                                     PIN_PUPDR_PULLUP(GPIOC_ZIO_D43) |      \
-                                     PIN_PUPDR_PULLUP(GPIOC_ZIO_D44) |      \
-                                     PIN_PUPDR_PULLUP(GPIOC_ZIO_D45) |      \
-                                     PIN_PUPDR_PULLUP(GPIOC_ZIO_D46) |      \
-                                     PIN_PUPDR_PULLUP(GPIOC_ZIO_D47) |      \
-                                     PIN_PUPDR_FLOATING(GPIOC_BUTTON) |     \
-                                     PIN_PUPDR_FLOATING(GPIOC_OSC32_IN) |   \
-                                     PIN_PUPDR_FLOATING(GPIOC_OSC32_OUT))
-#define VAL_GPIOC_ODR               (PIN_ODR_HIGH(GPIOC_ARD_A1) |           \
-                                     PIN_ODR_HIGH(GPIOC_RMII_MDC) |         \
-                                     PIN_ODR_HIGH(GPIOC_ZIO_A7) |           \
-                                     PIN_ODR_HIGH(GPIOC_ARD_A2) |           \
-                                     PIN_ODR_HIGH(GPIOC_RMII_RXD0) |        \
-                                     PIN_ODR_HIGH(GPIOC_RMII_RXD1) |        \
-                                     PIN_ODR_HIGH(GPIOC_ZIO_D16) |          \
-                                     PIN_ODR_HIGH(GPIOC_ZIO_D21) |          \
-                                     PIN_ODR_HIGH(GPIOC_ZIO_D43) |          \
-                                     PIN_ODR_HIGH(GPIOC_ZIO_D44) |          \
-                                     PIN_ODR_HIGH(GPIOC_ZIO_D45) |          \
-                                     PIN_ODR_HIGH(GPIOC_ZIO_D46) |          \
-                                     PIN_ODR_HIGH(GPIOC_ZIO_D47) |          \
-                                     PIN_ODR_HIGH(GPIOC_BUTTON) |           \
-                                     PIN_ODR_HIGH(GPIOC_OSC32_IN) |         \
-                                     PIN_ODR_HIGH(GPIOC_OSC32_OUT))
-#define VAL_GPIOC_AFRL              (PIN_AFIO_AF(GPIOC_ARD_A1, 0U) |        \
-                                     PIN_AFIO_AF(GPIOC_RMII_MDC, 11U) |     \
-                                     PIN_AFIO_AF(GPIOC_ZIO_A7, 0U) |        \
-                                     PIN_AFIO_AF(GPIOC_ARD_A2, 0U) |        \
-                                     PIN_AFIO_AF(GPIOC_RMII_RXD0, 11U) |    \
-                                     PIN_AFIO_AF(GPIOC_RMII_RXD1, 11U) |    \
-                                     PIN_AFIO_AF(GPIOC_ZIO_D16, 0U) |       \
-                                     PIN_AFIO_AF(GPIOC_ZIO_D21, 0U))
-#define VAL_GPIOC_AFRH              (PIN_AFIO_AF(GPIOC_ZIO_D43, 0U) |       \
-                                     PIN_AFIO_AF(GPIOC_ZIO_D44, 0U) |       \
-                                     PIN_AFIO_AF(GPIOC_ZIO_D45, 0U) |       \
-                                     PIN_AFIO_AF(GPIOC_ZIO_D46, 0U) |       \
-                                     PIN_AFIO_AF(GPIOC_ZIO_D47, 0U) |       \
-                                     PIN_AFIO_AF(GPIOC_BUTTON, 0U) |        \
-                                     PIN_AFIO_AF(GPIOC_OSC32_IN, 0U) |      \
-                                     PIN_AFIO_AF(GPIOC_OSC32_OUT, 0U))
+#define VAL_GPIOC_MODER             (PIN_MODE_ALTERNATE(GPIOC_USB_OTG_HS_ULPI_STP) |\
+                                     PIN_MODE_ANALOG(GPIOC_ADC3_IN11) |     \
+                                     PIN_MODE_INPUT(GPIOC_PIN2) |           \
+                                     PIN_MODE_INPUT(GPIOC_PIN3) |           \
+                                     PIN_MODE_INPUT(GPIOC_PIN4) |           \
+                                     PIN_MODE_INPUT(GPIOC_PIN5) |           \
+                                     PIN_MODE_ALTERNATE(GPIOC_USART6_TX) |  \
+                                     PIN_MODE_ALTERNATE(GPIOC_USART6_RX) |  \
+                                     PIN_MODE_ALTERNATE(GPIOC_SDMMC1_D0) |  \
+                                     PIN_MODE_ALTERNATE(GPIOC_SDMMC1_D1) |  \
+                                     PIN_MODE_ALTERNATE(GPIOC_SDMMC1_D2) |  \
+                                     PIN_MODE_ALTERNATE(GPIOC_SDMMC1_D3) |  \
+                                     PIN_MODE_ALTERNATE(GPIOC_SDMMC1_CK) |  \
+                                     PIN_MODE_INPUT(GPIOC_PIN13) |          \
+                                     PIN_MODE_INPUT(GPIOC_PIN14) |          \
+                                     PIN_MODE_INPUT(GPIOC_PIN15))
+#define VAL_GPIOC_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOC_USB_OTG_HS_ULPI_STP) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOC_ADC3_IN11) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOC_PIN2) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOC_PIN3) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOC_PIN4) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOC_PIN5) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOC_USART6_TX) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOC_USART6_RX) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOC_SDMMC1_D0) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOC_SDMMC1_D1) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOC_SDMMC1_D2) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOC_SDMMC1_D3) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOC_SDMMC1_CK) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOC_PIN13) |      \
+                                     PIN_OTYPE_PUSHPULL(GPIOC_PIN14) |      \
+                                     PIN_OTYPE_PUSHPULL(GPIOC_PIN15))
+#define VAL_GPIOC_OSPEEDR           (PIN_OSPEED_HIGH(GPIOC_USB_OTG_HS_ULPI_STP) |\
+                                     PIN_OSPEED_VERYLOW(GPIOC_ADC3_IN11) |  \
+                                     PIN_OSPEED_VERYLOW(GPIOC_PIN2) |       \
+                                     PIN_OSPEED_VERYLOW(GPIOC_PIN3) |       \
+                                     PIN_OSPEED_VERYLOW(GPIOC_PIN4) |       \
+                                     PIN_OSPEED_VERYLOW(GPIOC_PIN5) |       \
+                                     PIN_OSPEED_HIGH(GPIOC_USART6_TX) |     \
+                                     PIN_OSPEED_HIGH(GPIOC_USART6_RX) |     \
+                                     PIN_OSPEED_HIGH(GPIOC_SDMMC1_D0) |     \
+                                     PIN_OSPEED_HIGH(GPIOC_SDMMC1_D1) |     \
+                                     PIN_OSPEED_HIGH(GPIOC_SDMMC1_D2) |     \
+                                     PIN_OSPEED_HIGH(GPIOC_SDMMC1_D3) |     \
+                                     PIN_OSPEED_HIGH(GPIOC_SDMMC1_CK) |     \
+                                     PIN_OSPEED_VERYLOW(GPIOC_PIN13) |      \
+                                     PIN_OSPEED_VERYLOW(GPIOC_PIN14) |      \
+                                     PIN_OSPEED_VERYLOW(GPIOC_PIN15))
+#define VAL_GPIOC_PUPDR             (PIN_PUPDR_FLOATING(GPIOC_USB_OTG_HS_ULPI_STP) |\
+                                     PIN_PUPDR_FLOATING(GPIOC_ADC3_IN11) |  \
+                                     PIN_PUPDR_PULLDOWN(GPIOC_PIN2) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOC_PIN3) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOC_PIN4) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOC_PIN5) |       \
+                                     PIN_PUPDR_FLOATING(GPIOC_USART6_TX) |  \
+                                     PIN_PUPDR_FLOATING(GPIOC_USART6_RX) |  \
+                                     PIN_PUPDR_FLOATING(GPIOC_SDMMC1_D0) |  \
+                                     PIN_PUPDR_FLOATING(GPIOC_SDMMC1_D1) |  \
+                                     PIN_PUPDR_FLOATING(GPIOC_SDMMC1_D2) |  \
+                                     PIN_PUPDR_FLOATING(GPIOC_SDMMC1_D3) |  \
+                                     PIN_PUPDR_FLOATING(GPIOC_SDMMC1_CK) |  \
+                                     PIN_PUPDR_PULLDOWN(GPIOC_PIN13) |      \
+                                     PIN_PUPDR_PULLDOWN(GPIOC_PIN14) |      \
+                                     PIN_PUPDR_PULLDOWN(GPIOC_PIN15))
+#define VAL_GPIOC_ODR               (PIN_ODR_HIGH(GPIOC_USB_OTG_HS_ULPI_STP) |\
+                                     PIN_ODR_HIGH(GPIOC_ADC3_IN11) |        \
+                                     PIN_ODR_HIGH(GPIOC_PIN2) |             \
+                                     PIN_ODR_HIGH(GPIOC_PIN3) |             \
+                                     PIN_ODR_HIGH(GPIOC_PIN4) |             \
+                                     PIN_ODR_HIGH(GPIOC_PIN5) |             \
+                                     PIN_ODR_HIGH(GPIOC_USART6_TX) |        \
+                                     PIN_ODR_HIGH(GPIOC_USART6_RX) |        \
+                                     PIN_ODR_HIGH(GPIOC_SDMMC1_D0) |        \
+                                     PIN_ODR_HIGH(GPIOC_SDMMC1_D1) |        \
+                                     PIN_ODR_HIGH(GPIOC_SDMMC1_D2) |        \
+                                     PIN_ODR_HIGH(GPIOC_SDMMC1_D3) |        \
+                                     PIN_ODR_HIGH(GPIOC_SDMMC1_CK) |        \
+                                     PIN_ODR_HIGH(GPIOC_PIN13) |            \
+                                     PIN_ODR_HIGH(GPIOC_PIN14) |            \
+                                     PIN_ODR_HIGH(GPIOC_PIN15))
+#define VAL_GPIOC_AFRL              (PIN_AFIO_AF(GPIOC_USB_OTG_HS_ULPI_STP, 10U) |\
+                                     PIN_AFIO_AF(GPIOC_ADC3_IN11, 0U) |     \
+                                     PIN_AFIO_AF(GPIOC_PIN2, 0U) |          \
+                                     PIN_AFIO_AF(GPIOC_PIN3, 0U) |          \
+                                     PIN_AFIO_AF(GPIOC_PIN4, 0U) |          \
+                                     PIN_AFIO_AF(GPIOC_PIN5, 0U) |          \
+                                     PIN_AFIO_AF(GPIOC_USART6_TX, 8U) |     \
+                                     PIN_AFIO_AF(GPIOC_USART6_RX, 8U))
+#define VAL_GPIOC_AFRH              (PIN_AFIO_AF(GPIOC_SDMMC1_D0, 12U) |    \
+                                     PIN_AFIO_AF(GPIOC_SDMMC1_D1, 12U) |    \
+                                     PIN_AFIO_AF(GPIOC_SDMMC1_D2, 12U) |    \
+                                     PIN_AFIO_AF(GPIOC_SDMMC1_D3, 12U) |    \
+                                     PIN_AFIO_AF(GPIOC_SDMMC1_CK, 12U) |    \
+                                     PIN_AFIO_AF(GPIOC_PIN13, 0U) |         \
+                                     PIN_AFIO_AF(GPIOC_PIN14, 0U) |         \
+                                     PIN_AFIO_AF(GPIOC_PIN15, 0U))
 
 /*
  * GPIOD setup:
  *
- * PD0  - ZIO_D67 CAN1_RX           (input pullup).
- * PD1  - ZIO_D66 CAN1_TX           (input pullup).
- * PD2  - ZIO_D48 SDMMC_CMD         (input pullup).
- * PD3  - ZIO_D55 USART2_CTS        (input pullup).
- * PD4  - ZIO_D54 USART2_RTS        (input pullup).
- * PD5  - ZIO_D53 USART2_TX         (input pullup).
- * PD6  - ZIO_D52 USART2_RX         (input pullup).
- * PD7  - ZIO_D51 USART2_SCLK       (input pullup).
- * PD8  - USART3_RX STLK_RX         (alternate 7).
- * PD9  - USART3_TX STLK_TX         (alternate 7).
- * PD10 - PIN10                     (input pullup).
- * PD11 - ZIO_D30 QSPI_BK1_IO0      (input pullup).
- * PD12 - ZIO_D29 QSPI_BK1_IO1      (input pullup).
- * PD13 - ZIO_D28 QSPI_BK1_IO3      (input pullup).
- * PD14 - ARD_D10 SPI1_NSS          (input pullup).
- * PD15 - ARD_D9 TIM4_CH4           (input pullup).
+ * PD0  - CAN1_RX                   (alternate 9).
+ * PD1  - CAN1_TX                   (alternate 9).
+ * PD2  - SDMMC1_CMD                (alternate 12).
+ * PD3  - SPI2_SCK_IMU_PRESS        (alternate 5).
+ * PD4  - IMU_INT1                  (input floating).
+ * PD5  - USART2_TX                 (alternate 7).
+ * PD6  - USART2_RX                 (alternate 7).
+ * PD7  - SPI1_MOSI                 (alternate 5).
+ * PD8  - USART3_TX_CMD_PROG        (alternate 7).
+ * PD9  - USART3_RX_CMD_PROG        (alternate 7).
+ * PD10 - DFSDM1_CKOUT              (alternate 3).
+ * PD11 - PRESS_INT                 (input floating).
+ * PD12 - I2C4_SCL                  (alternate 4).
+ * PD13 - I2C4_SDA                  (alternate 4).
+ * PD14 - BYPASS_PROG               (input floating).
+ * PD15 - TIM4_CH4_EXTCLK_DCMI      (alternate 2).
  */
-#define VAL_GPIOD_MODER             (PIN_MODE_INPUT(GPIOD_ZIO_D67) |        \
-                                     PIN_MODE_INPUT(GPIOD_ZIO_D66) |        \
-                                     PIN_MODE_INPUT(GPIOD_ZIO_D48) |        \
-                                     PIN_MODE_INPUT(GPIOD_ZIO_D55) |        \
-                                     PIN_MODE_INPUT(GPIOD_ZIO_D54) |        \
-                                     PIN_MODE_INPUT(GPIOD_ZIO_D53) |        \
-                                     PIN_MODE_INPUT(GPIOD_ZIO_D52) |        \
-                                     PIN_MODE_INPUT(GPIOD_ZIO_D51) |        \
-                                     PIN_MODE_ALTERNATE(GPIOD_USART3_RX) |  \
-                                     PIN_MODE_ALTERNATE(GPIOD_USART3_TX) |  \
-                                     PIN_MODE_INPUT(GPIOD_PIN10) |          \
-                                     PIN_MODE_INPUT(GPIOD_ZIO_D30) |        \
-                                     PIN_MODE_INPUT(GPIOD_ZIO_D29) |        \
-                                     PIN_MODE_INPUT(GPIOD_ZIO_D28) |        \
-                                     PIN_MODE_INPUT(GPIOD_ARD_D10) |        \
-                                     PIN_MODE_INPUT(GPIOD_ARD_D9))
-#define VAL_GPIOD_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOD_ZIO_D67) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_ZIO_D66) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_ZIO_D48) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_ZIO_D55) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_ZIO_D54) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_ZIO_D53) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_ZIO_D52) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_ZIO_D51) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_USART3_RX) |  \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_USART3_TX) |  \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_PIN10) |      \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_ZIO_D30) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_ZIO_D29) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_ZIO_D28) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_ARD_D10) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOD_ARD_D9))
-#define VAL_GPIOD_OSPEEDR           (PIN_OSPEED_HIGH(GPIOD_ZIO_D67) |       \
-                                     PIN_OSPEED_HIGH(GPIOD_ZIO_D66) |       \
-                                     PIN_OSPEED_HIGH(GPIOD_ZIO_D48) |       \
-                                     PIN_OSPEED_HIGH(GPIOD_ZIO_D55) |       \
-                                     PIN_OSPEED_HIGH(GPIOD_ZIO_D54) |       \
-                                     PIN_OSPEED_HIGH(GPIOD_ZIO_D53) |       \
-                                     PIN_OSPEED_HIGH(GPIOD_ZIO_D52) |       \
-                                     PIN_OSPEED_HIGH(GPIOD_ZIO_D51) |       \
-                                     PIN_OSPEED_HIGH(GPIOD_USART3_RX) |     \
-                                     PIN_OSPEED_HIGH(GPIOD_USART3_TX) |     \
-                                     PIN_OSPEED_VERYLOW(GPIOD_PIN10) |      \
-                                     PIN_OSPEED_HIGH(GPIOD_ZIO_D30) |       \
-                                     PIN_OSPEED_HIGH(GPIOD_ZIO_D29) |       \
-                                     PIN_OSPEED_HIGH(GPIOD_ZIO_D28) |       \
-                                     PIN_OSPEED_HIGH(GPIOD_ARD_D10) |       \
-                                     PIN_OSPEED_HIGH(GPIOD_ARD_D9))
-#define VAL_GPIOD_PUPDR             (PIN_PUPDR_PULLUP(GPIOD_ZIO_D67) |      \
-                                     PIN_PUPDR_PULLUP(GPIOD_ZIO_D66) |      \
-                                     PIN_PUPDR_PULLUP(GPIOD_ZIO_D48) |      \
-                                     PIN_PUPDR_PULLUP(GPIOD_ZIO_D55) |      \
-                                     PIN_PUPDR_PULLUP(GPIOD_ZIO_D54) |      \
-                                     PIN_PUPDR_PULLUP(GPIOD_ZIO_D53) |      \
-                                     PIN_PUPDR_PULLUP(GPIOD_ZIO_D52) |      \
-                                     PIN_PUPDR_PULLUP(GPIOD_ZIO_D51) |      \
-                                     PIN_PUPDR_FLOATING(GPIOD_USART3_RX) |  \
-                                     PIN_PUPDR_FLOATING(GPIOD_USART3_TX) |  \
-                                     PIN_PUPDR_PULLUP(GPIOD_PIN10) |        \
-                                     PIN_PUPDR_PULLUP(GPIOD_ZIO_D30) |      \
-                                     PIN_PUPDR_PULLUP(GPIOD_ZIO_D29) |      \
-                                     PIN_PUPDR_PULLUP(GPIOD_ZIO_D28) |      \
-                                     PIN_PUPDR_PULLUP(GPIOD_ARD_D10) |      \
-                                     PIN_PUPDR_PULLUP(GPIOD_ARD_D9))
-#define VAL_GPIOD_ODR               (PIN_ODR_HIGH(GPIOD_ZIO_D67) |          \
-                                     PIN_ODR_HIGH(GPIOD_ZIO_D66) |          \
-                                     PIN_ODR_HIGH(GPIOD_ZIO_D48) |          \
-                                     PIN_ODR_HIGH(GPIOD_ZIO_D55) |          \
-                                     PIN_ODR_HIGH(GPIOD_ZIO_D54) |          \
-                                     PIN_ODR_HIGH(GPIOD_ZIO_D53) |          \
-                                     PIN_ODR_HIGH(GPIOD_ZIO_D52) |          \
-                                     PIN_ODR_HIGH(GPIOD_ZIO_D51) |          \
-                                     PIN_ODR_HIGH(GPIOD_USART3_RX) |        \
-                                     PIN_ODR_HIGH(GPIOD_USART3_TX) |        \
-                                     PIN_ODR_HIGH(GPIOD_PIN10) |            \
-                                     PIN_ODR_HIGH(GPIOD_ZIO_D30) |          \
-                                     PIN_ODR_HIGH(GPIOD_ZIO_D29) |          \
-                                     PIN_ODR_HIGH(GPIOD_ZIO_D28) |          \
-                                     PIN_ODR_HIGH(GPIOD_ARD_D10) |          \
-                                     PIN_ODR_HIGH(GPIOD_ARD_D9))
-#define VAL_GPIOD_AFRL              (PIN_AFIO_AF(GPIOD_ZIO_D67, 0U) |       \
-                                     PIN_AFIO_AF(GPIOD_ZIO_D66, 0U) |       \
-                                     PIN_AFIO_AF(GPIOD_ZIO_D48, 0U) |       \
-                                     PIN_AFIO_AF(GPIOD_ZIO_D55, 0U) |       \
-                                     PIN_AFIO_AF(GPIOD_ZIO_D54, 0U) |       \
-                                     PIN_AFIO_AF(GPIOD_ZIO_D53, 0U) |       \
-                                     PIN_AFIO_AF(GPIOD_ZIO_D52, 0U) |       \
-                                     PIN_AFIO_AF(GPIOD_ZIO_D51, 0U))
-#define VAL_GPIOD_AFRH              (PIN_AFIO_AF(GPIOD_USART3_RX, 7U) |     \
-                                     PIN_AFIO_AF(GPIOD_USART3_TX, 7U) |     \
-                                     PIN_AFIO_AF(GPIOD_PIN10, 0U) |         \
-                                     PIN_AFIO_AF(GPIOD_ZIO_D30, 0U) |       \
-                                     PIN_AFIO_AF(GPIOD_ZIO_D29, 0U) |       \
-                                     PIN_AFIO_AF(GPIOD_ZIO_D28, 0U) |       \
-                                     PIN_AFIO_AF(GPIOD_ARD_D10, 0U) |       \
-                                     PIN_AFIO_AF(GPIOD_ARD_D9, 0U))
+#define VAL_GPIOD_MODER             (PIN_MODE_ALTERNATE(GPIOD_CAN1_RX) |    \
+                                     PIN_MODE_ALTERNATE(GPIOD_CAN1_TX) |    \
+                                     PIN_MODE_ALTERNATE(GPIOD_SDMMC1_CMD) | \
+                                     PIN_MODE_ALTERNATE(GPIOD_SPI2_SCK_IMU_PRESS) |\
+                                     PIN_MODE_INPUT(GPIOD_IMU_INT1) |       \
+                                     PIN_MODE_ALTERNATE(GPIOD_USART2_TX) |  \
+                                     PIN_MODE_ALTERNATE(GPIOD_USART2_RX) |  \
+                                     PIN_MODE_ALTERNATE(GPIOD_SPI1_MOSI) |  \
+                                     PIN_MODE_ALTERNATE(GPIOD_USART3_TX_CMD_PROG) |\
+                                     PIN_MODE_ALTERNATE(GPIOD_USART3_RX_CMD_PROG) |\
+                                     PIN_MODE_ALTERNATE(GPIOD_DFSDM1_CKOUT) |\
+                                     PIN_MODE_INPUT(GPIOD_PRESS_INT) |      \
+                                     PIN_MODE_ALTERNATE(GPIOD_I2C4_SCL) |   \
+                                     PIN_MODE_ALTERNATE(GPIOD_I2C4_SDA) |   \
+                                     PIN_MODE_INPUT(GPIOD_BYPASS_PROG) |    \
+                                     PIN_MODE_ALTERNATE(GPIOD_TIM4_CH4_EXTCLK_DCMI))
+#define VAL_GPIOD_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOD_CAN1_RX) |    \
+                                     PIN_OTYPE_PUSHPULL(GPIOD_CAN1_TX) |    \
+                                     PIN_OTYPE_PUSHPULL(GPIOD_SDMMC1_CMD) | \
+                                     PIN_OTYPE_PUSHPULL(GPIOD_SPI2_SCK_IMU_PRESS) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOD_IMU_INT1) |   \
+                                     PIN_OTYPE_PUSHPULL(GPIOD_USART2_TX) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOD_USART2_RX) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOD_SPI1_MOSI) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOD_USART3_TX_CMD_PROG) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOD_USART3_RX_CMD_PROG) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOD_DFSDM1_CKOUT) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOD_PRESS_INT) |  \
+                                     PIN_OTYPE_OPENDRAIN(GPIOD_I2C4_SCL) |  \
+                                     PIN_OTYPE_OPENDRAIN(GPIOD_I2C4_SDA) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOD_BYPASS_PROG) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOD_TIM4_CH4_EXTCLK_DCMI))
+#define VAL_GPIOD_OSPEEDR           (PIN_OSPEED_HIGH(GPIOD_CAN1_RX) |       \
+                                     PIN_OSPEED_HIGH(GPIOD_CAN1_TX) |       \
+                                     PIN_OSPEED_HIGH(GPIOD_SDMMC1_CMD) |    \
+                                     PIN_OSPEED_HIGH(GPIOD_SPI2_SCK_IMU_PRESS) |\
+                                     PIN_OSPEED_HIGH(GPIOD_IMU_INT1) |      \
+                                     PIN_OSPEED_HIGH(GPIOD_USART2_TX) |     \
+                                     PIN_OSPEED_HIGH(GPIOD_USART2_RX) |     \
+                                     PIN_OSPEED_HIGH(GPIOD_SPI1_MOSI) |     \
+                                     PIN_OSPEED_HIGH(GPIOD_USART3_TX_CMD_PROG) |\
+                                     PIN_OSPEED_HIGH(GPIOD_USART3_RX_CMD_PROG) |\
+                                     PIN_OSPEED_HIGH(GPIOD_DFSDM1_CKOUT) |  \
+                                     PIN_OSPEED_HIGH(GPIOD_PRESS_INT) |     \
+                                     PIN_OSPEED_HIGH(GPIOD_I2C4_SCL) |      \
+                                     PIN_OSPEED_HIGH(GPIOD_I2C4_SDA) |      \
+                                     PIN_OSPEED_VERYLOW(GPIOD_BYPASS_PROG) |\
+                                     PIN_OSPEED_HIGH(GPIOD_TIM4_CH4_EXTCLK_DCMI))
+#define VAL_GPIOD_PUPDR             (PIN_PUPDR_FLOATING(GPIOD_CAN1_RX) |    \
+                                     PIN_PUPDR_FLOATING(GPIOD_CAN1_TX) |    \
+                                     PIN_PUPDR_FLOATING(GPIOD_SDMMC1_CMD) | \
+                                     PIN_PUPDR_FLOATING(GPIOD_SPI2_SCK_IMU_PRESS) |\
+                                     PIN_PUPDR_FLOATING(GPIOD_IMU_INT1) |   \
+                                     PIN_PUPDR_FLOATING(GPIOD_USART2_TX) |  \
+                                     PIN_PUPDR_FLOATING(GPIOD_USART2_RX) |  \
+                                     PIN_PUPDR_FLOATING(GPIOD_SPI1_MOSI) |  \
+                                     PIN_PUPDR_FLOATING(GPIOD_USART3_TX_CMD_PROG) |\
+                                     PIN_PUPDR_FLOATING(GPIOD_USART3_RX_CMD_PROG) |\
+                                     PIN_PUPDR_FLOATING(GPIOD_DFSDM1_CKOUT) |\
+                                     PIN_PUPDR_FLOATING(GPIOD_PRESS_INT) |  \
+                                     PIN_PUPDR_FLOATING(GPIOD_I2C4_SCL) |   \
+                                     PIN_PUPDR_FLOATING(GPIOD_I2C4_SDA) |   \
+                                     PIN_PUPDR_FLOATING(GPIOD_BYPASS_PROG) |\
+                                     PIN_PUPDR_FLOATING(GPIOD_TIM4_CH4_EXTCLK_DCMI))
+#define VAL_GPIOD_ODR               (PIN_ODR_HIGH(GPIOD_CAN1_RX) |          \
+                                     PIN_ODR_HIGH(GPIOD_CAN1_TX) |          \
+                                     PIN_ODR_HIGH(GPIOD_SDMMC1_CMD) |       \
+                                     PIN_ODR_HIGH(GPIOD_SPI2_SCK_IMU_PRESS) |\
+                                     PIN_ODR_HIGH(GPIOD_IMU_INT1) |         \
+                                     PIN_ODR_HIGH(GPIOD_USART2_TX) |        \
+                                     PIN_ODR_HIGH(GPIOD_USART2_RX) |        \
+                                     PIN_ODR_HIGH(GPIOD_SPI1_MOSI) |        \
+                                     PIN_ODR_HIGH(GPIOD_USART3_TX_CMD_PROG) |\
+                                     PIN_ODR_HIGH(GPIOD_USART3_RX_CMD_PROG) |\
+                                     PIN_ODR_HIGH(GPIOD_DFSDM1_CKOUT) |     \
+                                     PIN_ODR_HIGH(GPIOD_PRESS_INT) |        \
+                                     PIN_ODR_HIGH(GPIOD_I2C4_SCL) |         \
+                                     PIN_ODR_HIGH(GPIOD_I2C4_SDA) |         \
+                                     PIN_ODR_HIGH(GPIOD_BYPASS_PROG) |      \
+                                     PIN_ODR_HIGH(GPIOD_TIM4_CH4_EXTCLK_DCMI))
+#define VAL_GPIOD_AFRL              (PIN_AFIO_AF(GPIOD_CAN1_RX, 9U) |       \
+                                     PIN_AFIO_AF(GPIOD_CAN1_TX, 9U) |       \
+                                     PIN_AFIO_AF(GPIOD_SDMMC1_CMD, 12U) |   \
+                                     PIN_AFIO_AF(GPIOD_SPI2_SCK_IMU_PRESS, 5U) |\
+                                     PIN_AFIO_AF(GPIOD_IMU_INT1, 0U) |      \
+                                     PIN_AFIO_AF(GPIOD_USART2_TX, 7U) |     \
+                                     PIN_AFIO_AF(GPIOD_USART2_RX, 7U) |     \
+                                     PIN_AFIO_AF(GPIOD_SPI1_MOSI, 5U))
+#define VAL_GPIOD_AFRH              (PIN_AFIO_AF(GPIOD_USART3_TX_CMD_PROG, 7U) |\
+                                     PIN_AFIO_AF(GPIOD_USART3_RX_CMD_PROG, 7U) |\
+                                     PIN_AFIO_AF(GPIOD_DFSDM1_CKOUT, 3U) |  \
+                                     PIN_AFIO_AF(GPIOD_PRESS_INT, 0U) |     \
+                                     PIN_AFIO_AF(GPIOD_I2C4_SCL, 4U) |      \
+                                     PIN_AFIO_AF(GPIOD_I2C4_SDA, 4U) |      \
+                                     PIN_AFIO_AF(GPIOD_BYPASS_PROG, 0U) |   \
+                                     PIN_AFIO_AF(GPIOD_TIM4_CH4_EXTCLK_DCMI, 2U))
 
 /*
  * GPIOE setup:
  *
- * PE0  - ZIO_D34 TIM4_ETR          (input pullup).
- * PE1  - PIN1                      (input pullup).
- * PE2  - ZIO_D31 ZIO_D56 SAI1_MCLK_A(input pullup).
- * PE3  - ZIO_D60 SAI1_SD_B         (input pullup).
- * PE4  - ZIO_D57 SAI1_FS_A         (input pullup).
- * PE5  - ZIO_D58 SAI1_SCK_A        (input pullup).
- * PE6  - ZIO_D59 SAI1_SD_A         (input pullup).
- * PE7  - ZIO_D41 TIM1_ETR          (input pullup).
- * PE8  - ZIO_D42 TIM1_CH1N         (input pullup).
- * PE9  - ARD_D6 TIM1_CH1           (input pullup).
- * PE10 - ZIO_D40 TIM1_CH2N         (input pullup).
- * PE11 - ARD_D5 TIM1_CH2           (input pullup).
- * PE12 - ZIO_D39 TIM1_CH3N         (input pullup).
- * PE13 - ARD_D3 TIM1_CH3           (input pullup).
- * PE14 - ZIO_D38                   (input pullup).
- * PE15 - ZIO_D37 TIM1_BKIN1        (input pullup).
+ * PE0  - OE_CAM1_N                 (output pushpull maximum).
+ * PE1  - OE_CAM2_N                 (output pushpull maximum).
+ * PE2  - SPI4_SCK                  (alternate 5).
+ * PE3  - IR_SIGNAL                 (input floating).
+ * PE4  - DSFDM1_DATIN3_MIC12       (alternate 10).
+ * PE5  - SPI4_MISO                 (alternate 5).
+ * PE6  - SPI4_MOSI                 (alternate 5).
+ * PE7  - UART7_RX                  (alternate 8).
+ * PE8  - IMU_INT2                  (input floating).
+ * PE9  - UART7_RTS                 (alternate 8).
+ * PE10 - UART7_CTS                 (alternate 8).
+ * PE11 - SPI3_CS_N_ESP32           (alternate 0).
+ * PE12 - DFSDM1_DATIN5_MIC34       (alternate 6).
+ * PE13 - FRONT_LED_R               (output pushpull maximum).
+ * PE14 - FRONT_LED_G               (output pushpull maximum).
+ * PE15 - FRONT_LED_B               (output pushpull maximum).
  */
-#define VAL_GPIOE_MODER             (PIN_MODE_INPUT(GPIOE_ZIO_D34) |        \
-                                     PIN_MODE_INPUT(GPIOE_PIN1) |           \
-                                     PIN_MODE_INPUT(GPIOE_ZIO_D31) |        \
-                                     PIN_MODE_INPUT(GPIOE_ZIO_D60) |        \
-                                     PIN_MODE_INPUT(GPIOE_ZIO_D57) |        \
-                                     PIN_MODE_INPUT(GPIOE_ZIO_D58) |        \
-                                     PIN_MODE_INPUT(GPIOE_ZIO_D59) |        \
-                                     PIN_MODE_INPUT(GPIOE_ZIO_D41) |        \
-                                     PIN_MODE_INPUT(GPIOE_ZIO_D42) |        \
-                                     PIN_MODE_INPUT(GPIOE_ARD_D6) |         \
-                                     PIN_MODE_INPUT(GPIOE_ZIO_D40) |        \
-                                     PIN_MODE_INPUT(GPIOE_ARD_D5) |         \
-                                     PIN_MODE_INPUT(GPIOE_ZIO_D39) |        \
-                                     PIN_MODE_INPUT(GPIOE_ARD_D3) |         \
-                                     PIN_MODE_INPUT(GPIOE_ZIO_D38) |        \
-                                     PIN_MODE_INPUT(GPIOE_ZIO_D37))
-#define VAL_GPIOE_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOE_ZIO_D34) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOE_PIN1) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOE_ZIO_D31) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOE_ZIO_D60) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOE_ZIO_D57) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOE_ZIO_D58) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOE_ZIO_D59) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOE_ZIO_D41) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOE_ZIO_D42) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOE_ARD_D6) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOE_ZIO_D40) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOE_ARD_D5) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOE_ZIO_D39) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOE_ARD_D3) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOE_ZIO_D38) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOE_ZIO_D37))
-#define VAL_GPIOE_OSPEEDR           (PIN_OSPEED_HIGH(GPIOE_ZIO_D34) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOE_PIN1) |       \
-                                     PIN_OSPEED_HIGH(GPIOE_ZIO_D31) |       \
-                                     PIN_OSPEED_HIGH(GPIOE_ZIO_D60) |       \
-                                     PIN_OSPEED_HIGH(GPIOE_ZIO_D57) |       \
-                                     PIN_OSPEED_HIGH(GPIOE_ZIO_D58) |       \
-                                     PIN_OSPEED_HIGH(GPIOE_ZIO_D59) |       \
-                                     PIN_OSPEED_HIGH(GPIOE_ZIO_D41) |       \
-                                     PIN_OSPEED_HIGH(GPIOE_ZIO_D42) |       \
-                                     PIN_OSPEED_HIGH(GPIOE_ARD_D6) |        \
-                                     PIN_OSPEED_HIGH(GPIOE_ZIO_D40) |       \
-                                     PIN_OSPEED_HIGH(GPIOE_ARD_D5) |        \
-                                     PIN_OSPEED_HIGH(GPIOE_ZIO_D39) |       \
-                                     PIN_OSPEED_HIGH(GPIOE_ARD_D3) |        \
-                                     PIN_OSPEED_VERYLOW(GPIOE_ZIO_D38) |    \
-                                     PIN_OSPEED_HIGH(GPIOE_ZIO_D37))
-#define VAL_GPIOE_PUPDR             (PIN_PUPDR_PULLUP(GPIOE_ZIO_D34) |      \
-                                     PIN_PUPDR_PULLUP(GPIOE_PIN1) |         \
-                                     PIN_PUPDR_PULLUP(GPIOE_ZIO_D31) |      \
-                                     PIN_PUPDR_PULLUP(GPIOE_ZIO_D60) |      \
-                                     PIN_PUPDR_PULLUP(GPIOE_ZIO_D57) |      \
-                                     PIN_PUPDR_PULLUP(GPIOE_ZIO_D58) |      \
-                                     PIN_PUPDR_PULLUP(GPIOE_ZIO_D59) |      \
-                                     PIN_PUPDR_PULLUP(GPIOE_ZIO_D41) |      \
-                                     PIN_PUPDR_PULLUP(GPIOE_ZIO_D42) |      \
-                                     PIN_PUPDR_PULLUP(GPIOE_ARD_D6) |       \
-                                     PIN_PUPDR_PULLUP(GPIOE_ZIO_D40) |      \
-                                     PIN_PUPDR_PULLUP(GPIOE_ARD_D5) |       \
-                                     PIN_PUPDR_PULLUP(GPIOE_ZIO_D39) |      \
-                                     PIN_PUPDR_PULLUP(GPIOE_ARD_D3) |       \
-                                     PIN_PUPDR_PULLUP(GPIOE_ZIO_D38) |      \
-                                     PIN_PUPDR_PULLUP(GPIOE_ZIO_D37))
-#define VAL_GPIOE_ODR               (PIN_ODR_HIGH(GPIOE_ZIO_D34) |          \
-                                     PIN_ODR_HIGH(GPIOE_PIN1) |             \
-                                     PIN_ODR_HIGH(GPIOE_ZIO_D31) |          \
-                                     PIN_ODR_HIGH(GPIOE_ZIO_D60) |          \
-                                     PIN_ODR_HIGH(GPIOE_ZIO_D57) |          \
-                                     PIN_ODR_HIGH(GPIOE_ZIO_D58) |          \
-                                     PIN_ODR_HIGH(GPIOE_ZIO_D59) |          \
-                                     PIN_ODR_HIGH(GPIOE_ZIO_D41) |          \
-                                     PIN_ODR_HIGH(GPIOE_ZIO_D42) |          \
-                                     PIN_ODR_HIGH(GPIOE_ARD_D6) |           \
-                                     PIN_ODR_HIGH(GPIOE_ZIO_D40) |          \
-                                     PIN_ODR_HIGH(GPIOE_ARD_D5) |           \
-                                     PIN_ODR_HIGH(GPIOE_ZIO_D39) |          \
-                                     PIN_ODR_HIGH(GPIOE_ARD_D3) |           \
-                                     PIN_ODR_HIGH(GPIOE_ZIO_D38) |          \
-                                     PIN_ODR_HIGH(GPIOE_ZIO_D37))
-#define VAL_GPIOE_AFRL              (PIN_AFIO_AF(GPIOE_ZIO_D34, 0U) |       \
-                                     PIN_AFIO_AF(GPIOE_PIN1, 0U) |          \
-                                     PIN_AFIO_AF(GPIOE_ZIO_D31, 0U) |       \
-                                     PIN_AFIO_AF(GPIOE_ZIO_D60, 0U) |       \
-                                     PIN_AFIO_AF(GPIOE_ZIO_D57, 0U) |       \
-                                     PIN_AFIO_AF(GPIOE_ZIO_D58, 0U) |       \
-                                     PIN_AFIO_AF(GPIOE_ZIO_D59, 0U) |       \
-                                     PIN_AFIO_AF(GPIOE_ZIO_D41, 0U))
-#define VAL_GPIOE_AFRH              (PIN_AFIO_AF(GPIOE_ZIO_D42, 0U) |       \
-                                     PIN_AFIO_AF(GPIOE_ARD_D6, 0U) |        \
-                                     PIN_AFIO_AF(GPIOE_ZIO_D40, 0U) |       \
-                                     PIN_AFIO_AF(GPIOE_ARD_D5, 0U) |        \
-                                     PIN_AFIO_AF(GPIOE_ZIO_D39, 0U) |       \
-                                     PIN_AFIO_AF(GPIOE_ARD_D3, 0U) |        \
-                                     PIN_AFIO_AF(GPIOE_ZIO_D38, 0U) |       \
-                                     PIN_AFIO_AF(GPIOE_ZIO_D37, 0U))
+#define VAL_GPIOE_MODER             (PIN_MODE_OUTPUT(GPIOE_OE_CAM1_N) |     \
+                                     PIN_MODE_OUTPUT(GPIOE_OE_CAM2_N) |     \
+                                     PIN_MODE_ALTERNATE(GPIOE_SPI4_SCK) |   \
+                                     PIN_MODE_INPUT(GPIOE_IR_SIGNAL) |      \
+                                     PIN_MODE_ALTERNATE(GPIOE_DSFDM1_DATIN3_MIC12) |\
+                                     PIN_MODE_ALTERNATE(GPIOE_SPI4_MISO) |  \
+                                     PIN_MODE_ALTERNATE(GPIOE_SPI4_MOSI) |  \
+                                     PIN_MODE_ALTERNATE(GPIOE_UART7_RX) |   \
+                                     PIN_MODE_INPUT(GPIOE_IMU_INT2) |       \
+                                     PIN_MODE_ALTERNATE(GPIOE_UART7_RTS) |  \
+                                     PIN_MODE_ALTERNATE(GPIOE_UART7_CTS) |  \
+                                     PIN_MODE_ALTERNATE(GPIOE_SPI3_CS_N_ESP32) |\
+                                     PIN_MODE_ALTERNATE(GPIOE_DFSDM1_DATIN5_MIC34) |\
+                                     PIN_MODE_OUTPUT(GPIOE_FRONT_LED_R) |   \
+                                     PIN_MODE_OUTPUT(GPIOE_FRONT_LED_G) |   \
+                                     PIN_MODE_OUTPUT(GPIOE_FRONT_LED_B))
+#define VAL_GPIOE_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOE_OE_CAM1_N) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOE_OE_CAM2_N) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOE_SPI4_SCK) |   \
+                                     PIN_OTYPE_PUSHPULL(GPIOE_IR_SIGNAL) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOE_DSFDM1_DATIN3_MIC12) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOE_SPI4_MISO) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOE_SPI4_MOSI) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOE_UART7_RX) |   \
+                                     PIN_OTYPE_PUSHPULL(GPIOE_IMU_INT2) |   \
+                                     PIN_OTYPE_PUSHPULL(GPIOE_UART7_RTS) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOE_UART7_CTS) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOE_SPI3_CS_N_ESP32) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOE_DFSDM1_DATIN5_MIC34) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOE_FRONT_LED_R) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOE_FRONT_LED_G) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOE_FRONT_LED_B))
+#define VAL_GPIOE_OSPEEDR           (PIN_OSPEED_HIGH(GPIOE_OE_CAM1_N) |     \
+                                     PIN_OSPEED_HIGH(GPIOE_OE_CAM2_N) |     \
+                                     PIN_OSPEED_HIGH(GPIOE_SPI4_SCK) |      \
+                                     PIN_OSPEED_HIGH(GPIOE_IR_SIGNAL) |     \
+                                     PIN_OSPEED_HIGH(GPIOE_DSFDM1_DATIN3_MIC12) |\
+                                     PIN_OSPEED_HIGH(GPIOE_SPI4_MISO) |     \
+                                     PIN_OSPEED_HIGH(GPIOE_SPI4_MOSI) |     \
+                                     PIN_OSPEED_HIGH(GPIOE_UART7_RX) |      \
+                                     PIN_OSPEED_HIGH(GPIOE_IMU_INT2) |      \
+                                     PIN_OSPEED_HIGH(GPIOE_UART7_RTS) |     \
+                                     PIN_OSPEED_HIGH(GPIOE_UART7_CTS) |     \
+                                     PIN_OSPEED_HIGH(GPIOE_SPI3_CS_N_ESP32) |\
+                                     PIN_OSPEED_HIGH(GPIOE_DFSDM1_DATIN5_MIC34) |\
+                                     PIN_OSPEED_HIGH(GPIOE_FRONT_LED_R) |   \
+                                     PIN_OSPEED_HIGH(GPIOE_FRONT_LED_G) |   \
+                                     PIN_OSPEED_HIGH(GPIOE_FRONT_LED_B))
+#define VAL_GPIOE_PUPDR             (PIN_PUPDR_FLOATING(GPIOE_OE_CAM1_N) |  \
+                                     PIN_PUPDR_FLOATING(GPIOE_OE_CAM2_N) |  \
+                                     PIN_PUPDR_FLOATING(GPIOE_SPI4_SCK) |   \
+                                     PIN_PUPDR_FLOATING(GPIOE_IR_SIGNAL) |  \
+                                     PIN_PUPDR_FLOATING(GPIOE_DSFDM1_DATIN3_MIC12) |\
+                                     PIN_PUPDR_FLOATING(GPIOE_SPI4_MISO) |  \
+                                     PIN_PUPDR_FLOATING(GPIOE_SPI4_MOSI) |  \
+                                     PIN_PUPDR_FLOATING(GPIOE_UART7_RX) |   \
+                                     PIN_PUPDR_FLOATING(GPIOE_IMU_INT2) |   \
+                                     PIN_PUPDR_FLOATING(GPIOE_UART7_RTS) |  \
+                                     PIN_PUPDR_FLOATING(GPIOE_UART7_CTS) |  \
+                                     PIN_PUPDR_FLOATING(GPIOE_SPI3_CS_N_ESP32) |\
+                                     PIN_PUPDR_FLOATING(GPIOE_DFSDM1_DATIN5_MIC34) |\
+                                     PIN_PUPDR_FLOATING(GPIOE_FRONT_LED_R) |\
+                                     PIN_PUPDR_FLOATING(GPIOE_FRONT_LED_G) |\
+                                     PIN_PUPDR_FLOATING(GPIOE_FRONT_LED_B))
+#define VAL_GPIOE_ODR               (PIN_ODR_HIGH(GPIOE_OE_CAM1_N) |        \
+                                     PIN_ODR_HIGH(GPIOE_OE_CAM2_N) |        \
+                                     PIN_ODR_HIGH(GPIOE_SPI4_SCK) |         \
+                                     PIN_ODR_HIGH(GPIOE_IR_SIGNAL) |        \
+                                     PIN_ODR_HIGH(GPIOE_DSFDM1_DATIN3_MIC12) |\
+                                     PIN_ODR_HIGH(GPIOE_SPI4_MISO) |        \
+                                     PIN_ODR_HIGH(GPIOE_SPI4_MOSI) |        \
+                                     PIN_ODR_HIGH(GPIOE_UART7_RX) |         \
+                                     PIN_ODR_HIGH(GPIOE_IMU_INT2) |         \
+                                     PIN_ODR_HIGH(GPIOE_UART7_RTS) |        \
+                                     PIN_ODR_HIGH(GPIOE_UART7_CTS) |        \
+                                     PIN_ODR_HIGH(GPIOE_SPI3_CS_N_ESP32) |  \
+                                     PIN_ODR_HIGH(GPIOE_DFSDM1_DATIN5_MIC34) |\
+                                     PIN_ODR_HIGH(GPIOE_FRONT_LED_R) |      \
+                                     PIN_ODR_HIGH(GPIOE_FRONT_LED_G) |      \
+                                     PIN_ODR_HIGH(GPIOE_FRONT_LED_B))
+#define VAL_GPIOE_AFRL              (PIN_AFIO_AF(GPIOE_OE_CAM1_N, 0U) |     \
+                                     PIN_AFIO_AF(GPIOE_OE_CAM2_N, 0U) |     \
+                                     PIN_AFIO_AF(GPIOE_SPI4_SCK, 5U) |      \
+                                     PIN_AFIO_AF(GPIOE_IR_SIGNAL, 0U) |     \
+                                     PIN_AFIO_AF(GPIOE_DSFDM1_DATIN3_MIC12, 10U) |\
+                                     PIN_AFIO_AF(GPIOE_SPI4_MISO, 5U) |     \
+                                     PIN_AFIO_AF(GPIOE_SPI4_MOSI, 5U) |     \
+                                     PIN_AFIO_AF(GPIOE_UART7_RX, 8U))
+#define VAL_GPIOE_AFRH              (PIN_AFIO_AF(GPIOE_IMU_INT2, 0U) |      \
+                                     PIN_AFIO_AF(GPIOE_UART7_RTS, 8U) |     \
+                                     PIN_AFIO_AF(GPIOE_UART7_CTS, 8U) |     \
+                                     PIN_AFIO_AF(GPIOE_SPI3_CS_N_ESP32, 0U) |\
+                                     PIN_AFIO_AF(GPIOE_DFSDM1_DATIN5_MIC34, 6U) |\
+                                     PIN_AFIO_AF(GPIOE_FRONT_LED_R, 0U) |   \
+                                     PIN_AFIO_AF(GPIOE_FRONT_LED_G, 0U) |   \
+                                     PIN_AFIO_AF(GPIOE_FRONT_LED_B, 0U))
 
 /*
  * GPIOF setup:
  *
- * PF0  - ZIO_D68 I2C2_SDA          (input pullup).
- * PF1  - ZIO_D69 I2C2_SCL          (input pullup).
- * PF2  - ZIO_D70 I2C2_SMBA         (input pullup).
- * PF3  - ARD_A3 ADC3_IN9           (input pullup).
- * PF4  - ZIO_A8 ADC3_IN14          (input pullup).
- * PF5  - ARD_A4 ADC3_IN15          (input pullup).
- * PF6  - PIN6                      (input pullup).
- * PF7  - ZIO_D62 SAI1_MCLK_B       (input pullup).
- * PF8  - ZIO_D61 SAI1_SCK_B        (input pullup).
- * PF9  - ZIO_D63 SAI1_FS_B         (input pullup).
- * PF10 - ARD_A5 ADC3_IN8           (input pullup).
- * PF11 - PIN11                     (input pullup).
- * PF12 - ARD_D8                    (input pullup).
- * PF13 - ARD_D7                    (input pullup).
- * PF14 - ARD_D4                    (input pullup).
- * PF15 - ARD_D2                    (input pullup).
+ * PF0  - USSR_BUTTON_N             (input pullup).
+ * PF1  - I2C2_SCL                  (alternate 4).
+ * PF2  - POWER_ON                  (output pushpull minimum).
+ * PF3  - ADC3_IN9                  (analog).
+ * PF4  - ADC3_IN14                 (analog).
+ * PF5  - ADC3_IN15                 (analog).
+ * PF6  - PIN6                      (input pulldown).
+ * PF7  - PIN7                      (input pulldown).
+ * PF8  - PIN8                      (input pulldown).
+ * PF9  - PIN9                      (input pulldown).
+ * PF10 - ADC3_IN8                  (analog).
+ * PF11 - SPI2_CS_N_IMU             (output pushpull maximum).
+ * PF12 - SPI2_CS_N_PRESS           (output pushpull maximum).
+ * PF13 - RIGHT_LED_R               (output pushpull maximum).
+ * PF14 - RIGHT_LED_G               (output pushpull maximum).
+ * PF15 - RIGHT_LED_B               (output pushpull maximum).
  */
-#define VAL_GPIOF_MODER             (PIN_MODE_INPUT(GPIOF_ZIO_D68) |        \
-                                     PIN_MODE_INPUT(GPIOF_ZIO_D69) |        \
-                                     PIN_MODE_INPUT(GPIOF_ZIO_D70) |        \
-                                     PIN_MODE_INPUT(GPIOF_ARD_A3) |         \
-                                     PIN_MODE_INPUT(GPIOF_ZIO_A8) |         \
-                                     PIN_MODE_INPUT(GPIOF_ARD_A4) |         \
+#define VAL_GPIOF_MODER             (PIN_MODE_INPUT(GPIOF_USSR_BUTTON_N) |  \
+                                     PIN_MODE_ALTERNATE(GPIOF_I2C2_SCL) |   \
+                                     PIN_MODE_OUTPUT(GPIOF_POWER_ON) |      \
+                                     PIN_MODE_ANALOG(GPIOF_ADC3_IN9) |      \
+                                     PIN_MODE_ANALOG(GPIOF_ADC3_IN14) |     \
+                                     PIN_MODE_ANALOG(GPIOF_ADC3_IN15) |     \
                                      PIN_MODE_INPUT(GPIOF_PIN6) |           \
-                                     PIN_MODE_INPUT(GPIOF_ZIO_D62) |        \
-                                     PIN_MODE_INPUT(GPIOF_ZIO_D61) |        \
-                                     PIN_MODE_INPUT(GPIOF_ZIO_D63) |        \
-                                     PIN_MODE_INPUT(GPIOF_ARD_A5) |         \
-                                     PIN_MODE_INPUT(GPIOF_PIN11) |          \
-                                     PIN_MODE_INPUT(GPIOF_ARD_D8) |         \
-                                     PIN_MODE_INPUT(GPIOF_ARD_D7) |         \
-                                     PIN_MODE_INPUT(GPIOF_ARD_D4) |         \
-                                     PIN_MODE_INPUT(GPIOF_ARD_D2))
-#define VAL_GPIOF_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOF_ZIO_D68) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOF_ZIO_D69) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOF_ZIO_D70) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOF_ARD_A3) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOF_ZIO_A8) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOF_ARD_A4) |     \
+                                     PIN_MODE_INPUT(GPIOF_PIN7) |           \
+                                     PIN_MODE_INPUT(GPIOF_PIN8) |           \
+                                     PIN_MODE_INPUT(GPIOF_PIN9) |           \
+                                     PIN_MODE_ANALOG(GPIOF_ADC3_IN8) |      \
+                                     PIN_MODE_OUTPUT(GPIOF_SPI2_CS_N_IMU) | \
+                                     PIN_MODE_OUTPUT(GPIOF_SPI2_CS_N_PRESS) |\
+                                     PIN_MODE_OUTPUT(GPIOF_RIGHT_LED_R) |   \
+                                     PIN_MODE_OUTPUT(GPIOF_RIGHT_LED_G) |   \
+                                     PIN_MODE_OUTPUT(GPIOF_RIGHT_LED_B))
+#define VAL_GPIOF_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOF_USSR_BUTTON_N) |\
+                                     PIN_OTYPE_OPENDRAIN(GPIOF_I2C2_SCL) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOF_POWER_ON) |   \
+                                     PIN_OTYPE_PUSHPULL(GPIOF_ADC3_IN9) |   \
+                                     PIN_OTYPE_PUSHPULL(GPIOF_ADC3_IN14) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOF_ADC3_IN15) |  \
                                      PIN_OTYPE_PUSHPULL(GPIOF_PIN6) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOF_ZIO_D62) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOF_ZIO_D61) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOF_ZIO_D63) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOF_ARD_A5) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOF_PIN11) |      \
-                                     PIN_OTYPE_PUSHPULL(GPIOF_ARD_D8) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOF_ARD_D7) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOF_ARD_D4) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOF_ARD_D2))
-#define VAL_GPIOF_OSPEEDR           (PIN_OSPEED_HIGH(GPIOF_ZIO_D68) |       \
-                                     PIN_OSPEED_HIGH(GPIOF_ZIO_D69) |       \
-                                     PIN_OSPEED_HIGH(GPIOF_ZIO_D70) |       \
-                                     PIN_OSPEED_HIGH(GPIOF_ARD_A3) |        \
-                                     PIN_OSPEED_HIGH(GPIOF_ZIO_A8) |        \
-                                     PIN_OSPEED_HIGH(GPIOF_ARD_A4) |        \
+                                     PIN_OTYPE_PUSHPULL(GPIOF_PIN7) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOF_PIN8) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOF_PIN9) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOF_ADC3_IN8) |   \
+                                     PIN_OTYPE_PUSHPULL(GPIOF_SPI2_CS_N_IMU) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOF_SPI2_CS_N_PRESS) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOF_RIGHT_LED_R) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOF_RIGHT_LED_G) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOF_RIGHT_LED_B))
+#define VAL_GPIOF_OSPEEDR           (PIN_OSPEED_HIGH(GPIOF_USSR_BUTTON_N) | \
+                                     PIN_OSPEED_HIGH(GPIOF_I2C2_SCL) |      \
+                                     PIN_OSPEED_VERYLOW(GPIOF_POWER_ON) |   \
+                                     PIN_OSPEED_VERYLOW(GPIOF_ADC3_IN9) |   \
+                                     PIN_OSPEED_VERYLOW(GPIOF_ADC3_IN14) |  \
+                                     PIN_OSPEED_VERYLOW(GPIOF_ADC3_IN15) |  \
                                      PIN_OSPEED_VERYLOW(GPIOF_PIN6) |       \
-                                     PIN_OSPEED_HIGH(GPIOF_ZIO_D62) |       \
-                                     PIN_OSPEED_HIGH(GPIOF_ZIO_D61) |       \
-                                     PIN_OSPEED_HIGH(GPIOF_ZIO_D63) |       \
-                                     PIN_OSPEED_HIGH(GPIOF_ARD_A5) |        \
-                                     PIN_OSPEED_VERYLOW(GPIOF_PIN11) |      \
-                                     PIN_OSPEED_VERYLOW(GPIOF_ARD_D8) |     \
-                                     PIN_OSPEED_VERYLOW(GPIOF_ARD_D7) |     \
-                                     PIN_OSPEED_VERYLOW(GPIOF_ARD_D4) |     \
-                                     PIN_OSPEED_VERYLOW(GPIOF_ARD_D2))
-#define VAL_GPIOF_PUPDR             (PIN_PUPDR_PULLUP(GPIOF_ZIO_D68) |      \
-                                     PIN_PUPDR_PULLUP(GPIOF_ZIO_D69) |      \
-                                     PIN_PUPDR_PULLUP(GPIOF_ZIO_D70) |      \
-                                     PIN_PUPDR_PULLUP(GPIOF_ARD_A3) |       \
-                                     PIN_PUPDR_PULLUP(GPIOF_ZIO_A8) |       \
-                                     PIN_PUPDR_PULLUP(GPIOF_ARD_A4) |       \
-                                     PIN_PUPDR_PULLUP(GPIOF_PIN6) |         \
-                                     PIN_PUPDR_PULLUP(GPIOF_ZIO_D62) |      \
-                                     PIN_PUPDR_PULLUP(GPIOF_ZIO_D61) |      \
-                                     PIN_PUPDR_PULLUP(GPIOF_ZIO_D63) |      \
-                                     PIN_PUPDR_PULLUP(GPIOF_ARD_A5) |       \
-                                     PIN_PUPDR_PULLUP(GPIOF_PIN11) |        \
-                                     PIN_PUPDR_PULLUP(GPIOF_ARD_D8) |       \
-                                     PIN_PUPDR_PULLUP(GPIOF_ARD_D7) |       \
-                                     PIN_PUPDR_PULLUP(GPIOF_ARD_D4) |       \
-                                     PIN_PUPDR_PULLUP(GPIOF_ARD_D2))
-#define VAL_GPIOF_ODR               (PIN_ODR_HIGH(GPIOF_ZIO_D68) |          \
-                                     PIN_ODR_HIGH(GPIOF_ZIO_D69) |          \
-                                     PIN_ODR_HIGH(GPIOF_ZIO_D70) |          \
-                                     PIN_ODR_HIGH(GPIOF_ARD_A3) |           \
-                                     PIN_ODR_HIGH(GPIOF_ZIO_A8) |           \
-                                     PIN_ODR_HIGH(GPIOF_ARD_A4) |           \
+                                     PIN_OSPEED_VERYLOW(GPIOF_PIN7) |       \
+                                     PIN_OSPEED_VERYLOW(GPIOF_PIN8) |       \
+                                     PIN_OSPEED_VERYLOW(GPIOF_PIN9) |       \
+                                     PIN_OSPEED_VERYLOW(GPIOF_ADC3_IN8) |   \
+                                     PIN_OSPEED_HIGH(GPIOF_SPI2_CS_N_IMU) | \
+                                     PIN_OSPEED_HIGH(GPIOF_SPI2_CS_N_PRESS) |\
+                                     PIN_OSPEED_HIGH(GPIOF_RIGHT_LED_R) |   \
+                                     PIN_OSPEED_HIGH(GPIOF_RIGHT_LED_G) |   \
+                                     PIN_OSPEED_HIGH(GPIOF_RIGHT_LED_B))
+#define VAL_GPIOF_PUPDR             (PIN_PUPDR_PULLUP(GPIOF_USSR_BUTTON_N) |\
+                                     PIN_PUPDR_FLOATING(GPIOF_I2C2_SCL) |   \
+                                     PIN_PUPDR_FLOATING(GPIOF_POWER_ON) |   \
+                                     PIN_PUPDR_FLOATING(GPIOF_ADC3_IN9) |   \
+                                     PIN_PUPDR_FLOATING(GPIOF_ADC3_IN14) |  \
+                                     PIN_PUPDR_FLOATING(GPIOF_ADC3_IN15) |  \
+                                     PIN_PUPDR_PULLDOWN(GPIOF_PIN6) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOF_PIN7) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOF_PIN8) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOF_PIN9) |       \
+                                     PIN_PUPDR_FLOATING(GPIOF_ADC3_IN8) |   \
+                                     PIN_PUPDR_FLOATING(GPIOF_SPI2_CS_N_IMU) |\
+                                     PIN_PUPDR_FLOATING(GPIOF_SPI2_CS_N_PRESS) |\
+                                     PIN_PUPDR_FLOATING(GPIOF_RIGHT_LED_R) |\
+                                     PIN_PUPDR_FLOATING(GPIOF_RIGHT_LED_G) |\
+                                     PIN_PUPDR_FLOATING(GPIOF_RIGHT_LED_B))
+#define VAL_GPIOF_ODR               (PIN_ODR_HIGH(GPIOF_USSR_BUTTON_N) |    \
+                                     PIN_ODR_HIGH(GPIOF_I2C2_SCL) |         \
+                                     PIN_ODR_LOW(GPIOF_POWER_ON) |          \
+                                     PIN_ODR_HIGH(GPIOF_ADC3_IN9) |         \
+                                     PIN_ODR_HIGH(GPIOF_ADC3_IN14) |        \
+                                     PIN_ODR_HIGH(GPIOF_ADC3_IN15) |        \
                                      PIN_ODR_HIGH(GPIOF_PIN6) |             \
-                                     PIN_ODR_HIGH(GPIOF_ZIO_D62) |          \
-                                     PIN_ODR_HIGH(GPIOF_ZIO_D61) |          \
-                                     PIN_ODR_HIGH(GPIOF_ZIO_D63) |          \
-                                     PIN_ODR_HIGH(GPIOF_ARD_A5) |           \
-                                     PIN_ODR_HIGH(GPIOF_PIN11) |            \
-                                     PIN_ODR_HIGH(GPIOF_ARD_D8) |           \
-                                     PIN_ODR_HIGH(GPIOF_ARD_D7) |           \
-                                     PIN_ODR_HIGH(GPIOF_ARD_D4) |           \
-                                     PIN_ODR_HIGH(GPIOF_ARD_D2))
-#define VAL_GPIOF_AFRL              (PIN_AFIO_AF(GPIOF_ZIO_D68, 0U) |       \
-                                     PIN_AFIO_AF(GPIOF_ZIO_D69, 0U) |       \
-                                     PIN_AFIO_AF(GPIOF_ZIO_D70, 0U) |       \
-                                     PIN_AFIO_AF(GPIOF_ARD_A3, 0U) |        \
-                                     PIN_AFIO_AF(GPIOF_ZIO_A8, 0U) |        \
-                                     PIN_AFIO_AF(GPIOF_ARD_A4, 0U) |        \
+                                     PIN_ODR_HIGH(GPIOF_PIN7) |             \
+                                     PIN_ODR_HIGH(GPIOF_PIN8) |             \
+                                     PIN_ODR_HIGH(GPIOF_PIN9) |             \
+                                     PIN_ODR_HIGH(GPIOF_ADC3_IN8) |         \
+                                     PIN_ODR_HIGH(GPIOF_SPI2_CS_N_IMU) |    \
+                                     PIN_ODR_HIGH(GPIOF_SPI2_CS_N_PRESS) |  \
+                                     PIN_ODR_HIGH(GPIOF_RIGHT_LED_R) |      \
+                                     PIN_ODR_HIGH(GPIOF_RIGHT_LED_G) |      \
+                                     PIN_ODR_HIGH(GPIOF_RIGHT_LED_B))
+#define VAL_GPIOF_AFRL              (PIN_AFIO_AF(GPIOF_USSR_BUTTON_N, 0U) | \
+                                     PIN_AFIO_AF(GPIOF_I2C2_SCL, 4U) |      \
+                                     PIN_AFIO_AF(GPIOF_POWER_ON, 0U) |      \
+                                     PIN_AFIO_AF(GPIOF_ADC3_IN9, 0U) |      \
+                                     PIN_AFIO_AF(GPIOF_ADC3_IN14, 0U) |     \
+                                     PIN_AFIO_AF(GPIOF_ADC3_IN15, 0U) |     \
                                      PIN_AFIO_AF(GPIOF_PIN6, 0U) |          \
-                                     PIN_AFIO_AF(GPIOF_ZIO_D62, 0U))
-#define VAL_GPIOF_AFRH              (PIN_AFIO_AF(GPIOF_ZIO_D61, 0U) |       \
-                                     PIN_AFIO_AF(GPIOF_ZIO_D63, 0U) |       \
-                                     PIN_AFIO_AF(GPIOF_ARD_A5, 0U) |        \
-                                     PIN_AFIO_AF(GPIOF_PIN11, 0U) |         \
-                                     PIN_AFIO_AF(GPIOF_ARD_D8, 0U) |        \
-                                     PIN_AFIO_AF(GPIOF_ARD_D7, 0U) |        \
-                                     PIN_AFIO_AF(GPIOF_ARD_D4, 0U) |        \
-                                     PIN_AFIO_AF(GPIOF_ARD_D2, 0U))
+                                     PIN_AFIO_AF(GPIOF_PIN7, 0U))
+#define VAL_GPIOF_AFRH              (PIN_AFIO_AF(GPIOF_PIN8, 0U) |          \
+                                     PIN_AFIO_AF(GPIOF_PIN9, 0U) |          \
+                                     PIN_AFIO_AF(GPIOF_ADC3_IN8, 0U) |      \
+                                     PIN_AFIO_AF(GPIOF_SPI2_CS_N_IMU, 0U) | \
+                                     PIN_AFIO_AF(GPIOF_SPI2_CS_N_PRESS, 0U) |\
+                                     PIN_AFIO_AF(GPIOF_RIGHT_LED_R, 0U) |   \
+                                     PIN_AFIO_AF(GPIOF_RIGHT_LED_G, 0U) |   \
+                                     PIN_AFIO_AF(GPIOF_RIGHT_LED_B, 0U))
 
 /*
  * GPIOG setup:
  *
- * PG0  - ZIO_D65                   (input pullup).
- * PG1  - ZIO_D64                   (input pullup).
- * PG2  - ZIO_D49                   (input pullup).
- * PG3  - ZIO_D50                   (input pullup).
- * PG4  - PIN4                      (input pullup).
- * PG5  - PIN5                      (input pullup).
- * PG6  - USB_GPIO_OUT              (input pullup).
- * PG7  - USB_GPIO_IN               (input pullup).
- * PG8  - PIN8                      (input pullup).
- * PG9  - ARD_D0 USART6_RX          (input pullup).
- * PG10 - PIN10                     (input pullup).
- * PG11 - RMII_TX_EN                (alternate 11).
- * PG12 - PIN12                     (input pullup).
- * PG13 - RMII_TXD0                 (alternate 11).
- * PG14 - ARD_D1 USART6_TX          (input pullup).
- * PG15 - PIN15                     (input pullup).
+ * PG0  - REAR_LED_R                (output pushpull maximum).
+ * PG1  - REAR_LED_G                (output pushpull maximum).
+ * PG2  - REAR_LED_B                (output pushpull maximum).
+ * PG3  - LEFT_LED_R                (output pushpull maximum).
+ * PG4  - LEFT_LED_G                (output pushpull maximum).
+ * PG5  - LEFT_LED_B                (output pushpull maximum).
+ * PG6  - PIN6                      (input pulldown).
+ * PG7  - SWCLK_PROG                (input floating).
+ * PG8  - SWDIO_PROG                (input floating).
+ * PG9  - SPI1_MISO                 (alternate 5).
+ * PG10 - DCMI_D2                   (alternate 13).
+ * PG11 - SPI1_SCK                  (alternate 5).
+ * PG12 - USART6_RTS                (alternate 8).
+ * PG13 - USART6_CTS                (alternate 8).
+ * PG14 - PIN14                     (input pulldown).
+ * PG15 - EN_N_CAN_UC               (output pushpull minimum).
  */
-#define VAL_GPIOG_MODER             (PIN_MODE_INPUT(GPIOG_ZIO_D65) |        \
-                                     PIN_MODE_INPUT(GPIOG_ZIO_D64) |        \
-                                     PIN_MODE_INPUT(GPIOG_ZIO_D49) |        \
-                                     PIN_MODE_INPUT(GPIOG_ZIO_D50) |        \
-                                     PIN_MODE_INPUT(GPIOG_PIN4) |           \
-                                     PIN_MODE_INPUT(GPIOG_PIN5) |           \
-                                     PIN_MODE_INPUT(GPIOG_USB_GPIO_OUT) |   \
-                                     PIN_MODE_INPUT(GPIOG_USB_GPIO_IN) |    \
-                                     PIN_MODE_INPUT(GPIOG_PIN8) |           \
-                                     PIN_MODE_INPUT(GPIOG_ARD_D0) |         \
-                                     PIN_MODE_INPUT(GPIOG_PIN10) |          \
-                                     PIN_MODE_ALTERNATE(GPIOG_RMII_TX_EN) | \
-                                     PIN_MODE_INPUT(GPIOG_PIN12) |          \
-                                     PIN_MODE_ALTERNATE(GPIOG_RMII_TXD0) |  \
-                                     PIN_MODE_INPUT(GPIOG_ARD_D1) |         \
-                                     PIN_MODE_INPUT(GPIOG_PIN15))
-#define VAL_GPIOG_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOG_ZIO_D65) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOG_ZIO_D64) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOG_ZIO_D49) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOG_ZIO_D50) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOG_PIN4) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOG_PIN5) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOG_USB_GPIO_OUT) |\
-                                     PIN_OTYPE_PUSHPULL(GPIOG_USB_GPIO_IN) |\
-                                     PIN_OTYPE_PUSHPULL(GPIOG_PIN8) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOG_ARD_D0) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOG_PIN10) |      \
-                                     PIN_OTYPE_PUSHPULL(GPIOG_RMII_TX_EN) | \
-                                     PIN_OTYPE_PUSHPULL(GPIOG_PIN12) |      \
-                                     PIN_OTYPE_PUSHPULL(GPIOG_RMII_TXD0) |  \
-                                     PIN_OTYPE_PUSHPULL(GPIOG_ARD_D1) |     \
-                                     PIN_OTYPE_PUSHPULL(GPIOG_PIN15))
-#define VAL_GPIOG_OSPEEDR           (PIN_OSPEED_VERYLOW(GPIOG_ZIO_D65) |    \
-                                     PIN_OSPEED_VERYLOW(GPIOG_ZIO_D64) |    \
-                                     PIN_OSPEED_VERYLOW(GPIOG_ZIO_D49) |    \
-                                     PIN_OSPEED_VERYLOW(GPIOG_ZIO_D50) |    \
-                                     PIN_OSPEED_VERYLOW(GPIOG_PIN4) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOG_PIN5) |       \
-                                     PIN_OSPEED_HIGH(GPIOG_USB_GPIO_OUT) |  \
-                                     PIN_OSPEED_HIGH(GPIOG_USB_GPIO_IN) |   \
-                                     PIN_OSPEED_VERYLOW(GPIOG_PIN8) |       \
-                                     PIN_OSPEED_HIGH(GPIOG_ARD_D0) |        \
-                                     PIN_OSPEED_VERYLOW(GPIOG_PIN10) |      \
-                                     PIN_OSPEED_HIGH(GPIOG_RMII_TX_EN) |    \
-                                     PIN_OSPEED_VERYLOW(GPIOG_PIN12) |      \
-                                     PIN_OSPEED_HIGH(GPIOG_RMII_TXD0) |     \
-                                     PIN_OSPEED_HIGH(GPIOG_ARD_D1) |        \
-                                     PIN_OSPEED_VERYLOW(GPIOG_PIN15))
-#define VAL_GPIOG_PUPDR             (PIN_PUPDR_PULLUP(GPIOG_ZIO_D65) |      \
-                                     PIN_PUPDR_PULLUP(GPIOG_ZIO_D64) |      \
-                                     PIN_PUPDR_PULLUP(GPIOG_ZIO_D49) |      \
-                                     PIN_PUPDR_PULLUP(GPIOG_ZIO_D50) |      \
-                                     PIN_PUPDR_PULLUP(GPIOG_PIN4) |         \
-                                     PIN_PUPDR_PULLUP(GPIOG_PIN5) |         \
-                                     PIN_PUPDR_PULLUP(GPIOG_USB_GPIO_OUT) | \
-                                     PIN_PUPDR_PULLUP(GPIOG_USB_GPIO_IN) |  \
-                                     PIN_PUPDR_PULLUP(GPIOG_PIN8) |         \
-                                     PIN_PUPDR_PULLUP(GPIOG_ARD_D0) |       \
-                                     PIN_PUPDR_PULLUP(GPIOG_PIN10) |        \
-                                     PIN_PUPDR_FLOATING(GPIOG_RMII_TX_EN) | \
-                                     PIN_PUPDR_PULLUP(GPIOG_PIN12) |        \
-                                     PIN_PUPDR_FLOATING(GPIOG_RMII_TXD0) |  \
-                                     PIN_PUPDR_PULLUP(GPIOG_ARD_D1) |       \
-                                     PIN_PUPDR_PULLUP(GPIOG_PIN15))
-#define VAL_GPIOG_ODR               (PIN_ODR_HIGH(GPIOG_ZIO_D65) |          \
-                                     PIN_ODR_HIGH(GPIOG_ZIO_D64) |          \
-                                     PIN_ODR_HIGH(GPIOG_ZIO_D49) |          \
-                                     PIN_ODR_HIGH(GPIOG_ZIO_D50) |          \
-                                     PIN_ODR_HIGH(GPIOG_PIN4) |             \
-                                     PIN_ODR_HIGH(GPIOG_PIN5) |             \
-                                     PIN_ODR_HIGH(GPIOG_USB_GPIO_OUT) |     \
-                                     PIN_ODR_HIGH(GPIOG_USB_GPIO_IN) |      \
-                                     PIN_ODR_HIGH(GPIOG_PIN8) |             \
-                                     PIN_ODR_HIGH(GPIOG_ARD_D0) |           \
-                                     PIN_ODR_HIGH(GPIOG_PIN10) |            \
-                                     PIN_ODR_HIGH(GPIOG_RMII_TX_EN) |       \
-                                     PIN_ODR_HIGH(GPIOG_PIN12) |            \
-                                     PIN_ODR_HIGH(GPIOG_RMII_TXD0) |        \
-                                     PIN_ODR_HIGH(GPIOG_ARD_D1) |           \
-                                     PIN_ODR_HIGH(GPIOG_PIN15))
-#define VAL_GPIOG_AFRL              (PIN_AFIO_AF(GPIOG_ZIO_D65, 0U) |       \
-                                     PIN_AFIO_AF(GPIOG_ZIO_D64, 0U) |       \
-                                     PIN_AFIO_AF(GPIOG_ZIO_D49, 0U) |       \
-                                     PIN_AFIO_AF(GPIOG_ZIO_D50, 0U) |       \
-                                     PIN_AFIO_AF(GPIOG_PIN4, 0U) |          \
-                                     PIN_AFIO_AF(GPIOG_PIN5, 0U) |          \
-                                     PIN_AFIO_AF(GPIOG_USB_GPIO_OUT, 0U) |  \
-                                     PIN_AFIO_AF(GPIOG_USB_GPIO_IN, 0U))
-#define VAL_GPIOG_AFRH              (PIN_AFIO_AF(GPIOG_PIN8, 0U) |          \
-                                     PIN_AFIO_AF(GPIOG_ARD_D0, 0U) |        \
-                                     PIN_AFIO_AF(GPIOG_PIN10, 0U) |         \
-                                     PIN_AFIO_AF(GPIOG_RMII_TX_EN, 11U) |   \
-                                     PIN_AFIO_AF(GPIOG_PIN12, 0U) |         \
-                                     PIN_AFIO_AF(GPIOG_RMII_TXD0, 11U) |    \
-                                     PIN_AFIO_AF(GPIOG_ARD_D1, 0U) |        \
-                                     PIN_AFIO_AF(GPIOG_PIN15, 0U))
+#define VAL_GPIOG_MODER             (PIN_MODE_OUTPUT(GPIOG_REAR_LED_R) |    \
+                                     PIN_MODE_OUTPUT(GPIOG_REAR_LED_G) |    \
+                                     PIN_MODE_OUTPUT(GPIOG_REAR_LED_B) |    \
+                                     PIN_MODE_OUTPUT(GPIOG_LEFT_LED_R) |    \
+                                     PIN_MODE_OUTPUT(GPIOG_LEFT_LED_G) |    \
+                                     PIN_MODE_OUTPUT(GPIOG_LEFT_LED_B) |    \
+                                     PIN_MODE_INPUT(GPIOG_PIN6) |           \
+                                     PIN_MODE_INPUT(GPIOG_SWCLK_PROG) |     \
+                                     PIN_MODE_INPUT(GPIOG_SWDIO_PROG) |     \
+                                     PIN_MODE_ALTERNATE(GPIOG_SPI1_MISO) |  \
+                                     PIN_MODE_ALTERNATE(GPIOG_DCMI_D2) |    \
+                                     PIN_MODE_ALTERNATE(GPIOG_SPI1_SCK) |   \
+                                     PIN_MODE_ALTERNATE(GPIOG_USART6_RTS) | \
+                                     PIN_MODE_ALTERNATE(GPIOG_USART6_CTS) | \
+                                     PIN_MODE_INPUT(GPIOG_PIN14) |          \
+                                     PIN_MODE_OUTPUT(GPIOG_EN_N_CAN_UC))
+#define VAL_GPIOG_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOG_REAR_LED_R) | \
+                                     PIN_OTYPE_PUSHPULL(GPIOG_REAR_LED_G) | \
+                                     PIN_OTYPE_PUSHPULL(GPIOG_REAR_LED_B) | \
+                                     PIN_OTYPE_PUSHPULL(GPIOG_LEFT_LED_R) | \
+                                     PIN_OTYPE_PUSHPULL(GPIOG_LEFT_LED_G) | \
+                                     PIN_OTYPE_PUSHPULL(GPIOG_LEFT_LED_B) | \
+                                     PIN_OTYPE_PUSHPULL(GPIOG_PIN6) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOG_SWCLK_PROG) | \
+                                     PIN_OTYPE_PUSHPULL(GPIOG_SWDIO_PROG) | \
+                                     PIN_OTYPE_PUSHPULL(GPIOG_SPI1_MISO) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOG_DCMI_D2) |    \
+                                     PIN_OTYPE_PUSHPULL(GPIOG_SPI1_SCK) |   \
+                                     PIN_OTYPE_PUSHPULL(GPIOG_USART6_RTS) | \
+                                     PIN_OTYPE_PUSHPULL(GPIOG_USART6_CTS) | \
+                                     PIN_OTYPE_PUSHPULL(GPIOG_PIN14) |      \
+                                     PIN_OTYPE_PUSHPULL(GPIOG_EN_N_CAN_UC))
+#define VAL_GPIOG_OSPEEDR           (PIN_OSPEED_HIGH(GPIOG_REAR_LED_R) |    \
+                                     PIN_OSPEED_HIGH(GPIOG_REAR_LED_G) |    \
+                                     PIN_OSPEED_HIGH(GPIOG_REAR_LED_B) |    \
+                                     PIN_OSPEED_HIGH(GPIOG_LEFT_LED_R) |    \
+                                     PIN_OSPEED_HIGH(GPIOG_LEFT_LED_G) |    \
+                                     PIN_OSPEED_HIGH(GPIOG_LEFT_LED_B) |    \
+                                     PIN_OSPEED_VERYLOW(GPIOG_PIN6) |       \
+                                     PIN_OSPEED_HIGH(GPIOG_SWCLK_PROG) |    \
+                                     PIN_OSPEED_HIGH(GPIOG_SWDIO_PROG) |    \
+                                     PIN_OSPEED_HIGH(GPIOG_SPI1_MISO) |     \
+                                     PIN_OSPEED_HIGH(GPIOG_DCMI_D2) |       \
+                                     PIN_OSPEED_HIGH(GPIOG_SPI1_SCK) |      \
+                                     PIN_OSPEED_HIGH(GPIOG_USART6_RTS) |    \
+                                     PIN_OSPEED_HIGH(GPIOG_USART6_CTS) |    \
+                                     PIN_OSPEED_VERYLOW(GPIOG_PIN14) |      \
+                                     PIN_OSPEED_VERYLOW(GPIOG_EN_N_CAN_UC))
+#define VAL_GPIOG_PUPDR             (PIN_PUPDR_FLOATING(GPIOG_REAR_LED_R) | \
+                                     PIN_PUPDR_FLOATING(GPIOG_REAR_LED_G) | \
+                                     PIN_PUPDR_FLOATING(GPIOG_REAR_LED_B) | \
+                                     PIN_PUPDR_FLOATING(GPIOG_LEFT_LED_R) | \
+                                     PIN_PUPDR_FLOATING(GPIOG_LEFT_LED_G) | \
+                                     PIN_PUPDR_FLOATING(GPIOG_LEFT_LED_B) | \
+                                     PIN_PUPDR_PULLDOWN(GPIOG_PIN6) |       \
+                                     PIN_PUPDR_FLOATING(GPIOG_SWCLK_PROG) | \
+                                     PIN_PUPDR_FLOATING(GPIOG_SWDIO_PROG) | \
+                                     PIN_PUPDR_FLOATING(GPIOG_SPI1_MISO) |  \
+                                     PIN_PUPDR_FLOATING(GPIOG_DCMI_D2) |    \
+                                     PIN_PUPDR_FLOATING(GPIOG_SPI1_SCK) |   \
+                                     PIN_PUPDR_FLOATING(GPIOG_USART6_RTS) | \
+                                     PIN_PUPDR_FLOATING(GPIOG_USART6_CTS) | \
+                                     PIN_PUPDR_PULLDOWN(GPIOG_PIN14) |      \
+                                     PIN_PUPDR_FLOATING(GPIOG_EN_N_CAN_UC))
+#define VAL_GPIOG_ODR               (PIN_ODR_HIGH(GPIOG_REAR_LED_R) |       \
+                                     PIN_ODR_HIGH(GPIOG_REAR_LED_G) |       \
+                                     PIN_ODR_HIGH(GPIOG_REAR_LED_B) |       \
+                                     PIN_ODR_HIGH(GPIOG_LEFT_LED_R) |       \
+                                     PIN_ODR_HIGH(GPIOG_LEFT_LED_G) |       \
+                                     PIN_ODR_HIGH(GPIOG_LEFT_LED_B) |       \
+                                     PIN_ODR_HIGH(GPIOG_PIN6) |             \
+                                     PIN_ODR_HIGH(GPIOG_SWCLK_PROG) |       \
+                                     PIN_ODR_HIGH(GPIOG_SWDIO_PROG) |       \
+                                     PIN_ODR_HIGH(GPIOG_SPI1_MISO) |        \
+                                     PIN_ODR_HIGH(GPIOG_DCMI_D2) |          \
+                                     PIN_ODR_HIGH(GPIOG_SPI1_SCK) |         \
+                                     PIN_ODR_HIGH(GPIOG_USART6_RTS) |       \
+                                     PIN_ODR_HIGH(GPIOG_USART6_CTS) |       \
+                                     PIN_ODR_HIGH(GPIOG_PIN14) |            \
+                                     PIN_ODR_HIGH(GPIOG_EN_N_CAN_UC))
+#define VAL_GPIOG_AFRL              (PIN_AFIO_AF(GPIOG_REAR_LED_R, 0U) |    \
+                                     PIN_AFIO_AF(GPIOG_REAR_LED_G, 0U) |    \
+                                     PIN_AFIO_AF(GPIOG_REAR_LED_B, 0U) |    \
+                                     PIN_AFIO_AF(GPIOG_LEFT_LED_R, 0U) |    \
+                                     PIN_AFIO_AF(GPIOG_LEFT_LED_G, 0U) |    \
+                                     PIN_AFIO_AF(GPIOG_LEFT_LED_B, 0U) |    \
+                                     PIN_AFIO_AF(GPIOG_PIN6, 0U) |          \
+                                     PIN_AFIO_AF(GPIOG_SWCLK_PROG, 0U))
+#define VAL_GPIOG_AFRH              (PIN_AFIO_AF(GPIOG_SWDIO_PROG, 0U) |    \
+                                     PIN_AFIO_AF(GPIOG_SPI1_MISO, 5U) |     \
+                                     PIN_AFIO_AF(GPIOG_DCMI_D2, 13U) |      \
+                                     PIN_AFIO_AF(GPIOG_SPI1_SCK, 5U) |      \
+                                     PIN_AFIO_AF(GPIOG_USART6_RTS, 8U) |    \
+                                     PIN_AFIO_AF(GPIOG_USART6_CTS, 8U) |    \
+                                     PIN_AFIO_AF(GPIOG_PIN14, 0U) |         \
+                                     PIN_AFIO_AF(GPIOG_EN_N_CAN_UC, 0U))
 
 /*
  * GPIOH setup:
  *
  * PH0  - OSC_IN                    (input floating).
  * PH1  - OSC_OUT                   (input floating).
- * PH2  - PIN2                      (input pullup).
- * PH3  - PIN3                      (input pullup).
- * PH4  - PIN4                      (input pullup).
- * PH5  - PIN5                      (input pullup).
- * PH6  - PIN6                      (input pullup).
- * PH7  - PIN7                      (input pullup).
- * PH8  - PIN8                      (input pullup).
- * PH9  - PIN9                      (input pullup).
- * PH10 - PIN10                     (input pullup).
- * PH11 - PIN11                     (input pullup).
- * PH12 - PIN12                     (input pullup).
- * PH13 - PIN13                     (input pullup).
- * PH14 - PIN14                     (input pullup).
- * PH15 - PIN15                     (input pullup).
+ * PH2  - PWR_BTN_STATE_N           (input floating).
+ * PH3  - EN_TOF                    (output pushpull minimum).
+ * PH4  - USB_OTG_HS_ULPI_NXT       (alternate 10).
+ * PH5  - I2C2_SDA                  (alternate 4).
+ * PH6  - PIN6                      (input pulldown).
+ * PH7  - PIN7                      (input pulldown).
+ * PH8  - DCMI_HSYNC                (alternate 13).
+ * PH9  - DCMI_D0                   (alternate 13).
+ * PH10 - EN_CAM1                   (output pushpull maximum).
+ * PH11 - EN_CAM2                   (output pushpull maximum).
+ * PH12 - DCMI_D3                   (alternate 13).
+ * PH13 - UART4_TX                  (alternate 8).
+ * PH14 - DCMI_D4                   (alternate 13).
+ * PH15 - DCMI_D11                  (alternate 13).
  */
 #define VAL_GPIOH_MODER             (PIN_MODE_INPUT(GPIOH_OSC_IN) |         \
                                      PIN_MODE_INPUT(GPIOH_OSC_OUT) |        \
-                                     PIN_MODE_INPUT(GPIOH_PIN2) |           \
-                                     PIN_MODE_INPUT(GPIOH_PIN3) |           \
-                                     PIN_MODE_INPUT(GPIOH_PIN4) |           \
-                                     PIN_MODE_INPUT(GPIOH_PIN5) |           \
+                                     PIN_MODE_INPUT(GPIOH_PWR_BTN_STATE_N) |\
+                                     PIN_MODE_OUTPUT(GPIOH_EN_TOF) |        \
+                                     PIN_MODE_ALTERNATE(GPIOH_USB_OTG_HS_ULPI_NXT) |\
+                                     PIN_MODE_ALTERNATE(GPIOH_I2C2_SDA) |   \
                                      PIN_MODE_INPUT(GPIOH_PIN6) |           \
                                      PIN_MODE_INPUT(GPIOH_PIN7) |           \
-                                     PIN_MODE_INPUT(GPIOH_PIN8) |           \
-                                     PIN_MODE_INPUT(GPIOH_PIN9) |           \
-                                     PIN_MODE_INPUT(GPIOH_PIN10) |          \
-                                     PIN_MODE_INPUT(GPIOH_PIN11) |          \
-                                     PIN_MODE_INPUT(GPIOH_PIN12) |          \
-                                     PIN_MODE_INPUT(GPIOH_PIN13) |          \
-                                     PIN_MODE_INPUT(GPIOH_PIN14) |          \
-                                     PIN_MODE_INPUT(GPIOH_PIN15))
+                                     PIN_MODE_ALTERNATE(GPIOH_DCMI_HSYNC) | \
+                                     PIN_MODE_ALTERNATE(GPIOH_DCMI_D0) |    \
+                                     PIN_MODE_OUTPUT(GPIOH_EN_CAM1) |       \
+                                     PIN_MODE_OUTPUT(GPIOH_EN_CAM2) |       \
+                                     PIN_MODE_ALTERNATE(GPIOH_DCMI_D3) |    \
+                                     PIN_MODE_ALTERNATE(GPIOH_UART4_TX) |   \
+                                     PIN_MODE_ALTERNATE(GPIOH_DCMI_D4) |    \
+                                     PIN_MODE_ALTERNATE(GPIOH_DCMI_D11))
 #define VAL_GPIOH_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOH_OSC_IN) |     \
                                      PIN_OTYPE_PUSHPULL(GPIOH_OSC_OUT) |    \
-                                     PIN_OTYPE_PUSHPULL(GPIOH_PIN2) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOH_PIN3) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOH_PIN4) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOH_PIN5) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOH_PWR_BTN_STATE_N) |\
+                                     PIN_OTYPE_PUSHPULL(GPIOH_EN_TOF) |     \
+                                     PIN_OTYPE_PUSHPULL(GPIOH_USB_OTG_HS_ULPI_NXT) |\
+                                     PIN_OTYPE_OPENDRAIN(GPIOH_I2C2_SDA) |  \
                                      PIN_OTYPE_PUSHPULL(GPIOH_PIN6) |       \
                                      PIN_OTYPE_PUSHPULL(GPIOH_PIN7) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOH_PIN8) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOH_PIN9) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOH_PIN10) |      \
-                                     PIN_OTYPE_PUSHPULL(GPIOH_PIN11) |      \
-                                     PIN_OTYPE_PUSHPULL(GPIOH_PIN12) |      \
-                                     PIN_OTYPE_PUSHPULL(GPIOH_PIN13) |      \
-                                     PIN_OTYPE_PUSHPULL(GPIOH_PIN14) |      \
-                                     PIN_OTYPE_PUSHPULL(GPIOH_PIN15))
+                                     PIN_OTYPE_PUSHPULL(GPIOH_DCMI_HSYNC) | \
+                                     PIN_OTYPE_PUSHPULL(GPIOH_DCMI_D0) |    \
+                                     PIN_OTYPE_PUSHPULL(GPIOH_EN_CAM1) |    \
+                                     PIN_OTYPE_PUSHPULL(GPIOH_EN_CAM2) |    \
+                                     PIN_OTYPE_PUSHPULL(GPIOH_DCMI_D3) |    \
+                                     PIN_OTYPE_PUSHPULL(GPIOH_UART4_TX) |   \
+                                     PIN_OTYPE_PUSHPULL(GPIOH_DCMI_D4) |    \
+                                     PIN_OTYPE_PUSHPULL(GPIOH_DCMI_D11))
 #define VAL_GPIOH_OSPEEDR           (PIN_OSPEED_HIGH(GPIOH_OSC_IN) |        \
                                      PIN_OSPEED_HIGH(GPIOH_OSC_OUT) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOH_PIN2) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOH_PIN3) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOH_PIN4) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOH_PIN5) |       \
+                                     PIN_OSPEED_VERYLOW(GPIOH_PWR_BTN_STATE_N) |\
+                                     PIN_OSPEED_VERYLOW(GPIOH_EN_TOF) |     \
+                                     PIN_OSPEED_HIGH(GPIOH_USB_OTG_HS_ULPI_NXT) |\
+                                     PIN_OSPEED_HIGH(GPIOH_I2C2_SDA) |      \
                                      PIN_OSPEED_VERYLOW(GPIOH_PIN6) |       \
                                      PIN_OSPEED_VERYLOW(GPIOH_PIN7) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOH_PIN8) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOH_PIN9) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOH_PIN10) |      \
-                                     PIN_OSPEED_VERYLOW(GPIOH_PIN11) |      \
-                                     PIN_OSPEED_VERYLOW(GPIOH_PIN12) |      \
-                                     PIN_OSPEED_VERYLOW(GPIOH_PIN13) |      \
-                                     PIN_OSPEED_VERYLOW(GPIOH_PIN14) |      \
-                                     PIN_OSPEED_VERYLOW(GPIOH_PIN15))
+                                     PIN_OSPEED_HIGH(GPIOH_DCMI_HSYNC) |    \
+                                     PIN_OSPEED_HIGH(GPIOH_DCMI_D0) |       \
+                                     PIN_OSPEED_HIGH(GPIOH_EN_CAM1) |       \
+                                     PIN_OSPEED_HIGH(GPIOH_EN_CAM2) |       \
+                                     PIN_OSPEED_HIGH(GPIOH_DCMI_D3) |       \
+                                     PIN_OSPEED_HIGH(GPIOH_UART4_TX) |      \
+                                     PIN_OSPEED_HIGH(GPIOH_DCMI_D4) |       \
+                                     PIN_OSPEED_HIGH(GPIOH_DCMI_D11))
 #define VAL_GPIOH_PUPDR             (PIN_PUPDR_FLOATING(GPIOH_OSC_IN) |     \
                                      PIN_PUPDR_FLOATING(GPIOH_OSC_OUT) |    \
-                                     PIN_PUPDR_PULLUP(GPIOH_PIN2) |         \
-                                     PIN_PUPDR_PULLUP(GPIOH_PIN3) |         \
-                                     PIN_PUPDR_PULLUP(GPIOH_PIN4) |         \
-                                     PIN_PUPDR_PULLUP(GPIOH_PIN5) |         \
-                                     PIN_PUPDR_PULLUP(GPIOH_PIN6) |         \
-                                     PIN_PUPDR_PULLUP(GPIOH_PIN7) |         \
-                                     PIN_PUPDR_PULLUP(GPIOH_PIN8) |         \
-                                     PIN_PUPDR_PULLUP(GPIOH_PIN9) |         \
-                                     PIN_PUPDR_PULLUP(GPIOH_PIN10) |        \
-                                     PIN_PUPDR_PULLUP(GPIOH_PIN11) |        \
-                                     PIN_PUPDR_PULLUP(GPIOH_PIN12) |        \
-                                     PIN_PUPDR_PULLUP(GPIOH_PIN13) |        \
-                                     PIN_PUPDR_PULLUP(GPIOH_PIN14) |        \
-                                     PIN_PUPDR_PULLUP(GPIOH_PIN15))
+                                     PIN_PUPDR_FLOATING(GPIOH_PWR_BTN_STATE_N) |\
+                                     PIN_PUPDR_FLOATING(GPIOH_EN_TOF) |     \
+                                     PIN_PUPDR_FLOATING(GPIOH_USB_OTG_HS_ULPI_NXT) |\
+                                     PIN_PUPDR_FLOATING(GPIOH_I2C2_SDA) |   \
+                                     PIN_PUPDR_PULLDOWN(GPIOH_PIN6) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOH_PIN7) |       \
+                                     PIN_PUPDR_FLOATING(GPIOH_DCMI_HSYNC) | \
+                                     PIN_PUPDR_FLOATING(GPIOH_DCMI_D0) |    \
+                                     PIN_PUPDR_FLOATING(GPIOH_EN_CAM1) |    \
+                                     PIN_PUPDR_FLOATING(GPIOH_EN_CAM2) |    \
+                                     PIN_PUPDR_FLOATING(GPIOH_DCMI_D3) |    \
+                                     PIN_PUPDR_FLOATING(GPIOH_UART4_TX) |   \
+                                     PIN_PUPDR_FLOATING(GPIOH_DCMI_D4) |    \
+                                     PIN_PUPDR_FLOATING(GPIOH_DCMI_D11))
 #define VAL_GPIOH_ODR               (PIN_ODR_HIGH(GPIOH_OSC_IN) |           \
                                      PIN_ODR_HIGH(GPIOH_OSC_OUT) |          \
-                                     PIN_ODR_HIGH(GPIOH_PIN2) |             \
-                                     PIN_ODR_HIGH(GPIOH_PIN3) |             \
-                                     PIN_ODR_HIGH(GPIOH_PIN4) |             \
-                                     PIN_ODR_HIGH(GPIOH_PIN5) |             \
+                                     PIN_ODR_HIGH(GPIOH_PWR_BTN_STATE_N) |  \
+                                     PIN_ODR_LOW(GPIOH_EN_TOF) |            \
+                                     PIN_ODR_HIGH(GPIOH_USB_OTG_HS_ULPI_NXT) |\
+                                     PIN_ODR_HIGH(GPIOH_I2C2_SDA) |         \
                                      PIN_ODR_HIGH(GPIOH_PIN6) |             \
                                      PIN_ODR_HIGH(GPIOH_PIN7) |             \
-                                     PIN_ODR_HIGH(GPIOH_PIN8) |             \
-                                     PIN_ODR_HIGH(GPIOH_PIN9) |             \
-                                     PIN_ODR_HIGH(GPIOH_PIN10) |            \
-                                     PIN_ODR_HIGH(GPIOH_PIN11) |            \
-                                     PIN_ODR_HIGH(GPIOH_PIN12) |            \
-                                     PIN_ODR_HIGH(GPIOH_PIN13) |            \
-                                     PIN_ODR_HIGH(GPIOH_PIN14) |            \
-                                     PIN_ODR_HIGH(GPIOH_PIN15))
+                                     PIN_ODR_HIGH(GPIOH_DCMI_HSYNC) |       \
+                                     PIN_ODR_HIGH(GPIOH_DCMI_D0) |          \
+                                     PIN_ODR_LOW(GPIOH_EN_CAM1) |           \
+                                     PIN_ODR_LOW(GPIOH_EN_CAM2) |           \
+                                     PIN_ODR_HIGH(GPIOH_DCMI_D3) |          \
+                                     PIN_ODR_HIGH(GPIOH_UART4_TX) |         \
+                                     PIN_ODR_HIGH(GPIOH_DCMI_D4) |          \
+                                     PIN_ODR_HIGH(GPIOH_DCMI_D11))
 #define VAL_GPIOH_AFRL              (PIN_AFIO_AF(GPIOH_OSC_IN, 0U) |        \
                                      PIN_AFIO_AF(GPIOH_OSC_OUT, 0U) |       \
-                                     PIN_AFIO_AF(GPIOH_PIN2, 0U) |          \
-                                     PIN_AFIO_AF(GPIOH_PIN3, 0U) |          \
-                                     PIN_AFIO_AF(GPIOH_PIN4, 0U) |          \
-                                     PIN_AFIO_AF(GPIOH_PIN5, 0U) |          \
+                                     PIN_AFIO_AF(GPIOH_PWR_BTN_STATE_N, 0U) |\
+                                     PIN_AFIO_AF(GPIOH_EN_TOF, 0U) |        \
+                                     PIN_AFIO_AF(GPIOH_USB_OTG_HS_ULPI_NXT, 10U) |\
+                                     PIN_AFIO_AF(GPIOH_I2C2_SDA, 4U) |      \
                                      PIN_AFIO_AF(GPIOH_PIN6, 0U) |          \
                                      PIN_AFIO_AF(GPIOH_PIN7, 0U))
-#define VAL_GPIOH_AFRH              (PIN_AFIO_AF(GPIOH_PIN8, 0U) |          \
-                                     PIN_AFIO_AF(GPIOH_PIN9, 0U) |          \
-                                     PIN_AFIO_AF(GPIOH_PIN10, 0U) |         \
-                                     PIN_AFIO_AF(GPIOH_PIN11, 0U) |         \
-                                     PIN_AFIO_AF(GPIOH_PIN12, 0U) |         \
-                                     PIN_AFIO_AF(GPIOH_PIN13, 0U) |         \
-                                     PIN_AFIO_AF(GPIOH_PIN14, 0U) |         \
-                                     PIN_AFIO_AF(GPIOH_PIN15, 0U))
+#define VAL_GPIOH_AFRH              (PIN_AFIO_AF(GPIOH_DCMI_HSYNC, 13U) |   \
+                                     PIN_AFIO_AF(GPIOH_DCMI_D0, 13U) |      \
+                                     PIN_AFIO_AF(GPIOH_EN_CAM1, 0U) |       \
+                                     PIN_AFIO_AF(GPIOH_EN_CAM2, 0U) |       \
+                                     PIN_AFIO_AF(GPIOH_DCMI_D3, 13U) |      \
+                                     PIN_AFIO_AF(GPIOH_UART4_TX, 8U) |      \
+                                     PIN_AFIO_AF(GPIOH_DCMI_D4, 13U) |      \
+                                     PIN_AFIO_AF(GPIOH_DCMI_D11, 13U))
 
 /*
  * GPIOI setup:
  *
- * PI0  - PIN0                      (input pullup).
- * PI1  - PIN1                      (input pullup).
- * PI2  - PIN2                      (input pullup).
- * PI3  - PIN3                      (input pullup).
- * PI4  - PIN4                      (input pullup).
- * PI5  - PIN5                      (input pullup).
- * PI6  - PIN6                      (input pullup).
- * PI7  - PIN7                      (input pullup).
- * PI8  - PIN8                      (input pullup).
- * PI9  - PIN9                      (input pullup).
- * PI10 - PIN10                     (input pullup).
- * PI11 - PIN11                     (input pullup).
- * PI12 - PIN12                     (input pullup).
- * PI13 - PIN13                     (input pullup).
- * PI14 - PIN14                     (input pullup).
- * PI15 - PIN15                     (input pullup).
+ * PI0  - PIN0                      (input pulldown).
+ * PI1  - DCMI_D8                   (alternate 13).
+ * PI2  - DCMI_D9                   (alternate 13).
+ * PI3  - DCMI_D10                  (alternate 13).
+ * PI4  - DCMI_D5                   (alternate 13).
+ * PI5  - DCMI_VSYNC                (alternate 13).
+ * PI6  - DCMI_D6                   (alternate 13).
+ * PI7  - DCMI_D7                   (alternate 13).
+ * PI8  - PIN8                      (input pulldown).
+ * PI9  - UART4_RX                  (alternate 8).
+ * PI10 - EN_PHY_HS                 (output pushpull minimum).
+ * PI11 - USB_OTG_HS_ULPI_DIR       (alternate 10).
+ * PI12 - PIN12                     (input pulldown).
+ * PI13 - PIN13                     (input pulldown).
+ * PI14 - PIN14                     (input pulldown).
+ * PI15 - PIN15                     (input pulldown).
  */
 #define VAL_GPIOI_MODER             (PIN_MODE_INPUT(GPIOI_PIN0) |           \
-                                     PIN_MODE_INPUT(GPIOI_PIN1) |           \
-                                     PIN_MODE_INPUT(GPIOI_PIN2) |           \
-                                     PIN_MODE_INPUT(GPIOI_PIN3) |           \
-                                     PIN_MODE_INPUT(GPIOI_PIN4) |           \
-                                     PIN_MODE_INPUT(GPIOI_PIN5) |           \
-                                     PIN_MODE_INPUT(GPIOI_PIN6) |           \
-                                     PIN_MODE_INPUT(GPIOI_PIN7) |           \
+                                     PIN_MODE_ALTERNATE(GPIOI_DCMI_D8) |    \
+                                     PIN_MODE_ALTERNATE(GPIOI_DCMI_D9) |    \
+                                     PIN_MODE_ALTERNATE(GPIOI_DCMI_D10) |   \
+                                     PIN_MODE_ALTERNATE(GPIOI_DCMI_D5) |    \
+                                     PIN_MODE_ALTERNATE(GPIOI_DCMI_VSYNC) | \
+                                     PIN_MODE_ALTERNATE(GPIOI_DCMI_D6) |    \
+                                     PIN_MODE_ALTERNATE(GPIOI_DCMI_D7) |    \
                                      PIN_MODE_INPUT(GPIOI_PIN8) |           \
-                                     PIN_MODE_INPUT(GPIOI_PIN9) |           \
-                                     PIN_MODE_INPUT(GPIOI_PIN10) |          \
-                                     PIN_MODE_INPUT(GPIOI_PIN11) |          \
+                                     PIN_MODE_ALTERNATE(GPIOI_UART4_RX) |   \
+                                     PIN_MODE_OUTPUT(GPIOI_EN_PHY_HS) |     \
+                                     PIN_MODE_ALTERNATE(GPIOI_USB_OTG_HS_ULPI_DIR) |\
                                      PIN_MODE_INPUT(GPIOI_PIN12) |          \
                                      PIN_MODE_INPUT(GPIOI_PIN13) |          \
                                      PIN_MODE_INPUT(GPIOI_PIN14) |          \
                                      PIN_MODE_INPUT(GPIOI_PIN15))
 #define VAL_GPIOI_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOI_PIN0) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOI_PIN1) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOI_PIN2) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOI_PIN3) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOI_PIN4) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOI_PIN5) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOI_PIN6) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOI_PIN7) |       \
+                                     PIN_OTYPE_PUSHPULL(GPIOI_DCMI_D8) |    \
+                                     PIN_OTYPE_PUSHPULL(GPIOI_DCMI_D9) |    \
+                                     PIN_OTYPE_PUSHPULL(GPIOI_DCMI_D10) |   \
+                                     PIN_OTYPE_PUSHPULL(GPIOI_DCMI_D5) |    \
+                                     PIN_OTYPE_PUSHPULL(GPIOI_DCMI_VSYNC) | \
+                                     PIN_OTYPE_PUSHPULL(GPIOI_DCMI_D6) |    \
+                                     PIN_OTYPE_PUSHPULL(GPIOI_DCMI_D7) |    \
                                      PIN_OTYPE_PUSHPULL(GPIOI_PIN8) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOI_PIN9) |       \
-                                     PIN_OTYPE_PUSHPULL(GPIOI_PIN10) |      \
-                                     PIN_OTYPE_PUSHPULL(GPIOI_PIN11) |      \
+                                     PIN_OTYPE_PUSHPULL(GPIOI_UART4_RX) |   \
+                                     PIN_OTYPE_PUSHPULL(GPIOI_EN_PHY_HS) |  \
+                                     PIN_OTYPE_PUSHPULL(GPIOI_USB_OTG_HS_ULPI_DIR) |\
                                      PIN_OTYPE_PUSHPULL(GPIOI_PIN12) |      \
                                      PIN_OTYPE_PUSHPULL(GPIOI_PIN13) |      \
                                      PIN_OTYPE_PUSHPULL(GPIOI_PIN14) |      \
                                      PIN_OTYPE_PUSHPULL(GPIOI_PIN15))
 #define VAL_GPIOI_OSPEEDR           (PIN_OSPEED_VERYLOW(GPIOI_PIN0) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOI_PIN1) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOI_PIN2) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOI_PIN3) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOI_PIN4) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOI_PIN5) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOI_PIN6) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOI_PIN7) |       \
+                                     PIN_OSPEED_HIGH(GPIOI_DCMI_D8) |       \
+                                     PIN_OSPEED_HIGH(GPIOI_DCMI_D9) |       \
+                                     PIN_OSPEED_HIGH(GPIOI_DCMI_D10) |      \
+                                     PIN_OSPEED_HIGH(GPIOI_DCMI_D5) |       \
+                                     PIN_OSPEED_HIGH(GPIOI_DCMI_VSYNC) |    \
+                                     PIN_OSPEED_HIGH(GPIOI_DCMI_D6) |       \
+                                     PIN_OSPEED_HIGH(GPIOI_DCMI_D7) |       \
                                      PIN_OSPEED_VERYLOW(GPIOI_PIN8) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOI_PIN9) |       \
-                                     PIN_OSPEED_VERYLOW(GPIOI_PIN10) |      \
-                                     PIN_OSPEED_VERYLOW(GPIOI_PIN11) |      \
+                                     PIN_OSPEED_HIGH(GPIOI_UART4_RX) |      \
+                                     PIN_OSPEED_VERYLOW(GPIOI_EN_PHY_HS) |  \
+                                     PIN_OSPEED_HIGH(GPIOI_USB_OTG_HS_ULPI_DIR) |\
                                      PIN_OSPEED_VERYLOW(GPIOI_PIN12) |      \
                                      PIN_OSPEED_VERYLOW(GPIOI_PIN13) |      \
                                      PIN_OSPEED_VERYLOW(GPIOI_PIN14) |      \
                                      PIN_OSPEED_VERYLOW(GPIOI_PIN15))
-#define VAL_GPIOI_PUPDR             (PIN_PUPDR_PULLUP(GPIOI_PIN0) |         \
-                                     PIN_PUPDR_PULLUP(GPIOI_PIN1) |         \
-                                     PIN_PUPDR_PULLUP(GPIOI_PIN2) |         \
-                                     PIN_PUPDR_PULLUP(GPIOI_PIN3) |         \
-                                     PIN_PUPDR_PULLUP(GPIOI_PIN4) |         \
-                                     PIN_PUPDR_PULLUP(GPIOI_PIN5) |         \
-                                     PIN_PUPDR_PULLUP(GPIOI_PIN6) |         \
-                                     PIN_PUPDR_PULLUP(GPIOI_PIN7) |         \
-                                     PIN_PUPDR_PULLUP(GPIOI_PIN8) |         \
-                                     PIN_PUPDR_PULLUP(GPIOI_PIN9) |         \
-                                     PIN_PUPDR_PULLUP(GPIOI_PIN10) |        \
-                                     PIN_PUPDR_PULLUP(GPIOI_PIN11) |        \
-                                     PIN_PUPDR_PULLUP(GPIOI_PIN12) |        \
-                                     PIN_PUPDR_PULLUP(GPIOI_PIN13) |        \
-                                     PIN_PUPDR_PULLUP(GPIOI_PIN14) |        \
-                                     PIN_PUPDR_PULLUP(GPIOI_PIN15))
+#define VAL_GPIOI_PUPDR             (PIN_PUPDR_PULLDOWN(GPIOI_PIN0) |       \
+                                     PIN_PUPDR_FLOATING(GPIOI_DCMI_D8) |    \
+                                     PIN_PUPDR_FLOATING(GPIOI_DCMI_D9) |    \
+                                     PIN_PUPDR_FLOATING(GPIOI_DCMI_D10) |   \
+                                     PIN_PUPDR_FLOATING(GPIOI_DCMI_D5) |    \
+                                     PIN_PUPDR_FLOATING(GPIOI_DCMI_VSYNC) | \
+                                     PIN_PUPDR_FLOATING(GPIOI_DCMI_D6) |    \
+                                     PIN_PUPDR_FLOATING(GPIOI_DCMI_D7) |    \
+                                     PIN_PUPDR_PULLDOWN(GPIOI_PIN8) |       \
+                                     PIN_PUPDR_FLOATING(GPIOI_UART4_RX) |   \
+                                     PIN_PUPDR_FLOATING(GPIOI_EN_PHY_HS) |  \
+                                     PIN_PUPDR_FLOATING(GPIOI_USB_OTG_HS_ULPI_DIR) |\
+                                     PIN_PUPDR_PULLDOWN(GPIOI_PIN12) |      \
+                                     PIN_PUPDR_PULLDOWN(GPIOI_PIN13) |      \
+                                     PIN_PUPDR_PULLDOWN(GPIOI_PIN14) |      \
+                                     PIN_PUPDR_PULLDOWN(GPIOI_PIN15))
 #define VAL_GPIOI_ODR               (PIN_ODR_HIGH(GPIOI_PIN0) |             \
-                                     PIN_ODR_HIGH(GPIOI_PIN1) |             \
-                                     PIN_ODR_HIGH(GPIOI_PIN2) |             \
-                                     PIN_ODR_HIGH(GPIOI_PIN3) |             \
-                                     PIN_ODR_HIGH(GPIOI_PIN4) |             \
-                                     PIN_ODR_HIGH(GPIOI_PIN5) |             \
-                                     PIN_ODR_HIGH(GPIOI_PIN6) |             \
-                                     PIN_ODR_HIGH(GPIOI_PIN7) |             \
+                                     PIN_ODR_HIGH(GPIOI_DCMI_D8) |          \
+                                     PIN_ODR_HIGH(GPIOI_DCMI_D9) |          \
+                                     PIN_ODR_HIGH(GPIOI_DCMI_D10) |         \
+                                     PIN_ODR_HIGH(GPIOI_DCMI_D5) |          \
+                                     PIN_ODR_HIGH(GPIOI_DCMI_VSYNC) |       \
+                                     PIN_ODR_HIGH(GPIOI_DCMI_D6) |          \
+                                     PIN_ODR_HIGH(GPIOI_DCMI_D7) |          \
                                      PIN_ODR_HIGH(GPIOI_PIN8) |             \
-                                     PIN_ODR_HIGH(GPIOI_PIN9) |             \
-                                     PIN_ODR_HIGH(GPIOI_PIN10) |            \
-                                     PIN_ODR_HIGH(GPIOI_PIN11) |            \
+                                     PIN_ODR_HIGH(GPIOI_UART4_RX) |         \
+                                     PIN_ODR_LOW(GPIOI_EN_PHY_HS) |         \
+                                     PIN_ODR_HIGH(GPIOI_USB_OTG_HS_ULPI_DIR) |\
                                      PIN_ODR_HIGH(GPIOI_PIN12) |            \
                                      PIN_ODR_HIGH(GPIOI_PIN13) |            \
                                      PIN_ODR_HIGH(GPIOI_PIN14) |            \
                                      PIN_ODR_HIGH(GPIOI_PIN15))
 #define VAL_GPIOI_AFRL              (PIN_AFIO_AF(GPIOI_PIN0, 0U) |          \
-                                     PIN_AFIO_AF(GPIOI_PIN1, 0U) |          \
-                                     PIN_AFIO_AF(GPIOI_PIN2, 0U) |          \
-                                     PIN_AFIO_AF(GPIOI_PIN3, 0U) |          \
-                                     PIN_AFIO_AF(GPIOI_PIN4, 0U) |          \
-                                     PIN_AFIO_AF(GPIOI_PIN5, 0U) |          \
-                                     PIN_AFIO_AF(GPIOI_PIN6, 0U) |          \
-                                     PIN_AFIO_AF(GPIOI_PIN7, 0U))
+                                     PIN_AFIO_AF(GPIOI_DCMI_D8, 13U) |      \
+                                     PIN_AFIO_AF(GPIOI_DCMI_D9, 13U) |      \
+                                     PIN_AFIO_AF(GPIOI_DCMI_D10, 13U) |     \
+                                     PIN_AFIO_AF(GPIOI_DCMI_D5, 13U) |      \
+                                     PIN_AFIO_AF(GPIOI_DCMI_VSYNC, 13U) |   \
+                                     PIN_AFIO_AF(GPIOI_DCMI_D6, 13U) |      \
+                                     PIN_AFIO_AF(GPIOI_DCMI_D7, 13U))
 #define VAL_GPIOI_AFRH              (PIN_AFIO_AF(GPIOI_PIN8, 0U) |          \
-                                     PIN_AFIO_AF(GPIOI_PIN9, 0U) |          \
-                                     PIN_AFIO_AF(GPIOI_PIN10, 0U) |         \
-                                     PIN_AFIO_AF(GPIOI_PIN11, 0U) |         \
+                                     PIN_AFIO_AF(GPIOI_UART4_RX, 8U) |      \
+                                     PIN_AFIO_AF(GPIOI_EN_PHY_HS, 0U) |     \
+                                     PIN_AFIO_AF(GPIOI_USB_OTG_HS_ULPI_DIR, 10U) |\
                                      PIN_AFIO_AF(GPIOI_PIN12, 0U) |         \
                                      PIN_AFIO_AF(GPIOI_PIN13, 0U) |         \
                                      PIN_AFIO_AF(GPIOI_PIN14, 0U) |         \
@@ -1614,22 +1479,22 @@
 /*
  * GPIOJ setup:
  *
- * PJ0  - PIN0                      (input pullup).
- * PJ1  - PIN1                      (input pullup).
- * PJ2  - PIN2                      (input pullup).
- * PJ3  - PIN3                      (input pullup).
- * PJ4  - PIN4                      (input pullup).
- * PJ5  - PIN5                      (input pullup).
- * PJ6  - PIN6                      (input pullup).
- * PJ7  - PIN7                      (input pullup).
- * PJ8  - PIN8                      (input pullup).
- * PJ9  - PIN9                      (input pullup).
- * PJ10 - PIN10                     (input pullup).
- * PJ11 - PIN11                     (input pullup).
- * PJ12 - PIN12                     (input pullup).
- * PJ13 - PIN13                     (input pullup).
- * PJ14 - PIN14                     (input pullup).
- * PJ15 - PIN15                     (input pullup).
+ * PJ0  - PIN0                      (input pulldown).
+ * PJ1  - PIN1                      (input pulldown).
+ * PJ2  - PIN2                      (input pulldown).
+ * PJ3  - PIN3                      (input pulldown).
+ * PJ4  - PIN4                      (input pulldown).
+ * PJ5  - PIN5                      (input pulldown).
+ * PJ6  - PIN6                      (input pulldown).
+ * PJ7  - PIN7                      (input pulldown).
+ * PJ8  - PIN8                      (input pulldown).
+ * PJ9  - PIN9                      (input pulldown).
+ * PJ10 - PIN10                     (input pulldown).
+ * PJ11 - PIN11                     (input pulldown).
+ * PJ12 - PIN12                     (input pulldown).
+ * PJ13 - PIN13                     (input pulldown).
+ * PJ14 - PIN14                     (input pulldown).
+ * PJ15 - PIN15                     (input pulldown).
  */
 #define VAL_GPIOJ_MODER             (PIN_MODE_INPUT(GPIOJ_PIN0) |           \
                                      PIN_MODE_INPUT(GPIOJ_PIN1) |           \
@@ -1679,22 +1544,22 @@
                                      PIN_OSPEED_VERYLOW(GPIOJ_PIN13) |      \
                                      PIN_OSPEED_VERYLOW(GPIOJ_PIN14) |      \
                                      PIN_OSPEED_VERYLOW(GPIOJ_PIN15))
-#define VAL_GPIOJ_PUPDR             (PIN_PUPDR_PULLUP(GPIOJ_PIN0) |         \
-                                     PIN_PUPDR_PULLUP(GPIOJ_PIN1) |         \
-                                     PIN_PUPDR_PULLUP(GPIOJ_PIN2) |         \
-                                     PIN_PUPDR_PULLUP(GPIOJ_PIN3) |         \
-                                     PIN_PUPDR_PULLUP(GPIOJ_PIN4) |         \
-                                     PIN_PUPDR_PULLUP(GPIOJ_PIN5) |         \
-                                     PIN_PUPDR_PULLUP(GPIOJ_PIN6) |         \
-                                     PIN_PUPDR_PULLUP(GPIOJ_PIN7) |         \
-                                     PIN_PUPDR_PULLUP(GPIOJ_PIN8) |         \
-                                     PIN_PUPDR_PULLUP(GPIOJ_PIN9) |         \
-                                     PIN_PUPDR_PULLUP(GPIOJ_PIN10) |        \
-                                     PIN_PUPDR_PULLUP(GPIOJ_PIN11) |        \
-                                     PIN_PUPDR_PULLUP(GPIOJ_PIN12) |        \
-                                     PIN_PUPDR_PULLUP(GPIOJ_PIN13) |        \
-                                     PIN_PUPDR_PULLUP(GPIOJ_PIN14) |        \
-                                     PIN_PUPDR_PULLUP(GPIOJ_PIN15))
+#define VAL_GPIOJ_PUPDR             (PIN_PUPDR_PULLDOWN(GPIOJ_PIN0) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOJ_PIN1) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOJ_PIN2) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOJ_PIN3) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOJ_PIN4) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOJ_PIN5) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOJ_PIN6) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOJ_PIN7) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOJ_PIN8) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOJ_PIN9) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOJ_PIN10) |      \
+                                     PIN_PUPDR_PULLDOWN(GPIOJ_PIN11) |      \
+                                     PIN_PUPDR_PULLDOWN(GPIOJ_PIN12) |      \
+                                     PIN_PUPDR_PULLDOWN(GPIOJ_PIN13) |      \
+                                     PIN_PUPDR_PULLDOWN(GPIOJ_PIN14) |      \
+                                     PIN_PUPDR_PULLDOWN(GPIOJ_PIN15))
 #define VAL_GPIOJ_ODR               (PIN_ODR_HIGH(GPIOJ_PIN0) |             \
                                      PIN_ODR_HIGH(GPIOJ_PIN1) |             \
                                      PIN_ODR_HIGH(GPIOJ_PIN2) |             \
@@ -1731,22 +1596,22 @@
 /*
  * GPIOK setup:
  *
- * PK0  - PIN0                      (input pullup).
- * PK1  - PIN1                      (input pullup).
- * PK2  - PIN2                      (input pullup).
- * PK3  - PIN3                      (input pullup).
- * PK4  - PIN4                      (input pullup).
- * PK5  - PIN5                      (input pullup).
- * PK6  - PIN6                      (input pullup).
- * PK7  - PIN7                      (input pullup).
- * PK8  - PIN8                      (input pullup).
- * PK9  - PIN9                      (input pullup).
- * PK10 - PIN10                     (input pullup).
- * PK11 - PIN11                     (input pullup).
- * PK12 - PIN12                     (input pullup).
- * PK13 - PIN13                     (input pullup).
- * PK14 - PIN14                     (input pullup).
- * PK15 - PIN15                     (input pullup).
+ * PK0  - PIN0                      (input pulldown).
+ * PK1  - PIN1                      (input pulldown).
+ * PK2  - PIN2                      (input pulldown).
+ * PK3  - PIN3                      (input pulldown).
+ * PK4  - PIN4                      (input pulldown).
+ * PK5  - PIN5                      (input pulldown).
+ * PK6  - PIN6                      (input pulldown).
+ * PK7  - PIN7                      (input pulldown).
+ * PK8  - PIN8                      (input pulldown).
+ * PK9  - PIN9                      (input pulldown).
+ * PK10 - PIN10                     (input pulldown).
+ * PK11 - PIN11                     (input pulldown).
+ * PK12 - PIN12                     (input pulldown).
+ * PK13 - PIN13                     (input pulldown).
+ * PK14 - PIN14                     (input pulldown).
+ * PK15 - PIN15                     (input pulldown).
  */
 #define VAL_GPIOK_MODER             (PIN_MODE_INPUT(GPIOK_PIN0) |           \
                                      PIN_MODE_INPUT(GPIOK_PIN1) |           \
@@ -1796,22 +1661,22 @@
                                      PIN_OSPEED_VERYLOW(GPIOK_PIN13) |      \
                                      PIN_OSPEED_VERYLOW(GPIOK_PIN14) |      \
                                      PIN_OSPEED_VERYLOW(GPIOK_PIN15))
-#define VAL_GPIOK_PUPDR             (PIN_PUPDR_PULLUP(GPIOK_PIN0) |         \
-                                     PIN_PUPDR_PULLUP(GPIOK_PIN1) |         \
-                                     PIN_PUPDR_PULLUP(GPIOK_PIN2) |         \
-                                     PIN_PUPDR_PULLUP(GPIOK_PIN3) |         \
-                                     PIN_PUPDR_PULLUP(GPIOK_PIN4) |         \
-                                     PIN_PUPDR_PULLUP(GPIOK_PIN5) |         \
-                                     PIN_PUPDR_PULLUP(GPIOK_PIN6) |         \
-                                     PIN_PUPDR_PULLUP(GPIOK_PIN7) |         \
-                                     PIN_PUPDR_PULLUP(GPIOK_PIN8) |         \
-                                     PIN_PUPDR_PULLUP(GPIOK_PIN9) |         \
-                                     PIN_PUPDR_PULLUP(GPIOK_PIN10) |        \
-                                     PIN_PUPDR_PULLUP(GPIOK_PIN11) |        \
-                                     PIN_PUPDR_PULLUP(GPIOK_PIN12) |        \
-                                     PIN_PUPDR_PULLUP(GPIOK_PIN13) |        \
-                                     PIN_PUPDR_PULLUP(GPIOK_PIN14) |        \
-                                     PIN_PUPDR_PULLUP(GPIOK_PIN15))
+#define VAL_GPIOK_PUPDR             (PIN_PUPDR_PULLDOWN(GPIOK_PIN0) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOK_PIN1) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOK_PIN2) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOK_PIN3) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOK_PIN4) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOK_PIN5) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOK_PIN6) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOK_PIN7) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOK_PIN8) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOK_PIN9) |       \
+                                     PIN_PUPDR_PULLDOWN(GPIOK_PIN10) |      \
+                                     PIN_PUPDR_PULLDOWN(GPIOK_PIN11) |      \
+                                     PIN_PUPDR_PULLDOWN(GPIOK_PIN12) |      \
+                                     PIN_PUPDR_PULLDOWN(GPIOK_PIN13) |      \
+                                     PIN_PUPDR_PULLDOWN(GPIOK_PIN14) |      \
+                                     PIN_PUPDR_PULLDOWN(GPIOK_PIN15))
 #define VAL_GPIOK_ODR               (PIN_ODR_HIGH(GPIOK_PIN0) |             \
                                      PIN_ODR_HIGH(GPIOK_PIN1) |             \
                                      PIN_ODR_HIGH(GPIOK_PIN2) |             \
