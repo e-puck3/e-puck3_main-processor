@@ -27,14 +27,14 @@
 /*===========================================================================*/
 
 /*
- * Setup for STMicroelectronics STM32 Nucleo144-F746ZG board.
+ * Setup for STMicroelectronics STM32 Nucleo144-F767ZI board.
  */
 
 /*
  * Board identifier.
  */
-#define BOARD_EPUCK3_PRGRAMMER
-#define BOARD_NAME                  "e-puck3 programmer"
+#define BOARD_ST_NUCLEO144_F767ZI
+#define BOARD_NAME                  "e-puck3 main processor"
 
 /*
  * Ethernet PHY type.
@@ -66,7 +66,7 @@
 /*
  * MCU type as defined in the ST header.
  */
-#define STM32F746xx
+#define STM32F779xx
 
 /*
  * IO pins assignments.
