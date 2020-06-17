@@ -78,6 +78,28 @@ static const SerialConfig ser_cfg_esp32 = {
     .cr3 = 0,
 };
 
+/*
+ * Maximum speed SPI configuration (13.5MHz, CPHA=0, CPOL=0, MSb first, 8bits).
+ */
+static const SPIConfig spicfg_imu = {
+  false,
+  NULL,
+  LINE_SPI2_CS_N_IMU,
+  /*SPI_CR1_BR_1 | */SPI_CR1_BR_0,   // clk/4
+  SPI_CR2_DS_2 | SPI_CR2_DS_1 | SPI_CR2_DS_0	//8bits
+};
+
+/*
+ * Maximum speed SPI configuration (6.75MHz, CPHA=0, CPOL=0, MSb first, 8bits).
+ */
+static const SPIConfig spicfg_press = {
+  false,
+  NULL,
+  LINE_SPI2_CS_N_PRESS,
+  SPI_CR1_BR_1 | SPI_CR1_BR_0,   // clk/8
+  SPI_CR2_DS_2 | SPI_CR2_DS_1 | SPI_CR2_DS_0	//8bits
+};
+
 
 int main(void) {
 	
@@ -94,10 +116,36 @@ int main(void) {
 	sdStart(&SD5, &ser_cfg_esp32);
 
 	chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO, Blinker, NULL);
+
+	uint8_t txbuf[2] = {0x80 | 0x0F, 0}; // read register 0x0F
+	uint8_t rxbuf[2] = {0};
   
 	while (true){
 		chThdSleepMilliseconds(500);
-		chprintf((BaseSequentialStream *)&SD5, "Un joli test \r\n");
+
+		/* IMU */
+		txbuf[0] = 0x80 | 0x0F;
+		txbuf[1] = 0;
+		spiAcquireBus(&SPID2);
+		spiStart(&SPID2, &spicfg_imu);
+		spiSelect(&SPID2);
+		spiExchange(&SPID2, 2, txbuf, rxbuf);
+		spiUnselect(&SPID2);
+		spiReleaseBus(&SPID2);
+
+		chprintf((BaseSequentialStream *)&SD5, "Register : %d %d \r\n", rxbuf[0], rxbuf[1]);
+
+		/* IMU */
+		// txbuf[0] = 0x80 | 0x0F;
+		// txbuf[1] = 0;
+		// spiAcquireBus(&SPID2);
+		// spiStart(&SPID2, &spicfg_imu);
+		// spiSelect(&SPID2);
+		// spiExchange(&SPID2, 2, txbuf, rxbuf);
+		// spiUnselect(&SPID2);
+		// spiReleaseBus(&SPID2);
+
+		// chprintf((BaseSequentialStream *)&SD5, "Register : %d %d \r\n", rxbuf[0], rxbuf[1]);
     }
 
 }
