@@ -85,18 +85,18 @@ static const SPIConfig spicfg_imu = {
   false,
   NULL,
   LINE_SPI2_CS_N_IMU,
-  /*SPI_CR1_BR_1 | */SPI_CR1_BR_0,   // clk/4
+  SPI_CR1_BR_0,   // clk/4
   SPI_CR2_DS_2 | SPI_CR2_DS_1 | SPI_CR2_DS_0	//8bits
 };
 
 /*
- * Maximum speed SPI configuration (6.75MHz, CPHA=0, CPOL=0, MSb first, 8bits).
+ * Maximum speed SPI configuration (13.5MHz, CPHA=0, CPOL=0, MSb first, 8bits).
  */
 static const SPIConfig spicfg_press = {
   false,
   NULL,
   LINE_SPI2_CS_N_PRESS,
-  SPI_CR1_BR_1 | SPI_CR1_BR_0,   // clk/8
+  SPI_CR1_BR_0,   // clk/4
   SPI_CR2_DS_2 | SPI_CR2_DS_1 | SPI_CR2_DS_0	//8bits
 };
 
@@ -139,6 +139,16 @@ int main(void) {
 	spiExchange(&SPID2, 2, txbuf, rxbuf);
 	spiUnselect(&SPID2);
 	spiReleaseBus(&SPID2);
+
+	/* PRESSURE CONFIG */
+	txbuf[0] = 0x10; // write register 0x10 (CTRL_REG1)
+	txbuf[1] = 0x50; // write 75Hz output rate
+	spiAcquireBus(&SPID2);
+	spiStart(&SPID2, &spicfg_press);
+	spiSelect(&SPID2);
+	spiExchange(&SPID2, 2, txbuf, rxbuf);
+	spiUnselect(&SPID2);
+	spiReleaseBus(&SPID2);
   
 	while (true){
 		chThdSleepMilliseconds(100);
@@ -157,17 +167,17 @@ int main(void) {
 		chprintf((BaseSequentialStream *)&SD5, "Accelerometer:     X       Y       Z\r\n");
 		chprintf((BaseSequentialStream *)&SD5, "                 %5d     %5d     %5d\r\n\r\n", (int16_t)(rxbuf[7] | rxbuf[8]<<8), (int16_t)(rxbuf[9] | rxbuf[10]<<8), (int16_t)(rxbuf[11] | rxbuf[12]<<8));
 
-		/* IMU */
-		// txbuf[0] = 0x80 | 0x0F;
-		// txbuf[1] = 0;
-		// spiAcquireBus(&SPID2);
-		// spiStart(&SPID2, &spicfg_imu);
-		// spiSelect(&SPID2);
-		// spiExchange(&SPID2, 2, txbuf, rxbuf);
-		// spiUnselect(&SPID2);
-		// spiReleaseBus(&SPID2);
-
-		// chprintf((BaseSequentialStream *)&SD5, "Register : %d %d \r\n", rxbuf[0], rxbuf[1]);
+		/* PRESSURE LPS22HD */
+		txbuf[0] = 0x80 | 0x28; // read register 0x28
+		txbuf[1] = 0;
+		spiAcquireBus(&SPID2);
+		spiStart(&SPID2, &spicfg_press);
+		spiSelect(&SPID2);
+		spiExchange(&SPID2, 1+5, txbuf, rxbuf);
+		spiUnselect(&SPID2);
+		spiReleaseBus(&SPID2);
+		chprintf((BaseSequentialStream *)&SD5, "Pressure:      %5f\r\n", (float)(rxbuf[1] | rxbuf[2]<<8 | rxbuf[3]<<16)/4096);
+		chprintf((BaseSequentialStream *)&SD5, "Temperature:   %5f\r\n\r\n", (float)(rxbuf[4] | rxbuf[5]<<8)/100);
     }
 
 }
