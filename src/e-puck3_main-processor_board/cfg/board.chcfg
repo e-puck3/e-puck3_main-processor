@@ -10,7 +10,11 @@
   </configuration_settings>
   <board_name>e-puck3 main processor</board_name>
   <board_id>EPUCK3_MAIN_PROCESSOR</board_id>
-  <board_functions></board_functions>
+  <board_functions>
+    <sdc_lld_is_card_inserted>
+  (void)sdcp;
+  return !palReadLine(LINE_SDMMC_DET_N);</sdc_lld_is_card_inserted>
+  </board_functions>
   <headers></headers>
   <ethernet_phy>
     <identifier>MII_LAN8742A_ID</identifier>

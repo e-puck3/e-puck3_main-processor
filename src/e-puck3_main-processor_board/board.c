@@ -220,8 +220,7 @@ void __early_init(void) {
 bool sdc_lld_is_card_inserted(SDCDriver *sdcp) {
 
   (void)sdcp;
-  /* CHTODO: Fill the implementation.*/
-  return true;
+  return !palReadLine(LINE_SDMMC_DET_N);
 }
 
 /**
