@@ -681,7 +681,7 @@
     </GPIOE>
     <GPIOF>
       <pin0
-        ID="USSR_BUTTON_N"
+        ID="USER_BUTTON_N"
         Type="PushPull"
         Level="High"
         Speed="Maximum"
