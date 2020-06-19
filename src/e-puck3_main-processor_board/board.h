@@ -733,11 +733,11 @@
                                      PIN_PUPDR_PULLDOWN(GPIOC_PIN5) |       \
                                      PIN_PUPDR_FLOATING(GPIOC_USART6_TX) |  \
                                      PIN_PUPDR_FLOATING(GPIOC_USART6_RX) |  \
-                                     PIN_PUPDR_FLOATING(GPIOC_SDMMC1_D0) |  \
-                                     PIN_PUPDR_FLOATING(GPIOC_SDMMC1_D1) |  \
-                                     PIN_PUPDR_FLOATING(GPIOC_SDMMC1_D2) |  \
-                                     PIN_PUPDR_FLOATING(GPIOC_SDMMC1_D3) |  \
-                                     PIN_PUPDR_FLOATING(GPIOC_SDMMC1_CK) |  \
+                                     PIN_PUPDR_PULLUP(GPIOC_SDMMC1_D0) |    \
+                                     PIN_PUPDR_PULLUP(GPIOC_SDMMC1_D1) |    \
+                                     PIN_PUPDR_PULLUP(GPIOC_SDMMC1_D2) |    \
+                                     PIN_PUPDR_PULLUP(GPIOC_SDMMC1_D3) |    \
+                                     PIN_PUPDR_PULLUP(GPIOC_SDMMC1_CK) |    \
                                      PIN_PUPDR_PULLDOWN(GPIOC_PIN13) |      \
                                      PIN_PUPDR_PULLDOWN(GPIOC_PIN14) |      \
                                      PIN_PUPDR_PULLDOWN(GPIOC_PIN15))
@@ -844,7 +844,7 @@
                                      PIN_OSPEED_HIGH(GPIOD_TIM4_CH4_EXTCLK_DCMI))
 #define VAL_GPIOD_PUPDR             (PIN_PUPDR_FLOATING(GPIOD_CAN1_RX) |    \
                                      PIN_PUPDR_FLOATING(GPIOD_CAN1_TX) |    \
-                                     PIN_PUPDR_FLOATING(GPIOD_SDMMC1_CMD) | \
+                                     PIN_PUPDR_PULLUP(GPIOD_SDMMC1_CMD) |   \
                                      PIN_PUPDR_FLOATING(GPIOD_SPI2_SCK_IMU_PRESS) |\
                                      PIN_PUPDR_FLOATING(GPIOD_IMU_INT1) |   \
                                      PIN_PUPDR_FLOATING(GPIOD_USART2_TX) |  \

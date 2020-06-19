@@ -359,7 +359,7 @@
         Type="PushPull"
         Level="High"
         Speed="Maximum"
-        Resistor="Floating"
+        Resistor="PullUp"
         Mode="Alternate"
         Alternate="12" />
       <pin9
@@ -367,7 +367,7 @@
         Type="PushPull"
         Level="High"
         Speed="Maximum"
-        Resistor="Floating"
+        Resistor="PullUp"
         Mode="Alternate"
         Alternate="12" />
       <pin10
@@ -375,7 +375,7 @@
         Type="PushPull"
         Level="High"
         Speed="Maximum"
-        Resistor="Floating"
+        Resistor="PullUp"
         Mode="Alternate"
         Alternate="12" />
       <pin11
@@ -383,7 +383,7 @@
         Type="PushPull"
         Level="High"
         Speed="Maximum"
-        Resistor="Floating"
+        Resistor="PullUp"
         Mode="Alternate"
         Alternate="12" />
       <pin12
@@ -391,7 +391,7 @@
         Type="PushPull"
         Level="High"
         Speed="Maximum"
-        Resistor="Floating"
+        Resistor="PullUp"
         Mode="Alternate"
         Alternate="12" />
       <pin13
@@ -441,7 +441,7 @@
         Type="PushPull"
         Level="High"
         Speed="Maximum"
-        Resistor="Floating"
+        Resistor="PullUp"
         Mode="Alternate"
         Alternate="12" />
       <pin3
