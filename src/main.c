@@ -220,12 +220,13 @@ int main(void) {
 	halInit();
 	chSysInit();
 
-	sdStart(&SD5, &ser_cfg_esp32);
-	spawn_shell();
-
 	// DMA can't access correctly cached data
 	// Disabled for now
 	SCB_DisableDCache();
+
+
+	sdStart(&SD5, &ser_cfg_esp32);
+	spawn_shell();
 
 	chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO, Blinker, NULL);
 
@@ -276,27 +277,27 @@ int main(void) {
 	vl53l1_dev.I2cHandle = &I2CD1;
 	vl53l1_dev.I2cDevAddr = 0x52; //8bit address
 	VL53L1_RdByte(&vl53l1_dev, 0x010F, &byteData);
-	chprintf((BaseSequentialStream *)&SD5, "VL53L1X Model_ID: %02X\n\r", byteData);
+	// chprintf((BaseSequentialStream *)&SD5, "VL53L1X Model_ID: %02X\n\r", byteData);
 	VL53L1_RdByte(&vl53l1_dev, 0x0110, &byteData);
-	chprintf((BaseSequentialStream *)&SD5, "VL53L1X Module_Type: %02X\n\r", byteData);
+	// chprintf((BaseSequentialStream *)&SD5, "VL53L1X Module_Type: %02X\n\r", byteData);
 	VL53L1_RdWord(&vl53l1_dev, 0x010F, &wordData);
-	chprintf((BaseSequentialStream *)&SD5, "VL53L1X: %02X\n\r", wordData);
+	// chprintf((BaseSequentialStream *)&SD5, "VL53L1X: %02X\n\r", wordData);
 	status = VL53L1_WaitDeviceBooted(&vl53l1_dev);
-	chprintf((BaseSequentialStream *)&SD5, "VL53L1_WaitDeviceBooted %d\r\n", status);
+	// chprintf((BaseSequentialStream *)&SD5, "VL53L1_WaitDeviceBooted %d\r\n", status);
 	status = VL53L1_DataInit(&vl53l1_dev);
-	chprintf((BaseSequentialStream *)&SD5, "VL53L1_DataInit %d\r\n", status);
+	// chprintf((BaseSequentialStream *)&SD5, "VL53L1_DataInit %d\r\n", status);
 	status = VL53L1_StaticInit(&vl53l1_dev);
-	chprintf((BaseSequentialStream *)&SD5, "VL53L1_StaticInit %d\r\n", status);
+	// chprintf((BaseSequentialStream *)&SD5, "VL53L1_StaticInit %d\r\n", status);
 	status = VL53L1_SetPresetMode(&vl53l1_dev, VL53L1_PRESETMODE_LITE_RANGING);
-	chprintf((BaseSequentialStream *)&SD5, "VL53L1_SetPresetMode %d\r\n", status);
+	// chprintf((BaseSequentialStream *)&SD5, "VL53L1_SetPresetMode %d\r\n", status);
 	status = VL53L1_SetDistanceMode(&vl53l1_dev, VL53L1_DISTANCEMODE_SHORT);
-	chprintf((BaseSequentialStream *)&SD5, "VL53L1_SetDistanceMode %d\r\n", status);
+	// chprintf((BaseSequentialStream *)&SD5, "VL53L1_SetDistanceMode %d\r\n", status);
 	status = VL53L1_SetMeasurementTimingBudgetMicroSeconds(&vl53l1_dev, 20000);
-	chprintf((BaseSequentialStream *)&SD5, "VL53L1_SetMeasurementTimingBudgetMicroSeconds %d\r\n", status);
+	// chprintf((BaseSequentialStream *)&SD5, "VL53L1_SetMeasurementTimingBudgetMicroSeconds %d\r\n", status);
 	// status = VL53L1_SetInterMeasurementPeriodMilliSeconds(&vl53l1_dev, 100);
 	// chprintf((BaseSequentialStream *)&SD5, "VL53L1_SetInterMeasurementPeriodMilliSeconds %d\r\n", status);
 	status = VL53L1_StartMeasurement(&vl53l1_dev);
-	chprintf((BaseSequentialStream *)&SD5, "VL53L1_StartMeasurement %d\r\n", status);
+	// chprintf((BaseSequentialStream *)&SD5, "VL53L1_StartMeasurement %d\r\n", status);
 	uint8_t first_time = 1;
 
 	// i2c_test(&vl53l1_dev);
@@ -306,47 +307,47 @@ int main(void) {
   
 	while (true){
 		chThdSleepMilliseconds(100);
-		/* IMU READING */
-		// txbuf[0] = 0x80 | 0x22; // read register 0x22
-		// txbuf[1] = 0;
-		// spiAcquireBus(&SPID2);
-		// spiStart(&SPID2, &spicfg_imu);
-		// spiSelect(&SPID2);
-		// spiExchange(&SPID2, 1+12, txbuf, rxbuf);
-		// spiUnselect(&SPID2);
-		// spiReleaseBus(&SPID2);
-		// chprintf((BaseSequentialStream *)&SD5, "gyroscope:         X       Y       Z\r\n");
-		// chprintf((BaseSequentialStream *)&SD5, "                 %5d     %5d     %5d\r\n", (int16_t)(rxbuf[1] | rxbuf[2]<<8), (int16_t)(rxbuf[3] | rxbuf[4]<<8), (int16_t)(rxbuf[5] | rxbuf[6]<<8));
-		// chprintf((BaseSequentialStream *)&SD5, "Accelerometer:     X       Y       Z\r\n");
-		// chprintf((BaseSequentialStream *)&SD5, "                 %5d     %5d     %5d\r\n\r\n", (int16_t)(rxbuf[7] | rxbuf[8]<<8), (int16_t)(rxbuf[9] | rxbuf[10]<<8), (int16_t)(rxbuf[11] | rxbuf[12]<<8));
+		if(!palReadLine(LINE_USER_BUTTON_N)){
+			/* IMU READING */
+			txbuf[0] = 0x80 | 0x22; // read register 0x22
+			txbuf[1] = 0;
+			spiAcquireBus(&SPID2);
+			spiStart(&SPID2, &spicfg_imu);
+			spiSelect(&SPID2);
+			spiExchange(&SPID2, 1+12, txbuf, rxbuf);
+			spiUnselect(&SPID2);
+			spiReleaseBus(&SPID2);
+			chprintf((BaseSequentialStream *)&SD5, "gyroscope:         X       Y       Z\r\n");
+			chprintf((BaseSequentialStream *)&SD5, "                 %5d     %5d     %5d\r\n", (int16_t)(rxbuf[1] | rxbuf[2]<<8), (int16_t)(rxbuf[3] | rxbuf[4]<<8), (int16_t)(rxbuf[5] | rxbuf[6]<<8));
+			chprintf((BaseSequentialStream *)&SD5, "Accelerometer:     X       Y       Z\r\n");
+			chprintf((BaseSequentialStream *)&SD5, "                 %5d     %5d     %5d\r\n\r\n", (int16_t)(rxbuf[7] | rxbuf[8]<<8), (int16_t)(rxbuf[9] | rxbuf[10]<<8), (int16_t)(rxbuf[11] | rxbuf[12]<<8));
 
-		// // /* PRESSURE LPS22HD */
-		// txbuf[0] = 0x80 | 0x28; // read register 0x28
-		// txbuf[1] = 0;
-		// spiAcquireBus(&SPID2);
-		// spiStart(&SPID2, &spicfg_press);
-		// spiSelect(&SPID2);
-		// spiExchange(&SPID2, 1+5, txbuf, rxbuf);
-		// spiUnselect(&SPID2);
-		// spiReleaseBus(&SPID2);
-		// chprintf((BaseSequentialStream *)&SD5, "Pressure:      %5f\r\n", (float)(rxbuf[1] | rxbuf[2]<<8 | rxbuf[3]<<16)/4096);
-		// chprintf((BaseSequentialStream *)&SD5, "Temperature:   %5f\r\n\r\n", (float)(rxbuf[4] | rxbuf[5]<<8)/100);
+			/* PRESSURE LPS22HD */
+			txbuf[0] = 0x80 | 0x28; // read register 0x28
+			txbuf[1] = 0;
+			spiAcquireBus(&SPID2);
+			spiStart(&SPID2, &spicfg_press);
+			spiSelect(&SPID2);
+			spiExchange(&SPID2, 1+5, txbuf, rxbuf);
+			spiUnselect(&SPID2);
+			spiReleaseBus(&SPID2);
+			chprintf((BaseSequentialStream *)&SD5, "Pressure:      %5f\r\n", (float)(rxbuf[1] | rxbuf[2]<<8 | rxbuf[3]<<16)/4096);
+			chprintf((BaseSequentialStream *)&SD5, "Temperature:   %5f\r\n\r\n", (float)(rxbuf[4] | rxbuf[5]<<8)/100);
 
-		// /* DISTANCE SENSOR READING */
-		// status = VL53L1_WaitMeasurementDataReady(&vl53l1_dev);
-		// if(status == 0){
-		// 	if(first_time){
-		// 		VL53L1_ClearInterruptAndStartMeasurement(&vl53l1_dev);
-		// 		first_time = 0;
-		// 	}else{
-		// 		status = VL53L1_GetRangingMeasurementData(&vl53l1_dev, &RangingData);
-		// 		chprintf((BaseSequentialStream *)&SD5, "status: %d, distance: %d, signal rate: %.2f, ambiant rate: %.2f time: %d\r\n\r\n", RangingData.RangeStatus,RangingData.RangeMilliMeter,
-		// 										RangingData.SignalRateRtnMegaCps/65536.0,RangingData.AmbientRateRtnMegaCps/65336.0, chVTGetSystemTime());
-		// 		VL53L1_ClearInterruptAndStartMeasurement(&vl53l1_dev);
-		// 	}
-		// }
-
-		
+			/* DISTANCE SENSOR READING */
+			status = VL53L1_WaitMeasurementDataReady(&vl53l1_dev);
+			if(status == 0){
+				if(first_time){
+					VL53L1_ClearInterruptAndStartMeasurement(&vl53l1_dev);
+					first_time = 0;
+				}else{
+					status = VL53L1_GetRangingMeasurementData(&vl53l1_dev, &RangingData);
+					chprintf((BaseSequentialStream *)&SD5, "status: %d, distance: %d, signal rate: %.2f, ambiant rate: %.2f time: %d\r\n\r\n", RangingData.RangeStatus,RangingData.RangeMilliMeter,
+													RangingData.SignalRateRtnMegaCps/65536.0,RangingData.AmbientRateRtnMegaCps/65336.0, chVTGetSystemTime());
+					VL53L1_ClearInterruptAndStartMeasurement(&vl53l1_dev);
+				}
+			}
+		}
 		
     }
 
