@@ -14,14 +14,16 @@
 
 #include "chprintf.h"
 #include "user_shell.h"
+#include "fatfs_cmd.h"
 
 
-static THD_WORKING_AREA(waShell,2048);
+static THD_WORKING_AREA(waShell,4096);
 
 static char sc_histbuf[SHELL_MAX_HIST_BUFF];
 static char* completion_buffer[SHELL_MAX_COMPLETIONS];
 
 static const ShellCommand commands[] = {
+  FATFS_SHELL_CMD
   {NULL, NULL}
 };
 

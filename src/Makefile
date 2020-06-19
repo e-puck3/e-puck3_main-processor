@@ -140,7 +140,8 @@ CSRC = $(ALLCSRC) \
        main.c \
        panic.c \
        $(VL53L1_SRC) \
-       user_shell.c
+       user_shell.c \
+       fatfs_cmd.c
 
 
 

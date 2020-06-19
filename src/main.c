@@ -223,6 +223,10 @@ int main(void) {
 	sdStart(&SD5, &ser_cfg_esp32);
 	spawn_shell();
 
+	// DMA can't access correctly cached data
+	// Disabled for now
+	SCB_DisableDCache();
+
 	chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO, Blinker, NULL);
 
 	uint8_t txbuf[30];
