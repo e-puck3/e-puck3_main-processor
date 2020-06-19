@@ -766,6 +766,7 @@ void panic_handler(const char *reason);
 #define SHELL_USE_COMPLETION    TRUE
 #define SHELL_USE_ESC_SEQ       TRUE
 #define SHELL_CMD_TEST_ENABLED  FALSE
+#define SHELL_THREAD_NAME       "UART shell"
 #endif  /* CHCONF_H */
 
 /** @} */

@@ -140,6 +140,7 @@ CSRC = $(ALLCSRC) \
        main.c \
        panic.c \
        $(VL53L1_SRC) \
+       user_shell.c
 
 
 
