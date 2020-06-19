@@ -141,7 +141,9 @@ CSRC = $(ALLCSRC) \
        panic.c \
        $(VL53L1_SRC) \
        user_shell.c \
-       fatfs_cmd.c
+       fatfs_cmd.c \
+       dfsdm.c \
+       dfsdm_cmd.c
 
 
 

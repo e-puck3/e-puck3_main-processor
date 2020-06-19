@@ -14,6 +14,7 @@
 #include "chprintf.h"
 #include "vl53l1_api.h"
 #include "user_shell.h"
+#include "dfsdm.h"
 
 // #define I2C_TEST
 // #ifdef I2C_TEST
@@ -304,6 +305,9 @@ int main(void) {
 
 	// SD CARD CONFIG //
 	sdcStart(&SDCD1, &sd_card_config);
+
+	/* MICROPHONES CONFIG */
+	dfsdm_start();
   
 	while (true){
 		chThdSleepMilliseconds(100);

@@ -161,6 +161,16 @@
 #define STM32_ADC_ADC2_DMA_IRQ_PRIORITY     6
 #define STM32_ADC_ADC3_DMA_IRQ_PRIORITY     6
 
+/* DFSDM microphones settings. */
+#define STM32_DFSDM_FLT0_DMA_STREAM         STM32_DMA_STREAM_ID(2, 4)
+#define STM32_DFSDM_FLT1_DMA_STREAM         STM32_DMA_STREAM_ID(2, 5)
+#define DFSDM_FLT0_DMA_CHN                  8
+#define DFSDM_FLT1_DMA_CHN                  8
+#define STM32_DFSDM_FLT0_DMA_PRIORITY       2
+#define STM32_DFSDM_FLT1_DMA_PRIORITY       2
+#define STM32_DFSDM_FLT0_DMA_IRQ_PRIORITY   6
+#define STM32_DFSDM_FLT1_DMA_IRQ_PRIORITY   6
+
 /*
  * CAN driver system settings.
  */
