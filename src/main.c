@@ -199,6 +199,14 @@ static const I2CConfig i2c2config_vl53l1 = {
 };
 static VL53L1_Dev_t vl53l1_dev;
 
+/*
+ * SD card configuration object.
+ */
+static const SDCConfig sd_card_config = {
+    .bus_width = SDC_MODE_4BIT,
+};
+
+
 int main(void) {
 	
 	/*
@@ -286,6 +294,9 @@ int main(void) {
 	uint8_t first_time = 1;
 
 	// i2c_test(&vl53l1_dev);
+
+	// SD CARD CONFIG //
+	sdcStart(&SDCD1, &sd_card_config);
   
 	while (true){
 		chThdSleepMilliseconds(100);

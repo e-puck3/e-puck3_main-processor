@@ -116,6 +116,7 @@ include $(CHIBIOS)/os/common/ports/ARMCMx/compilers/GCC/mk/port_v7m.mk
 # include $(CHIBIOS)/test/oslib/oslib_test.mk
 include $(CHIBIOS)/os/hal/lib/streams/streams.mk
 include $(CHIBIOS)/os/various/shell/shell.mk
+include ../fatfs/fatfs.mk
 
 # THDULIB = ../threads_utilities_ChibiOS
 # USE_THREADS_TIMESTAMPS = true
