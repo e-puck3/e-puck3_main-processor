@@ -9,7 +9,8 @@
 #ifndef USER_SHELL_H
 #define USER_SHELL_H
 
-#define SHELL_PORT		SD5
+#include "usbcfg.h"
+#define SHELL_PORT		SDU1
 
 
 /**

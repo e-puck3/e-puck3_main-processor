@@ -14,6 +14,7 @@
 #include "chprintf.h"
 #include "vl53l1_api.h"
 #include "user_shell.h"
+#include "usbcfg.h"
 #include "dfsdm.h"
 
 // #define I2C_TEST
@@ -225,9 +226,15 @@ int main(void) {
 	// Disabled for now
 	SCB_DisableDCache();
 
+	// enables the USB HS PHY
+	palSetLine(LINE_EN_PHY_HS);
+
+	chThdSleepMilliseconds(100);
+	usbSerialStart();
+
 
 	sdStart(&SD5, &ser_cfg_esp32);
-	spawn_shell();
+	//spawn_shell();
 
 	chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO, Blinker, NULL);
 
@@ -311,6 +318,12 @@ int main(void) {
   
 	while (true){
 		chThdSleepMilliseconds(100);
+
+		if(isUSBConfigured()){
+			//spawns the shell if the usb is connected
+			spawn_shell();
+		}
+
 		if(!palReadLine(LINE_USER_BUTTON_N)){
 			/* IMU READING */
 			txbuf[0] = 0x80 | 0x22; // read register 0x22

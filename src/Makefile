@@ -143,7 +143,8 @@ CSRC = $(ALLCSRC) \
        user_shell.c \
        fatfs_cmd.c \
        dfsdm.c \
-       dfsdm_cmd.c
+       dfsdm_cmd.c \
+       usbcfg.c
 
 
 
