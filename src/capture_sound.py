@@ -41,25 +41,26 @@ def parse_args():
 
 def main():
     args = parse_args()
-    conn = serial.Serial(args.port, args.baudrate)
+    # conn = serial.Serial(args.port, args.baudrate)
 
-    # First place the board in dfsdm acquisition mode
-    if args.left:
-        conn.write("dfsdm mic1\r\n".encode())
-    else:
-        conn.write("dfsdm mic2\r\n".encode())
-    buf = bytes()
-    print("Placing board in acquisition mode... ", end="")
-    while not buf.decode().endswith("Done !\r\n"):
-        buf = buf + conn.read(1)
-    print("done")
+    # # First place the board in dfsdm acquisition mode
+    # if args.left:
+    #     conn.write("dfsdm left\r\n".encode())
+    # else:
+    #     conn.write("dfsdm right\r\n".encode())
+    # buf = bytes()
+    # print("Placing board in acquisition mode... ", end="")
+    # while not buf.decode().endswith("Done !\r\n"):
+    #     buf = buf + conn.read(1)
+    # print("done")
 
+    file = open(args.port,'rb')
     # Then read the whole sample out
     buf = bytes()
     pbar = progressbar.ProgressBar(maxval=args.length).start()
     while len(buf) < 4 * args.length:
         pbar.update(len(buf) / 4)
-        buf += conn.read(100)
+        buf += file.read(100)
     pbar.finish()
 
     # Unpack the buffer (sent as a 32 bit integers)
@@ -70,6 +71,8 @@ def main():
         gain = args.gain
     else:
         gain = ((2**31) - 1) / max(abs(s) for s in data)
+
+    print('gain = ', gain)
 
     # Write the WAV file
     with wave.open(args.output, 'wb') as f:

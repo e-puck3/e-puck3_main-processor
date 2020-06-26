@@ -6,7 +6,7 @@
 #include "dfsdm_cmd.h"
 #include "fatfs_cmd.h"
 
-#define AUDIO_BUFFER_SIZE 1024
+#define AUDIO_BUFFER_SIZE 8192
 #define TIME_TO_RECORD_S 4
 #define NB_BYTES_TO_WRITE (43600 * TIME_TO_RECORD_S * 4)
 
@@ -31,7 +31,20 @@ typedef struct wav_header {
     int32_t data_bytes; // Number of bytes in data. Number of samples * num_channels * sample byte size
     // uint8_t bytes[]; // Remainder of wave file is bytes
 } wav_header;
-static wav_header my_wav;
+
+static uint8_t wav_header_raw[] = { 0x52, 0x49, 0x46, 0x46, 
+                                    0xe4, 0x9e, 0x0a, 0x00, 
+                                    0x57, 0x41, 0x56, 0x45, 
+                                    0x66, 0x6d, 0x74, 0x20,
+                                    0x10, 0x00, 0x00, 0x00, 
+                                    0x01, 0x00, 
+                                    0x01, 0x00, 
+                                    0x44, 0xac, 0x00, 0x00, 
+                                    0x10, 0xb1, 0x02, 0x00, 
+                                    0x04, 0x00, 
+                                    0x20, 0x00, 
+                                    0x64, 0x61, 0x74, 0x61, 
+                                    0xc0, 0x9e, 0x0a, 0x00};
 
 BSEMAPHORE_DECL(data_ready, true);
 static int32_t *samples;
@@ -88,8 +101,6 @@ void cmd_dfsdm(BaseSequentialStream *chp, int argc, char *argv[])
     UINT nb_bytes;
     uint32_t bytes_written = 0;
     systime_t begin_time = 0;
-    // uint8_t samples_to_read = 4; // we read 4 bytes at a time (one uint32_t sample)
-    // uint8_t buffer[samples_to_read] ;
 
     if (argc != 1) {
         chprintf(chp, "Usage: dfsdm mic1|mic2\r\n");
@@ -160,58 +171,55 @@ void cmd_dfsdm(BaseSequentialStream *chp, int argc, char *argv[])
             dfsdm_stop_conversion();
             chprintf(chp, "Captured %d samples in %d msec\r\n", bytes_written/4, chVTGetSystemTime() - begin_time);
 
-            // err = f_open(&file_dat, "sound.dat", FA_READ);
-            // if (err != FR_OK) {
-            //     fverbose_error(chp, err);
-            //     return;
-            // }
-            // err = f_open(&file_wav, "sound.wav", FA_READ | FA_WRITE | FA_CREATE_ALWAYS);
-            // if (err != FR_OK) {
-            //     fverbose_error(chp, err);
-            //     return;
-            // }
-            // strcpy(my_wav.riff_header, "RIFF");
-            // my_wav.wav_size = 36 + bytes_written; //Given in bytes: 36 bytes for header
-            // strcpy(my_wav.wave_header, "WAVE");
-            // strcpy(my_wav.fmt_header, "fmt ");
-            // my_wav.fmt_chunk_size = 16;
-            // my_wav.audio_format = 1;
-            // my_wav.num_channels = 1;
-            // my_wav.sample_rate = 44100;
-            // my_wav.byte_rate = 44100;
-            // my_wav.sample_alignment = 2;
-            // my_wav.bit_depth = 16;
-            // strcpy(my_wav.data_header, "data");
-            // my_wav.data_bytes = bytes_written;
+            err = f_open(&file_dat, "sound.dat", FA_READ);
+            if (err != FR_OK) {
+                fverbose_error(chp, err);
+                return;
+            }
+            err = f_open(&file_wav, "sound.wav", FA_READ | FA_WRITE | FA_CREATE_ALWAYS);
+            if (err != FR_OK) {
+                fverbose_error(chp, err);
+                return;
+            }
 
-            // err = f_write(&file_wav, &my_wav, sizeof(my_wav), &nb_bytes);
-            // if (err != FR_OK) {
-            //     fverbose_error(chp, err);
-            //     return;
-            // }
+            uint32_t* pointer = (uint32_t*)wav_header_raw;
 
-            //  /*
-            //  * Do while the number of bytes read is equal to the number of bytes to read
-            //  * (the buffer is filled)
-            //  */
-            // do {
-            //     /*
-            //      * Clear the buffer.
-            //      */
-            //     memset(Buffer,0,sizeof(Buffer));
-            //     /*
-            //      * Read the file.
-            //      */
-            //     err=f_read(&fsrc, Buffer, ByteToRead, &nb_bytes);
-            //     if (err != FR_OK) {
-            //         chprintf(chp, "FS: f_read() failed\r\n");
-            //         fverbose_error(chp, err);
-            //         f_close(&fsrc);
-            //         return;
-            //     }
-            //     chprintf(chp, "%s", Buffer);
-            // } while (nb_bytes>=ByteToRead);
+            pointer[1] = 36 + bytes_written;
+            pointer[10] = bytes_written;
 
+
+            err = f_write(&file_wav, wav_header_raw, sizeof(wav_header_raw), &nb_bytes);
+            if (err != FR_OK) {
+                fverbose_error(chp, err);
+                return;
+            }
+            uint8_t buffer[4];
+            uint32_t* ptr = (uint32_t*)buffer;
+            UINT nb_written = 0;
+            chprintf(chp, "Creating the WAV file\r\n");
+             /*
+             * Do while the number of bytes read is equal to the number of bytes to read
+             * (the buffer is filled)
+             */
+            do {
+                /*
+                 * Read the file.
+                 */
+                err = f_read(&file_dat, buffer, 4, &nb_bytes);
+                if (err != FR_OK) {
+                    fverbose_error(chp, err);
+                    return;
+                }
+                ptr[0] *= 5900;
+                err = f_write(&file_wav, buffer, nb_bytes, &nb_written);
+                if (err != FR_OK) {
+                    fverbose_error(chp, err);
+                    return;
+                }
+            } while (nb_bytes>=4);
+
+            f_close(&file_dat);
+            f_close(&file_wav);
             unmountSDCard();
             return;
         }
