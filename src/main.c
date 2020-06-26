@@ -315,6 +315,13 @@ int main(void) {
 
 	/* MICROPHONES CONFIG */
 	dfsdm_start();
+
+	/* USB DATARATE TEST CONFIG */
+	// static uint8_t tab[80000];
+
+	// for(uint32_t i = 0 ; i < 80000 ; i++){
+	// 	tab[i] = (uint8_t)i;
+	// }
   
 	while (true){
 		chThdSleepMilliseconds(100);
@@ -364,6 +371,15 @@ int main(void) {
 					VL53L1_ClearInterruptAndStartMeasurement(&vl53l1_dev);
 				}
 			}
+
+			/* USB DATARATE TEST  */
+			// //Sends 60MB of data
+			// systime_t begin_time = chVTGetSystemTime();
+			// chprintf((BaseSequentialStream *)&SDU1,"Begins the test\r\n"); 
+			// for(uint32_t i = 0 ; i < 750 ; i++){
+			// 	streamWrite((BaseSequentialStream *)&SDU1, tab, 80000);
+			// }
+			// chprintf((BaseSequentialStream *)&SDU1,"Test finished in %d ms\r\n\r\n", chVTGetSystemTime() - begin_time); 
 		}
 		
     }
