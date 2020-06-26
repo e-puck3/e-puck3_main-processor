@@ -641,6 +641,9 @@ void usbSerialStart(void){
   usbDisconnectBus(serusbcfg1.usbp);
   chThdSleepMilliseconds(100);
   usbStart(serusbcfg1.usbp, &usbcfg);
+  // Enables the XCVRDLY bit to add a delay for the chirp sequence 
+  // Needed with the USB3333 transceiver to enumerate at USB HS speed
+  serusbcfg1.usbp->otg->DCFG |= (1<<14);
   usbConnectBus(serusbcfg1.usbp);
 }
 

@@ -61,7 +61,7 @@ typedef enum{
     NUM_CONTROL_LINE,
 }control_line_t;
 
-#define USB_DATA_SIZE                   0x40
+#define USB_DATA_SIZE                   0x200
 
 extern const USBConfig usbcfg;
 extern SerialUSBDriver SDU1;
