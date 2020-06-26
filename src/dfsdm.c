@@ -84,13 +84,13 @@ void dfsdm_start(void)
      * As the microphone dont have a clock output, we reuse the internal clock.
      *
      * Channel 2 is connected on the input from channel 3 (CHINSEL=1)
-     * Channel 3 data are on rising edge (SITP=0), while channel 1 are on falling edge(SITP=1).
+     * Channel 3 data are on falling edge (SITP=1), while channel 2 are on rising edge(SITP=1).
      */
     DFSDM1_Channel2->CHCFGR1 |= DFSDM_CHCFGR1_CHINSEL;
     DFSDM1_Channel2->CHCFGR1 |= DFSDM_CHCFGR1_SPICKSEL_0;
+    DFSDM1_Channel2->CHCFGR1 |= DFSDM_CHCFGR1_SITP_0;
 
     DFSDM1_Channel3->CHCFGR1 |= DFSDM_CHCFGR1_SPICKSEL_0;
-    DFSDM1_Channel3->CHCFGR1 |= DFSDM_CHCFGR1_SITP_0;
 
     /* Enable channel 0 and 1. */
     DFSDM1_Channel2->CHCFGR1 |= DFSDM_CHCFGR1_CHEN;
