@@ -82,11 +82,27 @@ static DFSDM_config_t mic1_cfg = {
     .samples_len = AUDIO_BUFFER_SIZE
 };
 
-// static int32_t mic2_buffer[AUDIO_BUFFER_SIZE];
+static int32_t mic2_buffer[AUDIO_BUFFER_SIZE];
 static DFSDM_config_t mic2_cfg = {
     .end_cb = dfsdm_data_callback,
     .error_cb = dfsdm_err_cb,
-    .samples = mic1_buffer,
+    .samples = mic2_buffer,
+    .samples_len = AUDIO_BUFFER_SIZE
+};
+
+static int32_t mic3_buffer[AUDIO_BUFFER_SIZE];
+static DFSDM_config_t mic3_cfg = {
+    .end_cb = dfsdm_data_callback,
+    .error_cb = dfsdm_err_cb,
+    .samples = mic3_buffer,
+    .samples_len = AUDIO_BUFFER_SIZE
+};
+
+static int32_t mic4_buffer[AUDIO_BUFFER_SIZE];
+static DFSDM_config_t mic4_cfg = {
+    .end_cb = dfsdm_data_callback,
+    .error_cb = dfsdm_err_cb,
+    .samples = mic4_buffer,
     .samples_len = AUDIO_BUFFER_SIZE
 };
 
@@ -103,7 +119,7 @@ void cmd_dfsdm(BaseSequentialStream *chp, int argc, char *argv[])
     systime_t begin_time = 0;
 
     if (argc != 1) {
-        chprintf(chp, "Usage: dfsdm mic1|mic2\r\n");
+        chprintf(chp, "Usage: dfsdm mic1|mic2|mic3|mic4\r\n");
         return;
     }
 
@@ -111,30 +127,46 @@ void cmd_dfsdm(BaseSequentialStream *chp, int argc, char *argv[])
     if (!strcmp(argv[0], "mic1")) {
         mic1_cfg.cb_arg = (void*) 1;
         mic2_cfg.cb_arg = (void*) 0;
-    } else {
+        mic3_cfg.cb_arg = (void*) 0;
+        mic4_cfg.cb_arg = (void*) 0;
+    } else if(!strcmp(argv[0], "mic2")) {
         mic1_cfg.cb_arg = (void*) 0;
         mic2_cfg.cb_arg = (void*) 1;
-    }
-
-    if (!mountSDCard()) {
-        chprintf(chp, "FS: f_mount() failed. Is the SD card inserted?\r\n");
+        mic3_cfg.cb_arg = (void*) 0;
+        mic4_cfg.cb_arg = (void*) 0;
+    } else if(!strcmp(argv[0], "mic3")) {
+        mic1_cfg.cb_arg = (void*) 0;
+        mic2_cfg.cb_arg = (void*) 0;
+        mic3_cfg.cb_arg = (void*) 1;
+        mic4_cfg.cb_arg = (void*) 0;
+    } else if(!strcmp(argv[0], "mic4")) {
+        mic1_cfg.cb_arg = (void*) 0;
+        mic2_cfg.cb_arg = (void*) 0;
+        mic3_cfg.cb_arg = (void*) 0;
+        mic4_cfg.cb_arg = (void*) 1;
+    } else{
         return;
     }
+
+    // if (!mountSDCard()) {
+    //     chprintf(chp, "FS: f_mount() failed. Is the SD card inserted?\r\n");
+    //     return;
+    // }
 
      /*
      * Open the text file
      */
-    err = f_open(&file_dat, "sound.dat", FA_READ | FA_WRITE | FA_CREATE_ALWAYS);
-    if (err != FR_OK) {
-        chprintf(chp, "FS: f_open(\"sound.dat\") failed.\r\n");
-        fverbose_error(chp, err);
-        return;
-    } else {
-        chprintf(chp, "FS: f_open(\"sound.dat\") succeeded\r\n");
-    }
+    // err = f_open(&file_dat, "sound.dat", FA_READ | FA_WRITE | FA_CREATE_ALWAYS);
+    // if (err != FR_OK) {
+    //     chprintf(chp, "FS: f_open(\"sound.dat\") failed.\r\n");
+    //     fverbose_error(chp, err);
+    //     return;
+    // } else {
+    //     chprintf(chp, "FS: f_open(\"sound.dat\") succeeded\r\n");
+    // }
 
     begin_time = chVTGetSystemTime();
-    dfsdm_start_conversion(&mic1_cfg, &mic2_cfg);
+    dfsdm_start_conversion(&mic1_cfg, &mic2_cfg, &mic3_cfg, &mic4_cfg);
 
     chprintf(chp, "Done !\r\n");
 
@@ -155,74 +187,72 @@ void cmd_dfsdm(BaseSequentialStream *chp, int argc, char *argv[])
             x = samples[i];
             y = alpha * y + alpha * (x - x_prev);
             x_prev = x;
-            samples[i] = y;
+            samples[i] = (y<<13); // we have a 19bits encoded on a 32 bits
         }
 
-        err = f_write(&file_dat, (uint8_t *)samples, sizeof(mic1_buffer) / 2, &nb_bytes);
-        if (err != FR_OK) {
-            f_close(&file_dat);
-            fverbose_error(chp, err);
-        }
-        bytes_written += nb_bytes;
-        // streamWrite(chp, (uint8_t *)samples, sizeof(mic1_buffer) / 2);
+        // err = f_write(&file_dat, (uint8_t *)samples, sizeof(mic1_buffer) / 2, &nb_bytes);
+        // if (err != FR_OK) {
+        //     f_close(&file_dat);
+        //     fverbose_error(chp, err);
+        // }
+        // bytes_written += nb_bytes;
+        streamWrite(chp, (uint8_t *)samples, sizeof(mic1_buffer) / 2);
 
-        if(bytes_written >= NB_BYTES_TO_WRITE){
-            f_close(&file_dat);
-            dfsdm_stop_conversion();
-            chprintf(chp, "Captured %d samples in %d msec\r\n", bytes_written/4, chVTGetSystemTime() - begin_time);
+        // if(bytes_written >= NB_BYTES_TO_WRITE){
+        //     f_close(&file_dat);
+        //     dfsdm_stop_conversion();
+        //     chprintf(chp, "Captured %d samples in %d msec\r\n", bytes_written/4, chVTGetSystemTime() - begin_time);
 
-            err = f_open(&file_dat, "sound.dat", FA_READ);
-            if (err != FR_OK) {
-                fverbose_error(chp, err);
-                return;
-            }
-            err = f_open(&file_wav, "sound.wav", FA_READ | FA_WRITE | FA_CREATE_ALWAYS);
-            if (err != FR_OK) {
-                fverbose_error(chp, err);
-                return;
-            }
+        //     err = f_open(&file_dat, "sound.dat", FA_READ);
+        //     if (err != FR_OK) {
+        //         fverbose_error(chp, err);
+        //         return;
+        //     }
+        //     err = f_open(&file_wav, "sound.wav", FA_READ | FA_WRITE | FA_CREATE_ALWAYS);
+        //     if (err != FR_OK) {
+        //         fverbose_error(chp, err);
+        //         return;
+        //     }
 
-            uint32_t* pointer = (uint32_t*)wav_header_raw;
+        //     uint32_t* pointer = (uint32_t*)wav_header_raw;
 
-            pointer[1] = 36 + bytes_written;
-            pointer[10] = bytes_written;
+        //     pointer[1] = 36 + bytes_written;
+        //     pointer[10] = bytes_written;
 
 
-            err = f_write(&file_wav, wav_header_raw, sizeof(wav_header_raw), &nb_bytes);
-            if (err != FR_OK) {
-                fverbose_error(chp, err);
-                return;
-            }
-            uint8_t buffer[4];
-            uint32_t* ptr = (uint32_t*)buffer;
-            UINT nb_written = 0;
-            chprintf(chp, "Creating the WAV file\r\n");
-             /*
-             * Do while the number of bytes read is equal to the number of bytes to read
-             * (the buffer is filled)
-             */
-            do {
-                /*
-                 * Read the file.
-                 */
-                err = f_read(&file_dat, buffer, 4, &nb_bytes);
-                if (err != FR_OK) {
-                    fverbose_error(chp, err);
-                    return;
-                }
-                ptr[0] *= 5900;
-                err = f_write(&file_wav, buffer, nb_bytes, &nb_written);
-                if (err != FR_OK) {
-                    fverbose_error(chp, err);
-                    return;
-                }
-            } while (nb_bytes>=4);
+        //     err = f_write(&file_wav, wav_header_raw, sizeof(wav_header_raw), &nb_bytes);
+        //     if (err != FR_OK) {
+        //         fverbose_error(chp, err);
+        //         return;
+        //     }
+        //     uint8_t buffer[4];
+        //     UINT nb_written = 0;
+        //     chprintf(chp, "Creating the WAV file\r\n");
+        //      /*
+        //      * Do while the number of bytes read is equal to the number of bytes to read
+        //      * (the buffer is filled)
+        //      */
+        //     do {
+        //         /*
+        //          * Read the file.
+        //          */
+        //         err = f_read(&file_dat, buffer, 4, &nb_bytes);
+        //         if (err != FR_OK) {
+        //             fverbose_error(chp, err);
+        //             return;
+        //         }
+        //         err = f_write(&file_wav, buffer, nb_bytes, &nb_written);
+        //         if (err != FR_OK) {
+        //             fverbose_error(chp, err);
+        //             return;
+        //         }
+        //     } while (nb_bytes>=4);
 
-            f_close(&file_dat);
-            f_close(&file_wav);
-            unmountSDCard();
-            return;
-        }
+        //     f_close(&file_dat);
+        //     f_close(&file_wav);
+        //     unmountSDCard();
+        //     return;
+        // }
     }
 
 }

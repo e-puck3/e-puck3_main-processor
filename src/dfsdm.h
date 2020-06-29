@@ -54,7 +54,7 @@ typedef struct {
 void dfsdm_start(void);
 
 /** Starts the continous acquisition. */
-void dfsdm_start_conversion(DFSDM_config_t *mic1_config, DFSDM_config_t *mic2_config);
+void dfsdm_start_conversion(DFSDM_config_t *mic1_config, DFSDM_config_t *mic2_config, DFSDM_config_t *mic3_config, DFSDM_config_t *mic4_config);
 
 /** Stops the continous acquisition. */
 void dfsdm_stop_conversion(void);

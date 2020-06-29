@@ -30,7 +30,7 @@ typedef struct {
     DFSDM_config_t *cfg;
 } DFSDM_driver_t;
 
-DFSDM_driver_t mic1_drv, mic2_drv;
+DFSDM_driver_t mic1_drv, mic2_drv, mic3_drv, mic4_drv;
 
 /** Function called on DFSDM interrupt. */
 static void dfsdm_serve_dma_interrupt(void *p, uint32_t flags)
@@ -96,6 +96,24 @@ void dfsdm_start(void)
     DFSDM1_Channel2->CHCFGR1 |= DFSDM_CHCFGR1_CHEN;
     DFSDM1_Channel3->CHCFGR1 |= DFSDM_CHCFGR1_CHEN;
 
+    /* Serial input configuration.
+     *
+     * The two microphones (MIC3 and MIC4) are connected to the same input pin.
+     * As the microphone dont have a clock output, we reuse the internal clock.
+     *
+     * Channel 4 is connected on the input from channel 5 (CHINSEL=1)
+     * Channel 5 data are on falling edge (SITP=1), while channel 2 are on rising edge(SITP=1).
+     */
+    DFSDM1_Channel4->CHCFGR1 |= DFSDM_CHCFGR1_CHINSEL;
+    DFSDM1_Channel4->CHCFGR1 |= DFSDM_CHCFGR1_SPICKSEL_0;
+    DFSDM1_Channel4->CHCFGR1 |= DFSDM_CHCFGR1_SITP_0;
+
+    DFSDM1_Channel5->CHCFGR1 |= DFSDM_CHCFGR1_SPICKSEL_0;
+
+    /* Enable channel 0 and 1. */
+    DFSDM1_Channel4->CHCFGR1 |= DFSDM_CHCFGR1_CHEN;
+    DFSDM1_Channel5->CHCFGR1 |= DFSDM_CHCFGR1_CHEN;
+
     /* Filter units configuration:
      * - Fast mode enabled
      * - Corresponding channel must be selected
@@ -128,11 +146,30 @@ void dfsdm_start(void)
     DFSDM1_Filter1->FLTFCR = (3 << DFSDM_FLTFCR_FORD_Pos)       /* filter order */ \
                              | (55 << DFSDM_FLTFCR_FOSR_Pos)    /* filter oversampling */ \
                              | (0 << DFSDM_FLTFCR_IOSR_Pos);   /* integrator oversampling */
+    /* Filter 2 is identical, except that RSYNC is enabled. */
+    DFSDM1_Filter2->FLTCR1 = DFSDM_FLTCR1_FAST \
+                             | DFSDM_FLTCR1_RSYNC \
+                             | (1 << DFSDM_FLTCR1_RDMAEN_Pos)
+                             | (4 << DFSDM_FLTCR1_RCH_Pos);     /* channel */
+    DFSDM1_Filter2->FLTFCR = (3 << DFSDM_FLTFCR_FORD_Pos)       /* filter order */ \
+                             | (55 << DFSDM_FLTFCR_FOSR_Pos)    /* filter oversampling */ \
+                             | (0 << DFSDM_FLTFCR_IOSR_Pos);   /* integrator oversampling */
+    /* Filter 2 is identical, except that RSYNC is enabled. */
+    DFSDM1_Filter3->FLTCR1 = DFSDM_FLTCR1_FAST \
+                             | DFSDM_FLTCR1_RSYNC \
+                             | (1 << DFSDM_FLTCR1_RDMAEN_Pos)
+                             | (5 << DFSDM_FLTCR1_RCH_Pos);     /* channel */
+    DFSDM1_Filter3->FLTFCR = (3 << DFSDM_FLTFCR_FORD_Pos)       /* filter order */ \
+                             | (55 << DFSDM_FLTFCR_FOSR_Pos)    /* filter oversampling */ \
+                             | (0 << DFSDM_FLTFCR_IOSR_Pos);   /* integrator oversampling */
+
 
 
     /* Enable the filters */
     DFSDM1_Filter0->FLTCR1 |= DFSDM_FLTCR1_DFEN;
     DFSDM1_Filter1->FLTCR1 |= DFSDM_FLTCR1_DFEN;
+    DFSDM1_Filter2->FLTCR1 |= DFSDM_FLTCR1_DFEN;
+    DFSDM1_Filter3->FLTCR1 |= DFSDM_FLTCR1_DFEN;
 
     /* Allocate DMA streams. */
     mic1_drv.dma_stream = dmaStreamAlloc(STM32_DFSDM_FLT0_DMA_STREAM,
@@ -147,14 +184,28 @@ void dfsdm_start(void)
                                 &mic2_drv);
     osalDbgAssert(mic2_drv.dma_stream != NULL, "unable to allocate stream");
 
+    mic3_drv.dma_stream = dmaStreamAlloc(STM32_DFSDM_FLT2_DMA_STREAM,
+                                STM32_DFSDM_FLT2_DMA_IRQ_PRIORITY,
+                                dfsdm_serve_dma_interrupt,
+                                &mic3_drv);
+    osalDbgAssert(mic3_drv.dma_stream != NULL, "unable to allocate stream");
+
+    mic4_drv.dma_stream = dmaStreamAlloc(STM32_DFSDM_FLT3_DMA_STREAM,
+                                STM32_DFSDM_FLT3_DMA_IRQ_PRIORITY,
+                                dfsdm_serve_dma_interrupt,
+                                &mic4_drv);
+    osalDbgAssert(mic4_drv.dma_stream != NULL, "unable to allocate stream");
+
 }
 
-void dfsdm_start_conversion(DFSDM_config_t *mic1_config, DFSDM_config_t *mic2_config)
+void dfsdm_start_conversion(DFSDM_config_t *mic1_config, DFSDM_config_t *mic2_config, DFSDM_config_t *mic3_config, DFSDM_config_t *mic4_config)
 {
-    uint32_t dma_mode, left_dma_mode, right_dma_mode;
+    uint32_t dma_mode, mic1_dma_mode, mic2_dma_mode, mic3_dma_mode, mic4_dma_mode;
 
     mic1_drv.cfg = mic1_config;
     mic2_drv.cfg = mic2_config;
+    mic3_drv.cfg = mic3_config;
+    mic4_drv.cfg = mic4_config;
 
     /* Configure DMA mode */
     dma_mode =    /* Transfer from peripheral to memory */
@@ -171,28 +222,48 @@ void dfsdm_start_conversion(DFSDM_config_t *mic1_config, DFSDM_config_t *mic2_co
                STM32_DMA_CR_DMEIE | STM32_DMA_CR_TEIE;
 
     /* channel specfic settings. */
-    left_dma_mode = dma_mode |  STM32_DMA_CR_CHSEL(DFSDM_FLT0_DMA_CHN) |
+    mic1_dma_mode = dma_mode |  STM32_DMA_CR_CHSEL(DFSDM_FLT0_DMA_CHN) |
                                 STM32_DMA_CR_PL(STM32_DFSDM_FLT0_DMA_PRIORITY);
-    right_dma_mode = dma_mode | STM32_DMA_CR_CHSEL(DFSDM_FLT1_DMA_CHN) |
+    mic2_dma_mode = dma_mode | STM32_DMA_CR_CHSEL(DFSDM_FLT1_DMA_CHN) |
                                 STM32_DMA_CR_PL(STM32_DFSDM_FLT1_DMA_PRIORITY);
+    mic3_dma_mode = dma_mode | STM32_DMA_CR_CHSEL(DFSDM_FLT2_DMA_CHN) |
+                                STM32_DMA_CR_PL(STM32_DFSDM_FLT2_DMA_PRIORITY);
+    mic4_dma_mode = dma_mode | STM32_DMA_CR_CHSEL(DFSDM_FLT3_DMA_CHN) |
+                                STM32_DMA_CR_PL(STM32_DFSDM_FLT3_DMA_PRIORITY);
 
-    /* Configure left DMA stream. */
+    /* Configure MIC1 DMA stream. */
     dmaStreamSetPeripheral(mic1_drv.dma_stream, &DFSDM1_Filter0->FLTRDATAR);
     dmaStreamSetMemory0(mic1_drv.dma_stream, mic1_drv.cfg->samples);
     dmaStreamSetTransactionSize(mic1_drv.dma_stream, mic1_drv.cfg->samples_len);
-    dmaStreamSetMode(mic1_drv.dma_stream, left_dma_mode);
+    dmaStreamSetMode(mic1_drv.dma_stream, mic1_dma_mode);
     dmaStreamEnable(mic1_drv.dma_stream);
 
-    /* Configure right DMA stream. */
+    /* Configure MIC2 DMA stream. */
     dmaStreamSetPeripheral(mic2_drv.dma_stream, &DFSDM1_Filter1->FLTRDATAR);
     dmaStreamSetMemory0(mic2_drv.dma_stream, mic2_drv.cfg->samples);
     dmaStreamSetTransactionSize(mic2_drv.dma_stream, mic2_drv.cfg->samples_len);
-    dmaStreamSetMode(mic2_drv.dma_stream, right_dma_mode);
+    dmaStreamSetMode(mic2_drv.dma_stream, mic2_dma_mode);
     dmaStreamEnable(mic2_drv.dma_stream);
+
+    /* Configure MIC2 DMA stream. */
+    dmaStreamSetPeripheral(mic3_drv.dma_stream, &DFSDM1_Filter2->FLTRDATAR);
+    dmaStreamSetMemory0(mic3_drv.dma_stream, mic3_drv.cfg->samples);
+    dmaStreamSetTransactionSize(mic3_drv.dma_stream, mic3_drv.cfg->samples_len);
+    dmaStreamSetMode(mic3_drv.dma_stream, mic3_dma_mode);
+    dmaStreamEnable(mic3_drv.dma_stream);
+
+    /* Con figure MIC2 DMA stream. */
+    dmaStreamSetPeripheral(mic4_drv.dma_stream, &DFSDM1_Filter3->FLTRDATAR);
+    dmaStreamSetMemory0(mic4_drv.dma_stream, mic4_drv.cfg->samples);
+    dmaStreamSetTransactionSize(mic4_drv.dma_stream, mic4_drv.cfg->samples_len);
+    dmaStreamSetMode(mic4_drv.dma_stream, mic4_dma_mode);
+    dmaStreamEnable(mic4_drv.dma_stream);
 
     /* Enable continuous conversion. */
     DFSDM1_Filter0->FLTCR1 |= DFSDM_FLTCR1_RCONT;
     DFSDM1_Filter1->FLTCR1 |= DFSDM_FLTCR1_RCONT;
+    DFSDM1_Filter2->FLTCR1 |= DFSDM_FLTCR1_RCONT;
+    DFSDM1_Filter3->FLTCR1 |= DFSDM_FLTCR1_RCONT;
 
     /* Start acquisition */
     DFSDM1_Filter0->FLTCR1 |= DFSDM_FLTCR1_RSWSTART;
@@ -204,7 +275,11 @@ void dfsdm_stop_conversion(void)
      * conversion bit. */
     DFSDM1_Filter0->FLTCR1 &= ~DFSDM_FLTCR1_RCONT;
     DFSDM1_Filter1->FLTCR1 &= ~DFSDM_FLTCR1_RCONT;
+    DFSDM1_Filter2->FLTCR1 &= ~DFSDM_FLTCR1_RCONT;
+    DFSDM1_Filter3->FLTCR1 &= ~DFSDM_FLTCR1_RCONT;
 
     dmaStreamDisable(mic1_drv.dma_stream);
     dmaStreamDisable(mic2_drv.dma_stream);
+    dmaStreamDisable(mic3_drv.dma_stream);
+    dmaStreamDisable(mic4_drv.dma_stream);
 }
