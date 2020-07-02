@@ -4,7 +4,9 @@
 #include "chprintf.h"
 #include "../i2c_bus.h"
 
-#define AR0144_ADDR 0x10	// SADDR being forced to 0 on e-puck2
+#define AR0144_ADDR0 0x10
+#define AR0144_ADDR1 0x18
+
 
 #define AR0144_REG_CHIP_VERSION_REG				0x3000
 #define AR0144_REG_Y_ADDR_START					0x3002
@@ -271,6 +273,37 @@
 
 static struct ar0144_configuration ar0144_conf;
 
+#define I2C_CAM_TIMEOUT_MS                      4
+
+static msg_t _read_reg_16(ar0144_configuration* cam, uint16_t reg, uint8_t* values, uint8_t len){
+
+    uint8_t txbuf[2] = {reg>>8, reg&0xff};
+
+    msg_t status = false;
+
+    i2cAcquireBus(cam->i2cp);
+    status = i2cMasterTransmitTimeout(cam->i2cp, cam->i2c_address_7bits, txbuf, 2, values, len, TIME_MS2I(I2C_CAM_TIMEOUT_MS));
+    i2cReleaseBus(cam->i2cp);
+
+    return status;
+}
+
+static msg_t _write_reg_16(ar0144_configuration* cam, uint16_t reg, uint8_t* values, uint8_t len){
+
+    uint8_t txbuf[2 + len];
+    txbuf[0] = (reg>>8);
+    txbuf[1] = (reg&0xff);
+    memcpy(&txbuf[2], values, len);
+
+    msg_t status = false;
+
+    i2cAcquireBus(hub->i2cp);
+    status = i2cMasterTransmitTimeout(cam->i2cp, cam->i2c_address_7bits, txbuf, 2+len, NULL, 0, TIME_MS2I(I2C_CAM_TIMEOUT_MS));
+    i2cReleaseBus(hub->i2cp);
+
+    return status;
+}
+
 /***************************INTERNAL FUNCTIONS************************************/
  /**
  * @brief   Reads the id of the camera
@@ -286,7 +319,7 @@ int8_t ar0144_read_id(uint16_t *id) {
     uint8_t regValue[2] = {0};
     int8_t err = 0;
 
-    if((err = read_reg_16(AR0144_ADDR, AR0144_REG_CHIP_VERSION_REG, &regValue[0], 2)) != MSG_OK) {
+    if((err = _read_reg_16(&ar0144_conf, AR0144_REG_CHIP_VERSION_REG, &regValue[0], 2)) != MSG_OK) {
         return err;
     }
     *id = (((uint16_t)regValue[0])<<8)|regValue[1];
@@ -361,10 +394,13 @@ int8_t ar0144_start(void) {
     uint8_t regValue[2] = {0};
     int8_t err = 0;
 
+    ar0144_conf.i2cp = &I2CD4;
+    ar0144_conf.i2c_address_7bits = AR0144_ADDR0;
+
     // Reset camera
     regValue[0] = 0x00;
     regValue[1] = 0x01;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_RESET_REGISTER, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_RESET_REGISTER, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
     chThdSleepMilliseconds(10);
@@ -390,51 +426,51 @@ int8_t ar0144_start(void) {
     // pll multiplier
     regValue[0] = 0x0;
     regValue[1] = 128;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_PLL_MULTIPLIER, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_PLL_MULTIPLIER, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
     // pre_pll_clk_div
     regValue[0] = 0x0;
     regValue[1] = 7;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_PRE_PLL_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_PRE_PLL_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 	// vt_pix_clk_div
 	regValue[0] = 0x0;
     regValue[1] = 8;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_VT_PIX_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_VT_PIX_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
     // vt_sys_clk_div
     regValue[0] = 0x0;
     regValue[1] = 1;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_VT_SYS_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_VT_SYS_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
     // op_pix_clk_div
     regValue[0] = 0x0;
     regValue[1] = 8; //10;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_OP_PIX_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_OP_PIX_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
     // op_sys_clk_div
     regValue[0] = 0x0;
     regValue[1] = 1;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_OP_SYS_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_OP_SYS_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
     // digital_test: enable pll
     regValue[0] = 0x0;
     regValue[1] = 0;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_DIGITAL_TEST, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_DIGITAL_TEST, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
     // Line length pck = 1488 => minimum line length.
     regValue[0] = 0x05;
     regValue[1] = 0xD0;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_LINE_LENGTH_PCK, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_LINE_LENGTH_PCK, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
@@ -445,13 +481,13 @@ int8_t ar0144_start(void) {
     // Frame length lines
     regValue[0] = 0x04;
     regValue[1] = 0x2E;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_FRAME_LENGTH_LINES, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_FRAME_LENGTH_LINES, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
     // Extra clocks delay
     regValue[0] = 0x01;
     regValue[1] = 0x8F;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_EXTRA_DELAY, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_EXTRA_DELAY, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
@@ -459,42 +495,42 @@ int8_t ar0144_start(void) {
     // Integration reg value = (33*1000)/(1/48MHz*1488) = 1064
     regValue[0] = 0x04;
     regValue[1] = 0x28;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_COARSE_INTEGRATION_TIME, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_COARSE_INTEGRATION_TIME, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
     // Output 12 bits: we use only 8 MSBits.
     regValue[0] = 0x0C;
     regValue[1] = 0x0C;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_DATA_FORMAT_BITS, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_DATA_FORMAT_BITS, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
     // Line Valid (LV) normal behavior
     regValue[0] = 0x48;
     regValue[1] = 0x10;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_DATAPATH_SELECT, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_DATAPATH_SELECT, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
     // Linear mode (no other options)
     regValue[0] = 0;
     regValue[1] = 3;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_OPERATION_MODE_CTRL, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_OPERATION_MODE_CTRL, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
     // No flip/mirroring, no binning
     regValue[0] = 0;
     regValue[1] = 0;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_READ_MODE, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_READ_MODE, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
     // No compression
     regValue[0] = 0x0;
     regValue[1] = 0x0;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_COMPANDING, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_COMPANDING, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
@@ -503,7 +539,7 @@ int8_t ar0144_start(void) {
     // is disabled (FV and LV are stopped).
     regValue[0] = 0x02;
     regValue[1] = 0x00;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_SERIAL_FORMAT, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_SERIAL_FORMAT, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
@@ -512,7 +548,7 @@ int8_t ar0144_start(void) {
     // Serial interface disabled, parallel interface enabled, stream on
     regValue[0] = 0x30;
     regValue[1] = 0xDC; //0xDC;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_RESET_REGISTER, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_RESET_REGISTER, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
@@ -620,39 +656,39 @@ int8_t ar0144_advanced_config(ar0144_format_t fmt, unsigned int x1, unsigned int
     // y start
     regValue[0] = y1>>8;
     regValue[1] = y1&0xFF;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_Y_ADDR_START, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_Y_ADDR_START, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
     // y end
     regValue[0] = y2>>8;
     regValue[1] = y2&0xFF;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_Y_ADDR_END, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_Y_ADDR_END, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
     // x start
     regValue[0] = x1>>8;
     regValue[1] = x1&0xFF;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_X_ADDR_START, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_X_ADDR_START, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
     // x end
     regValue[0] = x2>>8;
     regValue[1] = x2&0xFF;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_X_ADDR_END, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_X_ADDR_END, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
     // Horizontal skip
     regValue[0] = 0;
     regValue[1] = sub_x;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_X_ODD_INC, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_X_ODD_INC, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
     // Vertical skip
     regValue[0] = 0;
     regValue[1] = sub_y;
-    if((err = write_reg_16(AR0144_ADDR, AR0144_REG_Y_ODD_INC, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_Y_ODD_INC, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 

@@ -23,6 +23,8 @@ typedef enum {
 } ar0144_format_t;
 
 struct ar0144_configuration {
+	I2CDriver		*i2cp;
+	uint8_t 		i2c_address_7bits;
 	uint16_t 		width;
 	uint16_t 		height;
 	ar0144_format_t curr_format;
