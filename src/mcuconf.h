@@ -179,6 +179,12 @@
 #define STM32_DFSDM_FLT2_DMA_IRQ_PRIORITY   6
 #define STM32_DFSDM_FLT3_DMA_IRQ_PRIORITY   6
 
+/* DCMI camera settings */
+#define STM32_DCMI_DMA_STREAM               STM32_DMA_STREAM_ID(2, 1)
+#define STM32_DCMI_DMA_CHN                  1
+#define STM32_DCMI_DMA_PRIORITY             2
+#define STM32_DCMI_DMA_IRQ_PRIORITY         6
+
 /*
  * CAN driver system settings.
  */

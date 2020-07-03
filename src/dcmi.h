@@ -37,9 +37,9 @@ typedef struct {
 } DCMI_config_t;
 
 /** Configure the hardware peripherals. */
-void dcmi_start(void);
+void dcmi_start(DCMI_config_t *cam_config);
 
 /** Starts a capture. */
-void dcmi_start_capture(DCMI_config_t *cam_config);
+void dcmi_start_capture(void);
 
 #endif
