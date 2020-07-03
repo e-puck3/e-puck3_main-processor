@@ -10,7 +10,7 @@
  * @param [in] buffer A pointer to the buffer holding the samples.
  * @param [in] n number of samples in the buffer.
  */
-typedef void (*dcmicallback_t)(void *drv, int32_t *buffer, size_t n);
+typedef void (*dcmicallback_t)(void *drv, uint32_t *buffer, size_t n);
 
 /** Callback type for DMA errors.
  *
@@ -30,7 +30,7 @@ typedef struct {
     void *cb_arg;
 
     /** Pointer to a buffer to hold the samples. */
-    int32_t *samples;
+    uint32_t *samples;
 
     /** Length of the samples buffer, in number of elements. */
     size_t samples_len;

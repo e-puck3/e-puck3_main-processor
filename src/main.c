@@ -17,6 +17,7 @@
 #include "usbcfg.h"
 #include "dfsdm.h"
 #include "ar0144.h"
+#include "dcmi.h"
 
 // #define I2C_TEST
 // #ifdef I2C_TEST
@@ -210,6 +211,21 @@ static const SDCConfig sd_card_config = {
     .bus_width = SDC_MODE_4BIT,
 };
 
+static uint32_t cam_counter = 0;
+static void cam_cb(void *p, uint32_t *buffer, size_t n){
+	(void)p;
+	(void)buffer;
+	cam_counter += n;
+}
+
+#define CAM_BUFFER_SIZE 	1200
+static uint32_t cam_buffer[CAM_BUFFER_SIZE];
+static DCMI_config_t dcmi_config = {
+	.end_cb			= cam_cb,
+	.error_cb		= NULL,
+	.samples 		= cam_buffer,
+	.samples_len 	= CAM_BUFFER_SIZE,
+};
 
 int main(void) {
 	
@@ -325,6 +341,8 @@ int main(void) {
 	// }
 
 	ar0144_start();
+	dcmi_start(&dcmi_config);
+	dcmi_start_capture();
   
 	while (true){
 		chThdSleepMilliseconds(100);
@@ -384,6 +402,8 @@ int main(void) {
 			// }
 			// chprintf((BaseSequentialStream *)&SDU1,"Test finished in %d ms\r\n\r\n", chVTGetSystemTime() - begin_time); 
 		}
+		chprintf((BaseSequentialStream *)&SD5, "cam_counter = %d\r\n", cam_counter);
+
 		
     }
 

@@ -434,11 +434,6 @@ int8_t ar0144_start(void) {
     palClearLine(LINE_OE_CAM2_N);
     chThdSleepMilliseconds(1000); // Give time for the clock to be stable and the camera to wake-up.
 
-    while(1){
-        ar0144_is_connected();
-        chThdSleepMilliseconds(500);
-    }
-
     // Reset camera
     regValue[0] = 0x00;
     regValue[1] = 0x01;
@@ -753,12 +748,12 @@ uint32_t ar0144_get_image_size(void) {
 uint8_t ar0144_is_connected(void) {
 	uint16_t id = 0;
 	int8_t res = ar0144_read_id(&id);
-    chprintf((BaseSequentialStream *)&SD5, "ID=%d ", id);
+    // chprintf((BaseSequentialStream *)&SD5, "ID=%d ", id);
 	if((res==MSG_OK) && (id==0x0356)) {
-		chprintf((BaseSequentialStream *)&SD5, "-> Correct\r\n");
+		// chprintf((BaseSequentialStream *)&SD5, "-> Correct\r\n");
 		return 1;
 	} else {
-        chprintf((BaseSequentialStream *)&SD5, "-> Wrong\r\n");
+        // chprintf((BaseSequentialStream *)&SD5, "-> Wrong\r\n");
 		return 0;
 	}
 }
