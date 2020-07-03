@@ -16,6 +16,7 @@
 #include "user_shell.h"
 #include "usbcfg.h"
 #include "dfsdm.h"
+#include "ar0144.h"
 
 // #define I2C_TEST
 // #ifdef I2C_TEST
@@ -322,6 +323,8 @@ int main(void) {
 	// for(uint32_t i = 0 ; i < 80000 ; i++){
 	// 	tab[i] = (uint8_t)i;
 	// }
+
+	ar0144_start();
   
 	while (true){
 		chThdSleepMilliseconds(100);
