@@ -1,8 +1,8 @@
-#include "ar0144.h"
 #include "ch.h"
-#include "usbcfg.h"
+#include "hal.h"
+#include "ar0144.h"
+#include "dcmi.h"
 #include "chprintf.h"
-#include "../i2c_bus.h"
 
 #define AR0144_ADDR0 0x10
 #define AR0144_ADDR1 0x18
@@ -271,7 +271,7 @@
 #define AR0144_REG_P_BL_Q5						0x37C4
 #define AR0144_REG_P_GB_Q5						0x37C6
 
-static struct ar0144_configuration ar0144_conf;
+static ar0144_configuration ar0144_conf;
 
 #define I2C_CAM_TIMEOUT_MS                      4
 
@@ -297,9 +297,9 @@ static msg_t _write_reg_16(ar0144_configuration* cam, uint16_t reg, uint8_t* val
 
     msg_t status = false;
 
-    i2cAcquireBus(hub->i2cp);
+    i2cAcquireBus(cam->i2cp);
     status = i2cMasterTransmitTimeout(cam->i2cp, cam->i2c_address_7bits, txbuf, 2+len, NULL, 0, TIME_MS2I(I2C_CAM_TIMEOUT_MS));
-    i2cReleaseBus(hub->i2cp);
+    i2cReleaseBus(cam->i2cp);
 
     return status;
 }
@@ -395,7 +395,49 @@ int8_t ar0144_start(void) {
     int8_t err = 0;
 
     ar0144_conf.i2cp = &I2CD4;
-    ar0144_conf.i2c_address_7bits = AR0144_ADDR0;
+    ar0144_conf.i2c_address_7bits = AR0144_ADDR1;
+
+    /*
+     * I2C configuration object.
+     * I2C_TIMINGR:  400 kHz with I2CCLK = 216 MHz, rise time = 0 ns,
+     *               fall time = 0 ns
+     */
+    static const I2CConfig i2c_config_cam = {
+        .timingr    = 0x10A03AC5,
+        .cr1        = 0,
+        .cr2        = 0,
+    };
+
+    i2cStart(ar0144_conf.i2cp, &i2c_config_cam);
+
+
+    // Timer initialization to clock the camera.
+    // Need to be configured here in order to read the camera registers.
+    static const PWMConfig pwmcfg_cam = {
+        .frequency = 36000000,  //36MHz
+        .period = 0x02, //0x07, //0x02,         //PWM period = 36MHz/2 => 18MHz
+        .cr2 = 0,
+        .callback = NULL,
+        .channels = {
+            // Channel 1 is used as master clock for the camera.
+            {.mode = PWM_OUTPUT_DISABLED, .callback = NULL},
+            {.mode = PWM_OUTPUT_DISABLED, .callback = NULL},
+            {.mode = PWM_OUTPUT_DISABLED, .callback = NULL},
+            {.mode = PWM_OUTPUT_ACTIVE_HIGH, .callback = NULL},
+        },
+    };
+    pwmStart(&PWMD4, &pwmcfg_cam);
+    // Enables channel 1 to clock the camera.
+    pwmEnableChannel(&PWMD4, 3, 1); //1 is half the period set => duty cycle = 50%
+    chThdSleepMilliseconds(10);
+    palSetLine(LINE_EN_CAM2);
+    palClearLine(LINE_OE_CAM2_N);
+    chThdSleepMilliseconds(1000); // Give time for the clock to be stable and the camera to wake-up.
+
+    while(1){
+        ar0144_is_connected();
+        chThdSleepMilliseconds(500);
+    }
 
     // Reset camera
     regValue[0] = 0x00;
@@ -416,28 +458,28 @@ int8_t ar0144_start(void) {
     // OP_CLK drives the pixel clock (PIXCLK pin in the electrical schema, not to be confused with above PIXCLK clock).
     //
     // The multiplier and divisors are setup to have a pixel clock of 48 MHz:
-    // pll multiplier = 128 (range is [32..384])
-    // pre_pll_clk_div = 7 (range is [1..64])
-    // vt_pix_clk_div = 8 (range is [4..16])
+    // pll multiplier = 32 (range is [32..384])
+    // pre_pll_clk_div = 1 (range is [1..64])
+    // vt_pix_clk_div = 12 (range is [4..16])
     // vt_sys_clk_div = 1 (available values are 1,2,4,6,8,10,12,14,16)
-    // op_pix_clk_div = 8 (available vaules are 8,10,12)
+    // op_pix_clk_div = 12 (available vaules are 8,10,12)
     // op_sys_clk_div = 1 (available values are 1,2,4,6,8,10,12,14,16)
 
     // pll multiplier
     regValue[0] = 0x0;
-    regValue[1] = 128;
+    regValue[1] = 32;
     if((err = _write_reg_16(&ar0144_conf, AR0144_REG_PLL_MULTIPLIER, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
     // pre_pll_clk_div
     regValue[0] = 0x0;
-    regValue[1] = 7;
+    regValue[1] = 1;
     if((err = _write_reg_16(&ar0144_conf, AR0144_REG_PRE_PLL_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 	// vt_pix_clk_div
 	regValue[0] = 0x0;
-    regValue[1] = 8;
+    regValue[1] = 12;
     if((err = _write_reg_16(&ar0144_conf, AR0144_REG_VT_PIX_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
@@ -449,7 +491,7 @@ int8_t ar0144_start(void) {
     }
     // op_pix_clk_div
     regValue[0] = 0x0;
-    regValue[1] = 8; //10;
+    regValue[1] = 12; //10;
     if((err = _write_reg_16(&ar0144_conf, AR0144_REG_OP_PIX_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
@@ -711,10 +753,12 @@ uint32_t ar0144_get_image_size(void) {
 uint8_t ar0144_is_connected(void) {
 	uint16_t id = 0;
 	int8_t res = ar0144_read_id(&id);
+    chprintf((BaseSequentialStream *)&SD5, "ID=%d ", id);
 	if((res==MSG_OK) && (id==0x0356)) {
-		//chprintf((BaseSequentialStream *)&SDU1, "ID=%d\r\n", id);
+		chprintf((BaseSequentialStream *)&SD5, "-> Correct\r\n");
 		return 1;
 	} else {
+        chprintf((BaseSequentialStream *)&SD5, "-> Wrong\r\n");
 		return 0;
 	}
 }

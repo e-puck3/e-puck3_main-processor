@@ -4,8 +4,8 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <string.h>
 #include "hal.h"
-#include "camera.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -17,12 +17,24 @@ extern "C" {
 #define AR0144_MAX_FRAME_HEIGHT 803
 
 typedef enum {
+	SIZE_VGA = 0x00,
+	SIZE_QVGA = 0x01,
+	SIZE_QQVGA = 0x02
+} image_size_t;
+
+typedef enum {
+    SUBSAMPLING_X1 = 0x20,
+    SUBSAMPLING_X2 = 0x40,
+    SUBSAMPLING_X4 = 0x80
+} subsampling_t;
+
+typedef enum {
 	AR0144_FORMAT_BAYER = 0x00,
 	AR0144_FORMAT_RGB565 = 0x01,	// Actually this format is not supported, but in case it is requested a conversion will be performed.
 	AR0144_FORMAT_GREYSCALE = 0x02	// Actually this format is not supported, but in case it is requested a conversion will be performed.
 } ar0144_format_t;
 
-struct ar0144_configuration {
+typedef struct{
 	I2CDriver		*i2cp;
 	uint8_t 		i2c_address_7bits;
 	uint16_t 		width;
@@ -30,7 +42,7 @@ struct ar0144_configuration {
 	ar0144_format_t curr_format;
 	subsampling_t 	curr_subsampling_x;
 	subsampling_t 	curr_subsampling_y;
-};
+} ar0144_configuration;
 
 /**
  * @brief       Configure the ar0144 camera to start streaming.
