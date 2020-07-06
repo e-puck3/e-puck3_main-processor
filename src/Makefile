@@ -146,7 +146,8 @@ CSRC = $(ALLCSRC) \
        dfsdm_cmd.c \
        usbcfg.c \
        dcmi.c \
-       ar0144.c
+       ar0144.c \
+       dcmi_cmd.c
 
 
 

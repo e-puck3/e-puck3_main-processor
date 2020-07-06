@@ -46,7 +46,7 @@ static uint8_t wav_header_raw[] = { 0x52, 0x49, 0x46, 0x46,
                                     0x64, 0x61, 0x74, 0x61, 
                                     0xc0, 0x9e, 0x0a, 0x00};
 
-BSEMAPHORE_DECL(data_ready, true);
+static BSEMAPHORE_DECL(data_ready, true);
 static int32_t *samples;
 
 static void dfsdm_err_cb(void *p)

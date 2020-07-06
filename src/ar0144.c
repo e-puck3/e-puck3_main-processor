@@ -580,7 +580,7 @@ int8_t ar0144_start(void) {
     	return err;
     }
 
-    ar0144_advanced_config(AR0144_FORMAT_BAYER, 560, 340, 160, 120, SUBSAMPLING_X1, SUBSAMPLING_X1);
+    ar0144_advanced_config(AR0144_FORMAT_BAYER, 440, 240, 320, 240, SUBSAMPLING_X1, SUBSAMPLING_X1);
 
     // Serial interface disabled, parallel interface enabled, stream on
     regValue[0] = 0x30;

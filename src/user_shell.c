@@ -16,6 +16,7 @@
 #include "user_shell.h"
 #include "fatfs_cmd.h"
 #include "dfsdm_cmd.h"
+#include "dcmi_cmd.h"
 
 
 static THD_WORKING_AREA(waShell,4096);
@@ -26,6 +27,7 @@ static char* completion_buffer[SHELL_MAX_COMPLETIONS];
 static const ShellCommand commands[] = {
   FATFS_SHELL_CMD
   DFSDM_SHELL_CMD
+  DCMI_SHELL_CMD
   {NULL, NULL}
 };
 
