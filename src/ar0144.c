@@ -536,6 +536,15 @@ int8_t ar0144_start(void) {
     	return err;
     }
 
+    // turns ON auto exposure
+    regValue[0] = 0x00;
+    regValue[1] = 0x01;
+    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_AECTRLREG, &regValue[0], 2)) != MSG_OK) {
+        return err;
+    }
+
+    
+
     // Output 12 bits: we use only 8 MSBits.
     regValue[0] = 0x0C;
     regValue[1] = 0x0C;
