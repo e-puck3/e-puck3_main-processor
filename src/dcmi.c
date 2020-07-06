@@ -22,10 +22,13 @@ static void dcmi_serve_dma_interrupt(void *p, uint32_t flags){
     } else if ((flags & STM32_DMA_ISR_TCIF) != 0) {
         /* End of the second half of the circular buffer. */
         if (drv->cfg->end_cb != NULL) {
-            size_t half = drv->cfg->samples_len / 2;
+            // size_t half = drv->cfg->samples_len / 2;
+            // drv->cfg->end_cb(drv->cfg->cb_arg,
+            //                  &drv->cfg->samples[half],
+            //                  half);
             drv->cfg->end_cb(drv->cfg->cb_arg,
-                             &drv->cfg->samples[half],
-                             half);
+                             drv->cfg->samples,
+                             drv->cfg->samples_len);
         }
     } else if ((flags & STM32_DMA_ISR_HTIF) != 0) {
         /* End of the first half of the circular buffer. */
@@ -76,8 +79,8 @@ void dcmi_start(DCMI_config_t *cam_config){
                         STM32_DMA_CR_PSIZE_WORD |                   // Peripheral data size = 4 bytes.
                         STM32_DMA_CR_MSIZE_WORD |                   // Memory data size = 4 bytes.
                         STM32_DMA_CR_MINC |                         // Increment memory address after each data transfer.
-                        STM32_DMA_CR_CIRC |                         // Circular mode.
-                        STM32_DMA_CR_HTIE;                          // Half transfer interrupt enabled.
+                        STM32_DMA_CR_CIRC/* |                         // Circular mode.
+                        STM32_DMA_CR_HTIE*/;                          // Half transfer interrupt enabled.
 
     /* Configure CAM DMA stream. */
     dmaStreamSetPeripheral(cam_drv.dma_stream, &DCMI->DR);

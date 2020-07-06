@@ -5,8 +5,8 @@
 #include "dcmi.h"
 #include "dcmi_cmd.h"
 
-#define TOTAL_SAMPLES_TO_SEND  ((160*120)/2)
-#define CAM_BUFFER_SIZE         1200
+#define TOTAL_SAMPLES_TO_SEND  ((300*180)/2)
+#define CAM_BUFFER_SIZE         27000
 
 
 static BSEMAPHORE_DECL(data_ready, true);
@@ -52,7 +52,7 @@ void cmd_dcmi(BaseSequentialStream *chp, int argc, char *argv[])
     while (true) {
         chBSemWait(&data_ready);
 
-        byte_sent += streamWrite(chp, (uint8_t *)samples, sizeof(cam_buffer) / 2); 
+        byte_sent += streamWrite(chp, (uint8_t *)samples, sizeof(cam_buffer)); 
 
         if(cam_counter == TOTAL_SAMPLES_TO_SEND){
             return;
