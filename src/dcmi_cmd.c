@@ -5,7 +5,7 @@
 #include "dcmi.h"
 #include "dcmi_cmd.h"
 
-#define TOTAL_SAMPLES_TO_SEND  ((320*240)/4)
+#define TOTAL_SAMPLES_TO_SEND  ((160*120)/2)
 #define CAM_BUFFER_SIZE         1200
 
 

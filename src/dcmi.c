@@ -50,6 +50,7 @@ void dcmi_start(DCMI_config_t *cam_config){
 
     DCMI->CR  &= ~(DCMI_CR_CAPTURE | DCMI_CR_ENABLE); // Do not enable here because we don't still know the capture mode that will be used.
     DCMI->CR |= DCMI_CR_PCKPOL;
+    DCMI->CR |= DCMI_CR_EDM_1; // 12bits data capture
     // Interrupt enable register.
     // DCMI->IER |= DCMI_IER_FRAME_IE; // Capture complete.
     //DCMI->IER |= DCMI_IER_VSYNC_IE; // Interrupt generated when vsync become active (start of frame).

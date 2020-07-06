@@ -26,19 +26,18 @@ def main():
 
     # Then read the whole sample out
     buf = bytes()
-    pbar = progressbar.ProgressBar(maxval=19200).start()
-    while len(buf) < 4 * 19200:
+    pbar = progressbar.ProgressBar(maxval=9600).start()
+    while len(buf) < 4 * 9600:
         pbar.update(len(buf) / 4)
         buf += conn.read(100)
     pbar.finish()
 
     print(len(buf))
 
-    image = np.frombuffer(buf, dtype='uint8')
-    image = image.reshape((240,320))
+    image = np.frombuffer(buf, dtype='uint16')
+    image = image.reshape((120,160))
 
-
-    plt.imshow(image, cmap="gray", )
+    plt.imshow(image, cmap="gray")
     plt.show()
 
 
