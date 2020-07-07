@@ -14,17 +14,13 @@ and adapted to work here
 #include <ch.h>
 #include <hal.h>
 #include "ir_remote.h"
-#include "exti.h"
-#include <main.h>
-#include "motors.h"
 
-#include "shell.h"
 #include "chprintf.h"
 #include "usbcfg.h"
 
 #define DEFAULT_SPEED 600
 
-static ir_remote_msg_t ir_remote_values;
+static ir_remote_t ir_remote;
 
 // /***************************INTERNAL FUNCTIONS************************************/
 
@@ -182,17 +178,17 @@ static bool RC5_read_message(RC5_t* ir, unsigned int *message)
        is equal to the theoretical (uninverted) signal value of the time period that
        has just ended.
     */
-    unsigned long value = palReadPad(GPIOD, GPIOD_REMOTE);
+    unsigned long value = palReadLine(LINE_IR_SIGNAL);
     
     if (value != ir->lastValue) {
-        unsigned long time1 = gptGetCounterX(&GPTD11);
+        unsigned long time1 = gptGetCounterX(&TIMER_IR);
         unsigned long elapsed = time1-ir->time0;
         //ir->time0 = time1;
         ir->lastValue = value;
-        reset_counter_gpt(&GPTD11);
+        reset_counter_gpt(&TIMER_IR);
         RC5_decodePulse(ir, value, elapsed);
     }
-    
+
     if (ir->bits == 14) {
         *message = ir->command;
         ir->command = 0;
@@ -234,7 +230,7 @@ static bool RC5_read(RC5_t* ir, unsigned char *toggle, unsigned char *address, u
 }
 
 //General Purpose Timer configuration	
-static const GPTConfig gpt11cfg = {
+static const GPTConfig gptcfg = {
 	1000000,		/* 1MHz timer clock in order to measure uS.*/
 	NULL,			/* Timer callback.*/
 	0,
@@ -244,77 +240,62 @@ static const GPTConfig gpt11cfg = {
  /**
  * @brief  	Thread which interprets the order received and executes it
  */
-static THD_FUNCTION(remote_motion_thd, arg)
+static void remote_action(void)
 {
-    (void) arg;
-    chRegSetThreadName(__FUNCTION__);
-    systime_t time;
-    messagebus_topic_t *ir_remote_topic = messagebus_find_topic_blocking(&bus, "/ir_remote");
-    ir_remote_msg_t remote_msg;
+	switch(ir_remote.data) {
+		// Sometimes there are two cases for the same command because two different
+		// remote controls are used; one of this do not contain "numbers".
+		case 5: // stop motors
+		case 12:
+			// left_motor_set_speed(0);
+			// right_motor_set_speed(0);
+			break;
 
-    while(1) {
+		case 2: // Both motors forward.
+		case 32:
+			// left_motor_set_speed(DEFAULT_SPEED);
+			// right_motor_set_speed(DEFAULT_SPEED);
+			break;
 
-    	time = chVTGetSystemTime();
+		case 8: // Both motors backward.
+		case 33:
+			// left_motor_set_speed(-DEFAULT_SPEED);
+			// right_motor_set_speed(-DEFAULT_SPEED);
+			break;
 
-    	messagebus_topic_wait(ir_remote_topic, &remote_msg, sizeof(remote_msg));
+		case 6: // Both motors right.
+		case 16:
+			// left_motor_set_speed(DEFAULT_SPEED);
+			// right_motor_set_speed(-DEFAULT_SPEED);
+			break;
 
-		switch(remote_msg.data) {
-			// Sometimes there are two cases for the same command because two different
-			// remote controls are used; one of this do not contain "numbers".
-			case 5: // stop motors
-			case 12:
-				left_motor_set_speed(0);
-				right_motor_set_speed(0);
-				break;
+		case 4: // Both motors left.
+		case 17:
+			// left_motor_set_speed(-DEFAULT_SPEED);
+			// right_motor_set_speed(DEFAULT_SPEED);
+			break;
 
-			case 2: // Both motors forward.
-			case 32:
-				left_motor_set_speed(DEFAULT_SPEED);
-				right_motor_set_speed(DEFAULT_SPEED);
-				break;
+		case 3: // Left motor forward.
+			// left_motor_set_speed(DEFAULT_SPEED);
+//             right_motor_set_speed(0);
+			break;
 
-			case 8: // Both motors backward.
-			case 33:
-				left_motor_set_speed(-DEFAULT_SPEED);
-				right_motor_set_speed(-DEFAULT_SPEED);
-				break;
+		case 1: // Right motor forward.
+//             left_motor_set_speed(0);
+			// right_motor_set_speed(DEFAULT_SPEED);
+			break;
 
-			case 6: // Both motors right.
-			case 16:
-				left_motor_set_speed(DEFAULT_SPEED);
-				right_motor_set_speed(-DEFAULT_SPEED);
-				break;
+		case 9: // Left motor backward.
+			// left_motor_set_speed(-DEFAULT_SPEED);
+//             right_motor_set_speed(0);
+			break;
 
-			case 4: // Both motors left.
-			case 17:
-				left_motor_set_speed(-DEFAULT_SPEED);
-				right_motor_set_speed(DEFAULT_SPEED);
-				break;
+		case 7: // Right motor backward.
+//             left_motor_set_speed(0);
+			// right_motor_set_speed(-DEFAULT_SPEED);
+			break;
 
-			case 3: // Left motor forward.
-				left_motor_set_speed(DEFAULT_SPEED);
-                right_motor_set_speed(0);
-				break;
-
-			case 1: // Right motor forward.
-                left_motor_set_speed(0);
-				right_motor_set_speed(DEFAULT_SPEED);
-				break;
-
-			case 9: // Left motor backward.
-				left_motor_set_speed(-DEFAULT_SPEED);
-                right_motor_set_speed(0);
-				break;
-
-			case 7: // Right motor backward.
-                left_motor_set_speed(0);
-				right_motor_set_speed(-DEFAULT_SPEED);
-				break;
-
-		}
-
-		chThdSleepUntilWindowed(time, time + MS2ST(200)); // Receive commands at most @ 5 Hz.
-    }
+	}
 
 }
 
@@ -328,33 +309,22 @@ static THD_FUNCTION(remote_cmd_recv_thd, arg)
     (void) arg;
     chRegSetThreadName(__FUNCTION__);
 
-    event_listener_t remote_int;
-    /* Starts waiting for the external interrupts. */
-    chEvtRegisterMaskWithFlags(&exti_events, &remote_int,
-                               (eventmask_t)EXTI_EVENT_IR_REMOTE_INT,
-                               (eventflags_t)EXTI_EVENT_IR_REMOTE_INT);
-
     RC5_t remote;
     RC5_reset(&remote);
 
-    // Declares the topic on the bus.
-    messagebus_topic_t ir_remote_topic;
-    MUTEX_DECL(ir_remote_topic_lock);
-    CONDVAR_DECL(ir_remote_topic_condvar);
-    messagebus_topic_init(&ir_remote_topic, &ir_remote_topic_lock, &ir_remote_topic_condvar, &ir_remote_values, sizeof(ir_remote_values));
-    messagebus_advertise_topic(&bus, &ir_remote_topic, "/ir_remote");
+    /* Enabling events on both edges of the button line.*/
+    palEnableLineEvent(IR_INPUT_LINE, PAL_EVENT_MODE_BOTH_EDGES);
 
     while(1) {
-    	/* Wait for a command to come. */
-    	chEvtWaitAny(EXTI_EVENT_IR_REMOTE_INT);
-    	//Clears the flag. Otherwise the event is always true
-    	chEvtGetAndClearFlags(&remote_int);
+
+        //waiting until an event on the line is detected
+        palWaitLineTimeout(IR_INPUT_LINE, TIME_INFINITE);
 
     	//do one step of the state machine. return true if an order is complete
-    	if (RC5_read(&remote, &ir_remote_values.toggle, &ir_remote_values.address, &ir_remote_values.data))
+    	if (RC5_read(&remote, &ir_remote.toggle, &ir_remote.address, &ir_remote.data))
 		{
-        	messagebus_topic_publish(&ir_remote_topic, &ir_remote_values, sizeof(ir_remote_values));
-			//chprintf((BaseSequentialStream *)&SDU1, "command = %d\n", (int)ir_remote_values.data);
+        	remote_action();
+			chprintf((BaseSequentialStream *)&SD5, "command = %d\r\n", (int)ir_remote.data);
 		}
     }
 }
@@ -365,27 +335,24 @@ static THD_FUNCTION(remote_cmd_recv_thd, arg)
 /****************************PUBLIC FUNCTIONS*************************************/
 
 void ir_remote_start(void) {
-	gptStart(&GPTD11, &gpt11cfg);
-	gptStartContinuous(&GPTD11, 0xFFFF);
+	gptStart(&TIMER_IR, &gptcfg);
+	gptStartContinuous(&TIMER_IR, 0xFFFF);
 
 	static THD_WORKING_AREA(remote_cmd_recv_thd_wa, 256);
 	chThdCreateStatic(remote_cmd_recv_thd_wa, sizeof(remote_cmd_recv_thd_wa), NORMALPRIO, remote_cmd_recv_thd, NULL);
 
-	static THD_WORKING_AREA(remote_motion_thd_wa, 128);
-	chThdCreateStatic(remote_motion_thd_wa, sizeof(remote_motion_thd_wa), NORMALPRIO, remote_motion_thd, NULL);
-
 }
 
 uint8_t ir_remote_get_toggle(void) {
-	return ir_remote_values.toggle;
+	return ir_remote.toggle;
 }
 
 uint8_t ir_remote_get_address(void) {
-	return ir_remote_values.address;
+	return ir_remote.address;
 }
 
 uint8_t ir_remote_get_data(void) {
-	return ir_remote_values.data;
+	return ir_remote.data;
 }
 
 /**************************END PUBLIC FUNCTIONS***********************************/

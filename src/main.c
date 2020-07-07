@@ -18,6 +18,7 @@
 #include "dfsdm.h"
 #include "ar0144.h"
 #include "dcmi_cmd.h"
+#include "ir_remote.h"
 
 // #define I2C_TEST
 // #ifdef I2C_TEST
@@ -324,8 +325,12 @@ int main(void) {
 	// 	tab[i] = (uint8_t)i;
 	// }
 
+	/* CAMERA TEST CONFIG */
 	ar0144_start();
 	dcmi_start_from_shell();
+
+	/* IR REMOTE TEST CONFIG */
+	ir_remote_start();
   
 	while (true){
 		chThdSleepMilliseconds(100);

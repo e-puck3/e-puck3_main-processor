@@ -22,6 +22,9 @@ typedef struct{
 }RC5_t;
 
 
+#define IR_INPUT_LINE	LINE_IR_SIGNAL
+#define TIMER_IR		GPTD6
+
 
 /**
  * \brief Starts the IR remote process.
