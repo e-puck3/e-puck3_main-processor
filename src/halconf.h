@@ -427,7 +427,7 @@
  *          buffers.
  */
 #if !defined(SERIAL_USB_BUFFERS_SIZE) || defined(__DOXYGEN__)
-#define SERIAL_USB_BUFFERS_SIZE             4096
+#define SERIAL_USB_BUFFERS_SIZE             1024
 #endif
 
 /**
