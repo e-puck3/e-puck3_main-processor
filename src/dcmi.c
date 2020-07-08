@@ -1,6 +1,7 @@
 #include <ch.h>
 #include <hal.h>
 #include "dcmi.h"
+#include "ar0144.h"
 
 
 typedef struct {
@@ -52,8 +53,10 @@ OSAL_IRQ_HANDLER(Vector178) {
     uint32_t flags =  DCMI->MISR;
     if ((flags & DCMI_MIS_FRAME_MIS) != 0) { // Capture complete.
         DCMI->ICR |= DCMI_ICR_FRAME_ISC; // Clears the interrupt
-        palToggleLine(LINE_OE_CAM1_N);
-        palToggleLine(LINE_OE_CAM2_N);
+        if(ar0144_get_image_mode() == ALTERNANCE_CAM){
+            palToggleLine(LINE_OE_CAM1_N);
+            palToggleLine(LINE_OE_CAM2_N);
+        }
     }
 
     OSAL_IRQ_EPILOGUE();

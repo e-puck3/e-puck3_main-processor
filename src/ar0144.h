@@ -17,6 +17,13 @@ extern "C" {
 #define AR0144_MAX_FRAME_HEIGHT 803
 
 typedef enum {
+	NO_CAM = 0,
+	ONLY_CAM1,
+	ONLY_CAM2,
+	ALTERNANCE_CAM,
+} image_mode_t;
+
+typedef enum {
 	SIZE_VGA = 0x00,
 	SIZE_QVGA = 0x01,
 	SIZE_QQVGA = 0x02
@@ -37,6 +44,7 @@ typedef enum {
 typedef struct{
 	I2CDriver		*i2cp;
 	uint8_t 		i2c_address_7bits;
+	uint8_t 		connected;
 	uint16_t 		width;
 	uint16_t 		height;
 	ar0144_format_t curr_format;
@@ -85,6 +93,8 @@ int8_t ar0144_config(ar0144_configuration* cam, ar0144_format_t fmt, image_size_
 int8_t ar0144_advanced_config(ar0144_configuration* cam, ar0144_format_t fmt, unsigned int x1, unsigned int y1,
                                unsigned int width, unsigned int height,
 								subsampling_t subsampling_x, subsampling_t subsampling_y);
+
+uint8_t ar0144_get_image_mode(void);
 
 /**
 * @brief	Returns the current image size in bytes.

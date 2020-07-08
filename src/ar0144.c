@@ -274,6 +274,8 @@
 static ar0144_configuration ar0144_conf1;
 static ar0144_configuration ar0144_conf2;
 
+static uint8_t image_mode = NO_CAM;
+
 #define I2C_CAM_TIMEOUT_MS                      4
 
 static msg_t _read_reg_16(ar0144_configuration* cam, uint16_t reg, uint8_t* values, uint8_t len){
@@ -386,23 +388,10 @@ int8_t ar0144_set_size(image_size_t imgsize) {
 	}
 }
 
-/*
- * I2C configuration object.
- * I2C_TIMINGR:  400 kHz with I2CCLK = 216 MHz, rise time = 0 ns,
- *               fall time = 0 ns
- */
-static const I2CConfig i2c_config_cam = {
-    .timingr    = 0x10A03AC5,
-    .cr1        = 0,
-    .cr2        = 0,
-};
-
 int8_t ar0144_init(ar0144_configuration* cam){
 
     uint8_t regValue[2] = {0};
     int8_t err = 0;
-
-    i2cStart(cam->i2cp, &i2c_config_cam);
 
     // Reset camera
     regValue[0] = 0x00;
@@ -577,13 +566,22 @@ int8_t ar0144_init(ar0144_configuration* cam){
 /****************************PUBLIC FUNCTIONS*************************************/
 
 int8_t ar0144_start(void) {
-    int8_t err = 0;
-
     ar0144_conf1.i2cp = &I2CD4;
     ar0144_conf1.i2c_address_7bits = AR0144_ADDR0;
 
     ar0144_conf2.i2cp = &I2CD4;
     ar0144_conf2.i2c_address_7bits = AR0144_ADDR1;
+
+    /*
+     * I2C configuration object.
+     * I2C_TIMINGR:  400 kHz with I2CCLK = 216 MHz, rise time = 0 ns,
+     *               fall time = 0 ns
+     */
+    static const I2CConfig i2c_config_cam = {
+        .timingr    = 0x10A03AC5,
+        .cr1        = 0,
+        .cr2        = 0,
+    };
 
 
     // Timer initialization to clock the camera.
@@ -609,16 +607,33 @@ int8_t ar0144_start(void) {
     palSetLine(LINE_EN_CAM2);
     chThdSleepMilliseconds(1000); // Give time for the clock to be stable and the camera to wake-up.
 
-    if((err = ar0144_init(&ar0144_conf1)) != MSG_OK) {
-        return err;
-    }
-    
-    if((err = ar0144_init(&ar0144_conf2)) != MSG_OK) {
-        return err;
+    i2cStart(ar0144_conf1.i2cp, &i2c_config_cam);
+    if(ar0144_is_connected(&ar0144_conf1) && ar0144_init(&ar0144_conf1) == MSG_OK){  
+        ar0144_conf1.connected = true;
+        image_mode = ONLY_CAM1;
+    }else{
+        palClearLine(LINE_EN_CAM1);
     }
 
-    palClearLine(LINE_OE_CAM1_N);
-    // palClearLine(LINE_OE_CAM2_N);
+    i2cStart(ar0144_conf2.i2cp, &i2c_config_cam);
+    if(ar0144_is_connected(&ar0144_conf2) && ar0144_init(&ar0144_conf2) == MSG_OK){
+        ar0144_conf2.connected = true;
+        if(image_mode == ONLY_CAM1){
+            image_mode = ALTERNANCE_CAM;
+        }else{
+            image_mode = ONLY_CAM2;
+        }
+    }else{
+        palClearLine(LINE_EN_CAM2);
+    }
+
+    if(image_mode == ONLY_CAM1 || image_mode == ALTERNANCE_CAM){
+        palClearLine(LINE_OE_CAM1_N);
+    }else if(image_mode == ONLY_CAM2){
+        palClearLine(LINE_OE_CAM2_N);
+    }
+
+    
 
     return MSG_OK;
 }
@@ -765,6 +780,10 @@ int8_t ar0144_advanced_config(ar0144_configuration* cam, ar0144_format_t fmt, un
 	cam->curr_subsampling_y = subsampling_y;
 
     return MSG_OK;
+}
+
+uint8_t ar0144_get_image_mode(void){
+    return image_mode;
 }
 
 uint32_t ar0144_get_image_size(uint8_t cam_choice) {
