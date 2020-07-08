@@ -41,6 +41,24 @@ static void dcmi_serve_dma_interrupt(void *p, uint32_t flags){
     }
 }
 
+/**
+ * @brief   DCMI interrupt handler
+ *
+ * @isr
+ */
+OSAL_IRQ_HANDLER(Vector178) {
+    OSAL_IRQ_PROLOGUE();
+
+    uint32_t flags =  DCMI->MISR;
+    if ((flags & DCMI_MIS_FRAME_MIS) != 0) { // Capture complete.
+        DCMI->ICR |= DCMI_ICR_FRAME_ISC; // Clears the interrupt
+        palToggleLine(LINE_OE_CAM1_N);
+        palToggleLine(LINE_OE_CAM2_N);
+    }
+
+    OSAL_IRQ_EPILOGUE();
+}
+
 void dcmi_start(DCMI_config_t *cam_config){
 
     cam_drv.cfg = cam_config;
@@ -49,13 +67,13 @@ void dcmi_start(DCMI_config_t *cam_config){
     rccEnableAHB2(RCC_AHB2ENR_DCMIEN, false);
 
     /* DCMI config */
-    // nvicEnableVector(DCMI_IRQn, STM32_DCMI_IRQ_PRIORITY);
+    nvicEnableVector(DCMI_IRQn, STM32_DCMI_IRQ_PRIORITY);
 
     DCMI->CR  &= ~(DCMI_CR_CAPTURE | DCMI_CR_ENABLE); // Do not enable here because we don't still know the capture mode that will be used.
     DCMI->CR |= DCMI_CR_PCKPOL;
     DCMI->CR |= DCMI_CR_EDM_1; // 12bits data capture
     // Interrupt enable register.
-    // DCMI->IER |= DCMI_IER_FRAME_IE; // Capture complete.
+    DCMI->IER |= DCMI_IER_FRAME_IE; // Capture complete.
     //DCMI->IER |= DCMI_IER_VSYNC_IE; // Interrupt generated when vsync become active (start of frame).
     // DCMI->IER |= DCMI_IER_OVF_IE; // Overrun (by DMA).
     // Control Register.

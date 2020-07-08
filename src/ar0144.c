@@ -617,7 +617,7 @@ int8_t ar0144_start(void) {
         return err;
     }
 
-    // palClearLine(LINE_OE_CAM1_N);
+    palClearLine(LINE_OE_CAM1_N);
     // palClearLine(LINE_OE_CAM2_N);
 
     return MSG_OK;
