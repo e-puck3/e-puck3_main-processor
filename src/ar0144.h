@@ -64,7 +64,7 @@ int8_t ar0144_start(void);
 * @retval MSG_TIMEOUT  if a timeout occurred before operation end or if wrong imgsize
 *
 */
-int8_t ar0144_config(ar0144_format_t fmt, image_size_t imgsize);
+int8_t ar0144_config(ar0144_configuration* cam, ar0144_format_t fmt, image_size_t imgsize);
 
 /**
 * @brief   Configures advanced setting of the camera
@@ -82,17 +82,18 @@ int8_t ar0144_config(ar0144_format_t fmt, image_size_t imgsize);
 * @retval MSG_TIMEOUT  if a timeout occurred before operation end
 *
 */
-int8_t ar0144_advanced_config(ar0144_format_t fmt, unsigned int x1, unsigned int y1,
+int8_t ar0144_advanced_config(ar0144_configuration* cam, ar0144_format_t fmt, unsigned int x1, unsigned int y1,
                                unsigned int width, unsigned int height,
 								subsampling_t subsampling_x, subsampling_t subsampling_y);
 
 /**
 * @brief	Returns the current image size in bytes.
 *
+* @param	cam_choice. 1 or 2
 * @return	The image size in bytes
 *
 */
-uint32_t ar0144_get_image_size(void);
+uint32_t ar0144_get_image_size(uint8_t cam_choice);
 
 /**
 * @brief	Check whether the ar0144 camera is connected.
@@ -100,7 +101,7 @@ uint32_t ar0144_get_image_size(void);
 * @return	1 if the camera is present, 0 otherwise.
 *
 */
-uint8_t ar0144_is_connected(void);
+uint8_t ar0144_is_connected(ar0144_configuration* cam);
 
 #ifdef __cplusplus
 }

@@ -271,7 +271,8 @@
 #define AR0144_REG_P_BL_Q5						0x37C4
 #define AR0144_REG_P_GB_Q5						0x37C6
 
-static ar0144_configuration ar0144_conf;
+static ar0144_configuration ar0144_conf1;
+static ar0144_configuration ar0144_conf2;
 
 #define I2C_CAM_TIMEOUT_MS                      4
 
@@ -315,11 +316,11 @@ static msg_t _write_reg_16(ar0144_configuration* cam, uint16_t reg, uint8_t* val
  * @retval MSG_TIMEOUT  if a timeout occurred before operation end.
  *
  */
-int8_t ar0144_read_id(uint16_t *id) {
+int8_t ar0144_read_id(ar0144_configuration* cam, uint16_t *id) {
     uint8_t regValue[2] = {0};
     int8_t err = 0;
 
-    if((err = _read_reg_16(&ar0144_conf, AR0144_REG_CHIP_VERSION_REG, &regValue[0], 2)) != MSG_OK) {
+    if((err = _read_reg_16(cam, AR0144_REG_CHIP_VERSION_REG, &regValue[0], 2)) != MSG_OK) {
         return err;
     }
     *id = (((uint16_t)regValue[0])<<8)|regValue[1];
@@ -385,60 +386,16 @@ int8_t ar0144_set_size(image_size_t imgsize) {
 	}
 }
 
-/*************************END INTERNAL FUNCTIONS**********************************/
+int8_t ar0144_init(ar0144_configuration* cam){
 
-
-/****************************PUBLIC FUNCTIONS*************************************/
-
-int8_t ar0144_start(void) {
     uint8_t regValue[2] = {0};
     int8_t err = 0;
-
-    ar0144_conf.i2cp = &I2CD4;
-    ar0144_conf.i2c_address_7bits = AR0144_ADDR1;
-
-    /*
-     * I2C configuration object.
-     * I2C_TIMINGR:  400 kHz with I2CCLK = 216 MHz, rise time = 0 ns,
-     *               fall time = 0 ns
-     */
-    static const I2CConfig i2c_config_cam = {
-        .timingr    = 0x10A03AC5,
-        .cr1        = 0,
-        .cr2        = 0,
-    };
-
-    i2cStart(ar0144_conf.i2cp, &i2c_config_cam);
-
-
-    // Timer initialization to clock the camera.
-    // Need to be configured here in order to read the camera registers.
-    static const PWMConfig pwmcfg_cam = {
-        .frequency = 36000000,  //36MHz
-        .period = 0x02, //0x07, //0x02,         //PWM period = 36MHz/2 => 18MHz
-        .cr2 = 0,
-        .callback = NULL,
-        .channels = {
-            // Channel 1 is used as master clock for the camera.
-            {.mode = PWM_OUTPUT_DISABLED, .callback = NULL},
-            {.mode = PWM_OUTPUT_DISABLED, .callback = NULL},
-            {.mode = PWM_OUTPUT_DISABLED, .callback = NULL},
-            {.mode = PWM_OUTPUT_ACTIVE_HIGH, .callback = NULL},
-        },
-    };
-    pwmStart(&PWMD4, &pwmcfg_cam);
-    // Enables channel 1 to clock the camera.
-    pwmEnableChannel(&PWMD4, 3, 1); //1 is half the period set => duty cycle = 50%
-    chThdSleepMilliseconds(10);
-    palSetLine(LINE_EN_CAM2);
-    palClearLine(LINE_OE_CAM2_N);
-    chThdSleepMilliseconds(1000); // Give time for the clock to be stable and the camera to wake-up.
 
     // Reset camera
     regValue[0] = 0x00;
     regValue[1] = 0x01;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_RESET_REGISTER, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_RESET_REGISTER, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
     chThdSleepMilliseconds(10);
 
@@ -463,52 +420,52 @@ int8_t ar0144_start(void) {
     // pll multiplier
     regValue[0] = 0x0;
     regValue[1] = 32;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_PLL_MULTIPLIER, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_PLL_MULTIPLIER, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
     // pre_pll_clk_div
     regValue[0] = 0x0;
     regValue[1] = 1;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_PRE_PLL_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_PRE_PLL_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
-	// vt_pix_clk_div
-	regValue[0] = 0x0;
+    // vt_pix_clk_div
+    regValue[0] = 0x0;
     regValue[1] = 12;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_VT_PIX_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_VT_PIX_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
     // vt_sys_clk_div
     regValue[0] = 0x0;
     regValue[1] = 1;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_VT_SYS_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_VT_SYS_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
     // op_pix_clk_div
     regValue[0] = 0x0;
     regValue[1] = 12; //10;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_OP_PIX_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_OP_PIX_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
     // op_sys_clk_div
     regValue[0] = 0x0;
     regValue[1] = 1;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_OP_SYS_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_OP_SYS_CLK_DIV, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
 
     // digital_test: enable pll
     regValue[0] = 0x0;
     regValue[1] = 0;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_DIGITAL_TEST, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_DIGITAL_TEST, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
 
     // Line length pck = 1488 => minimum line length.
     regValue[0] = 0x05;
     regValue[1] = 0xD0;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_LINE_LENGTH_PCK, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_LINE_LENGTH_PCK, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
 
     // Given we want a framerate of 30 Hz and a pixel clock of 48 MHz then:
@@ -518,28 +475,28 @@ int8_t ar0144_start(void) {
     // Frame length lines
     regValue[0] = 0x04;
     regValue[1] = 0x2E;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_FRAME_LENGTH_LINES, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_FRAME_LENGTH_LINES, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
     // Extra clocks delay
     regValue[0] = 0x01;
     regValue[1] = 0x8F;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_EXTRA_DELAY, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_EXTRA_DELAY, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
 
     // Integration time = 33 ms (that is maximum given fps=30)
     // Integration reg value = (33*1000)/(1/48MHz*1488) = 1064
     regValue[0] = 0x04;
     regValue[1] = 0x28;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_COARSE_INTEGRATION_TIME, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_COARSE_INTEGRATION_TIME, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
 
     // turns ON auto exposure
     regValue[0] = 0x00;
     regValue[1] = 0x01;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_AECTRLREG, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(cam, AR0144_REG_AECTRLREG, &regValue[0], 2)) != MSG_OK) {
         return err;
     }
 
@@ -548,36 +505,36 @@ int8_t ar0144_start(void) {
     // Output 12 bits: we use only 8 MSBits.
     regValue[0] = 0x0C;
     regValue[1] = 0x0C;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_DATA_FORMAT_BITS, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_DATA_FORMAT_BITS, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
 
     // Line Valid (LV) normal behavior
     regValue[0] = 0x48;
     regValue[1] = 0x10;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_DATAPATH_SELECT, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_DATAPATH_SELECT, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
 
     // Linear mode (no other options)
     regValue[0] = 0;
     regValue[1] = 3;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_OPERATION_MODE_CTRL, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_OPERATION_MODE_CTRL, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
 
     // No flip/mirroring, no binning
     regValue[0] = 0;
     regValue[1] = 0;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_READ_MODE, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_READ_MODE, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
 
     // No compression
     regValue[0] = 0x0;
     regValue[1] = 0x0;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_COMPANDING, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_COMPANDING, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
 
     // Serial format: from the register reference, this register should not be related to parallel interface
@@ -585,27 +542,92 @@ int8_t ar0144_start(void) {
     // is disabled (FV and LV are stopped).
     regValue[0] = 0x02;
     regValue[1] = 0x00;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_SERIAL_FORMAT, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    if((err = _write_reg_16(cam, AR0144_REG_SERIAL_FORMAT, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
 
-    ar0144_advanced_config(AR0144_FORMAT_BAYER, 0, 0, 1200, 720, SUBSAMPLING_X4, SUBSAMPLING_X4);
+    ar0144_advanced_config(cam, AR0144_FORMAT_BAYER, 0, 0, 1200, 720, SUBSAMPLING_X4, SUBSAMPLING_X4);
 
-    // Serial interface disabled, parallel interface enabled, stream on
-    regValue[0] = 0x30;
-    regValue[1] = 0xDC; //0xDC;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_RESET_REGISTER, &regValue[0], 2)) != MSG_OK) {
-    	return err;
+    // Serial interface disabled, parallel interface enabled, stream on, output driven by OE pin
+    regValue[0] = 0x31;
+    regValue[1] = 0x9C; //0x9C;
+    if((err = _write_reg_16(cam, AR0144_REG_RESET_REGISTER, &regValue[0], 2)) != MSG_OK) {
+        return err;
     }
 
     return MSG_OK;
 }
 
-int8_t ar0144_config(ar0144_format_t fmt, image_size_t imgsize) {
+/*************************END INTERNAL FUNCTIONS**********************************/
+
+
+/****************************PUBLIC FUNCTIONS*************************************/
+
+int8_t ar0144_start(void) {
+    int8_t err = 0;
+
+    ar0144_conf1.i2cp = &I2CD4;
+    ar0144_conf1.i2c_address_7bits = AR0144_ADDR0;
+
+    ar0144_conf2.i2cp = &I2CD4;
+    ar0144_conf2.i2c_address_7bits = AR0144_ADDR1;
+
+    /*
+     * I2C configuration object.
+     * I2C_TIMINGR:  400 kHz with I2CCLK = 216 MHz, rise time = 0 ns,
+     *               fall time = 0 ns
+     */
+    static const I2CConfig i2c_config_cam = {
+        .timingr    = 0x10A03AC5,
+        .cr1        = 0,
+        .cr2        = 0,
+    };
+
+    i2cStart(ar0144_conf1.i2cp, &i2c_config_cam);
+
+
+    // Timer initialization to clock the camera.
+    // Need to be configured here in order to read the camera registers.
+    static const PWMConfig pwmcfg_cam = {
+        .frequency = 36000000,  //36MHz
+        .period = 0x02, //0x07, //0x02,         //PWM period = 36MHz/2 => 18MHz
+        .cr2 = 0,
+        .callback = NULL,
+        .channels = {
+            // Channel 1 is used as master clock for the camera.
+            {.mode = PWM_OUTPUT_DISABLED, .callback = NULL},
+            {.mode = PWM_OUTPUT_DISABLED, .callback = NULL},
+            {.mode = PWM_OUTPUT_DISABLED, .callback = NULL},
+            {.mode = PWM_OUTPUT_ACTIVE_HIGH, .callback = NULL},
+        },
+    };
+    pwmStart(&PWMD4, &pwmcfg_cam);
+    // Enables channel 1 to clock the camera.
+    pwmEnableChannel(&PWMD4, 3, 1); //1 is half the period set => duty cycle = 50%
+    chThdSleepMilliseconds(10);
+    palSetLine(LINE_EN_CAM1);
+    palSetLine(LINE_EN_CAM2);
+    chThdSleepMilliseconds(1000); // Give time for the clock to be stable and the camera to wake-up.
+
+    if((err = ar0144_init(&ar0144_conf1)) != MSG_OK) {
+        return err;
+    }
+    
+    if((err = ar0144_init(&ar0144_conf2)) != MSG_OK) {
+        return err;
+    }
+
+    // palClearLine(LINE_OE_CAM1_N);
+    // palClearLine(LINE_OE_CAM2_N);
+
+    return MSG_OK;
+}
+
+int8_t ar0144_config(ar0144_configuration* cam, ar0144_format_t fmt, image_size_t imgsize) {
 
     int8_t err = 0;
 
-    ar0144_conf.curr_format = fmt;
+    cam->curr_format = fmt;
 
     if((err = ar0144_set_size(imgsize)) != MSG_OK) {
         return err;
@@ -614,7 +636,7 @@ int8_t ar0144_config(ar0144_format_t fmt, image_size_t imgsize) {
     return MSG_OK;
 }
 
-int8_t ar0144_advanced_config(ar0144_format_t fmt, unsigned int x1, unsigned int y1,
+int8_t ar0144_advanced_config(ar0144_configuration* cam, ar0144_format_t fmt, unsigned int x1, unsigned int y1,
                                unsigned int width, unsigned int height,
 								subsampling_t subsampling_x, subsampling_t subsampling_y) {
 
@@ -647,7 +669,7 @@ int8_t ar0144_advanced_config(ar0144_format_t fmt, unsigned int x1, unsigned int
 
 	switch(subsampling_x) {
 		case SUBSAMPLING_X1:
-			ar0144_conf.width = width;
+			cam->width = width;
 			sub_x = 1;
 			break;
 
@@ -656,7 +678,7 @@ int8_t ar0144_advanced_config(ar0144_format_t fmt, unsigned int x1, unsigned int
 			if(width%2) {
 				return -6;
 			} else {
-				ar0144_conf.width = width/2;
+				cam->width = width/2;
 				sub_x = 3;
 			}
 			break;
@@ -666,7 +688,7 @@ int8_t ar0144_advanced_config(ar0144_format_t fmt, unsigned int x1, unsigned int
 			if(width%4) {
 				return -6;
 			} else {
-				ar0144_conf.width = width/4;
+				cam->width = width/4;
 				sub_x = 7;
 			}
 			break;
@@ -674,7 +696,7 @@ int8_t ar0144_advanced_config(ar0144_format_t fmt, unsigned int x1, unsigned int
 
 	switch(subsampling_y) {
 		case SUBSAMPLING_X1:
-			ar0144_conf.height = height;
+			cam->height = height;
 			sub_y = 1;
 			break;
 
@@ -683,7 +705,7 @@ int8_t ar0144_advanced_config(ar0144_format_t fmt, unsigned int x1, unsigned int
 			if(height%2) {
 				return -7;
 			} else {
-				ar0144_conf.height = height/2;
+				cam->height = height/2;
 				sub_y = 3;
 			}
 			break;
@@ -693,7 +715,7 @@ int8_t ar0144_advanced_config(ar0144_format_t fmt, unsigned int x1, unsigned int
 			if(height%4) {
 				return -7;
 			} else {
-				ar0144_conf.height = height/4;
+				cam->height = height/4;
 				sub_y = 7;
 			}
 			break;
@@ -702,61 +724,65 @@ int8_t ar0144_advanced_config(ar0144_format_t fmt, unsigned int x1, unsigned int
     // y start
     regValue[0] = y1>>8;
     regValue[1] = y1&0xFF;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_Y_ADDR_START, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(cam, AR0144_REG_Y_ADDR_START, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
     // y end
     regValue[0] = y2>>8;
     regValue[1] = y2&0xFF;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_Y_ADDR_END, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(cam, AR0144_REG_Y_ADDR_END, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
     // x start
     regValue[0] = x1>>8;
     regValue[1] = x1&0xFF;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_X_ADDR_START, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(cam, AR0144_REG_X_ADDR_START, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
     // x end
     regValue[0] = x2>>8;
     regValue[1] = x2&0xFF;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_X_ADDR_END, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(cam, AR0144_REG_X_ADDR_END, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
     // Horizontal skip
     regValue[0] = 0;
     regValue[1] = sub_x;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_X_ODD_INC, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(cam, AR0144_REG_X_ODD_INC, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
     // Vertical skip
     regValue[0] = 0;
     regValue[1] = sub_y;
-    if((err = _write_reg_16(&ar0144_conf, AR0144_REG_Y_ODD_INC, &regValue[0], 2)) != MSG_OK) {
+    if((err = _write_reg_16(cam, AR0144_REG_Y_ODD_INC, &regValue[0], 2)) != MSG_OK) {
     	return err;
     }
 
-	ar0144_conf.curr_format = fmt;
-	ar0144_conf.curr_subsampling_x = subsampling_x;
-	ar0144_conf.curr_subsampling_y = subsampling_y;
+	cam->curr_format = fmt;
+	cam->curr_subsampling_x = subsampling_x;
+	cam->curr_subsampling_y = subsampling_y;
 
     return MSG_OK;
 }
 
-uint32_t ar0144_get_image_size(void) {
-    if(ar0144_conf.curr_format == AR0144_FORMAT_RGB565) {
-        //return (uint32_t)ar0144_conf.width * (uint32_t)ar0144_conf.height * 2;
-        return (uint32_t)ar0144_conf.width * (uint32_t)ar0144_conf.height; // At the moment RGB565 is not supported
+uint32_t ar0144_get_image_size(uint8_t cam_choice) {
+    ar0144_configuration* cam = &ar0144_conf1;
+    if(cam_choice == 2){
+        cam = &ar0144_conf2;
+    }
+    if(cam->curr_format == AR0144_FORMAT_BAYER) {
+        //return (uint32_t)cam->width * (uint32_t)cam->height * 2;
+        return (uint32_t)cam->width * (uint32_t)cam->height/2; // At the moment RGB565 is not supported
     } else {
-        return (uint32_t)ar0144_conf.width * (uint32_t)ar0144_conf.height;
+        return (uint32_t)cam->width * (uint32_t)cam->height/2;
     }
 }
 
-uint8_t ar0144_is_connected(void) {
+uint8_t ar0144_is_connected(ar0144_configuration* cam) {
 	uint16_t id = 0;
-	int8_t res = ar0144_read_id(&id);
+	int8_t res = ar0144_read_id(cam, &id);
     // chprintf((BaseSequentialStream *)&SD5, "ID=%d ", id);
 	if((res==MSG_OK) && (id==0x0356)) {
 		// chprintf((BaseSequentialStream *)&SD5, "-> Correct\r\n");
