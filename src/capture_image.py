@@ -37,7 +37,7 @@ def main():
         print("done")
 
         # Then read the whole sample out
-        buf = bytes()
+        buf = bytearray()
         pbar = progressbar.ProgressBar(maxval=TOTAL_SAMPLES_TO_READ).start()
         while len(buf) < 4 * TOTAL_SAMPLES_TO_READ:
             pbar.update(len(buf) / 4)
@@ -65,7 +65,7 @@ def main():
         print("done")
 
         # Then read the whole sample out
-        buf = bytes()
+        buf = bytearray()
         pbar = progressbar.ProgressBar(maxval=TOTAL_SAMPLES_TO_READ).start()
         while len(buf) < 4 * TOTAL_SAMPLES_TO_READ:
             pbar.update(len(buf) / 4)
