@@ -386,10 +386,23 @@ int8_t ar0144_set_size(image_size_t imgsize) {
 	}
 }
 
+/*
+ * I2C configuration object.
+ * I2C_TIMINGR:  400 kHz with I2CCLK = 216 MHz, rise time = 0 ns,
+ *               fall time = 0 ns
+ */
+static const I2CConfig i2c_config_cam = {
+    .timingr    = 0x10A03AC5,
+    .cr1        = 0,
+    .cr2        = 0,
+};
+
 int8_t ar0144_init(ar0144_configuration* cam){
 
     uint8_t regValue[2] = {0};
     int8_t err = 0;
+
+    i2cStart(cam->i2cp, &i2c_config_cam);
 
     // Reset camera
     regValue[0] = 0x00;
@@ -571,19 +584,6 @@ int8_t ar0144_start(void) {
 
     ar0144_conf2.i2cp = &I2CD4;
     ar0144_conf2.i2c_address_7bits = AR0144_ADDR1;
-
-    /*
-     * I2C configuration object.
-     * I2C_TIMINGR:  400 kHz with I2CCLK = 216 MHz, rise time = 0 ns,
-     *               fall time = 0 ns
-     */
-    static const I2CConfig i2c_config_cam = {
-        .timingr    = 0x10A03AC5,
-        .cr1        = 0,
-        .cr2        = 0,
-    };
-
-    i2cStart(ar0144_conf1.i2cp, &i2c_config_cam);
 
 
     // Timer initialization to clock the camera.

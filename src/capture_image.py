@@ -25,6 +25,10 @@ def main():
     conn = serial.Serial(args.port, timeout=1)
 
     while(1):
+        fig = plt.figure(figsize=(15,6))
+        plt.subplots_adjust(left = 0.05, right=0.99)
+        # image left
+        im1 = fig.add_subplot(1,2, 1)
         conn.write("dcmi\r\n".encode())
         buf = bytes()
         print("Placing board in acquisition mode... ", end="")
@@ -50,6 +54,35 @@ def main():
         image_rgb = image_rgb/np.amax(image_rgb)
 
         plt.imshow(image_rgb)
+
+        # image right
+        im2 = fig.add_subplot(1,2, 2)
+        conn.write("dcmi\r\n".encode())
+        buf = bytes()
+        print("Placing board in acquisition mode... ", end="")
+        while not buf.decode().endswith("Done !\r\n"):
+            buf = buf + conn.read(1)
+        print("done")
+
+        # Then read the whole sample out
+        buf = bytes()
+        pbar = progressbar.ProgressBar(maxval=TOTAL_SAMPLES_TO_READ).start()
+        while len(buf) < 4 * TOTAL_SAMPLES_TO_READ:
+            pbar.update(len(buf) / 4)
+            buf += conn.read(100)
+        pbar.finish()
+
+        print(len(buf))
+
+        image = np.frombuffer(buf, dtype='uint16')
+        image = image.reshape((HEIGHT,WIDTH))
+
+        image_rgb = demosaicing_CFA_Bayer_bilinear(image, 'GRBG')
+
+        image_rgb = image_rgb/np.amax(image_rgb)
+
+        plt.imshow(image_rgb)
+
         plt.pause(0.033)
         plt.close()
 
