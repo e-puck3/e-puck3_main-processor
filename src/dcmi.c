@@ -53,6 +53,7 @@ OSAL_IRQ_HANDLER(Vector178) {
     uint32_t flags =  DCMI->MISR;
     if ((flags & DCMI_MIS_FRAME_MIS) != 0) { // Capture complete.
         DCMI->ICR |= DCMI_ICR_FRAME_ISC; // Clears the interrupt
+        // if two cameras are configured, capture in alternance the images
         if(ar0144_get_image_mode() == ALTERNANCE_CAM){
             palToggleLine(LINE_OE_CAM1_N);
             palToggleLine(LINE_OE_CAM2_N);
@@ -88,6 +89,15 @@ void dcmi_start(DCMI_config_t *cam_config){
                                 dcmi_serve_dma_interrupt,
                                 &cam_drv);
     osalDbgAssert(cam_drv.dma_stream != NULL, "unable to allocate stream");
+
+    /*
+    *   Even if the camera sends 12bits data, thus 16bits values in the DCMI DR register,
+    *   the DCMI peripheral request DMA transfers of 32 bits.
+    *   Then we also configure the DMA to use its FIFO and burst functionality.
+    *   -> instead of writing to the memory each 32 bits, we write the memory by group of 4x32bits values.
+    *   It's done by disabling direct mode and setting the fifo level to FULL, 
+    *   see 8.3.13 FIFO threshold and burst configuration of reference manual.
+    */
 
     uint32_t dma_mode = STM32_DMA_CR_CHSEL(1) |                     // Channel 1.
                         STM32_DMA_CR_PL(STM32_DCMI_DMA_PRIORITY) |  // High priority level.

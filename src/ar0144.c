@@ -550,14 +550,22 @@ int8_t ar0144_init(ar0144_configuration* cam){
 
     ar0144_advanced_config(cam, AR0144_FORMAT_BAYER, 0, 0, 1200, 720, SUBSAMPLING_X4, SUBSAMPLING_X4);
 
-    // Serial interface disabled, parallel interface enabled, stream on, output driven by OE pin
+    // Serial interface disabled, parallel interface enabled, stream off, output driven by OE pin
     regValue[0] = 0x31;
-    regValue[1] = 0x9C; //0x9C;
+    regValue[1] = 0x98; //0x98;
     if((err = _write_reg_16(cam, AR0144_REG_RESET_REGISTER, &regValue[0], 2)) != MSG_OK) {
         return err;
     }
 
     return MSG_OK;
+}
+
+int8_t ar0144_start_stream(ar0144_configuration* cam){
+    // Serial interface disabled, parallel interface enabled, stream on, output driven by OE pin
+    // WARNING same setting as in ar0144_init() + stream enabled
+    uint8_t regValue[2] = {0x31, 0x9C};
+
+    return _write_reg_16(cam, AR0144_REG_RESET_REGISTER, &regValue[0], 2);
 }
 
 /*************************END INTERNAL FUNCTIONS**********************************/
@@ -633,7 +641,12 @@ int8_t ar0144_start(void) {
         palClearLine(LINE_OE_CAM2_N);
     }
 
-    
+    if(ar0144_conf1.connected){
+        ar0144_start_stream(&ar0144_conf1);
+    }
+    if(ar0144_conf2.connected){
+        ar0144_start_stream(&ar0144_conf2);
+    }
 
     return MSG_OK;
 }
