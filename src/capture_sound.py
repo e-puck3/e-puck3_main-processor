@@ -42,13 +42,13 @@ def main():
 
     # First place the board in dfsdm acquisition mode
     if args.mic == 'mic1':
-        conn.write("dfsdm mic1\r\n".encode())
+        conn.write("dfsdm_usb mic1\r\n".encode())
     elif args.mic == 'mic2':
-        conn.write("dfsdm mic2\r\n".encode())
+        conn.write("dfsdm_usb mic2\r\n".encode())
     elif args.mic == 'mic3':
-        conn.write("dfsdm mic3\r\n".encode())
+        conn.write("dfsdm_usb mic3\r\n".encode())
     else:
-        conn.write("dfsdm mic4\r\n".encode())
+        conn.write("dfsdm_usb mic4\r\n".encode())
     buf = bytes()
     print("Placing board in acquisition mode... ", end="")
     while not buf.decode().endswith("Done !\r\n"):

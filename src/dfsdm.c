@@ -6,25 +6,6 @@
 #error "DFSDM driver requires DMA functions. Please define STM32_DMA_REQUIRED."
 #endif
 
-// /* Those defines are missing from the STM32F769 include, copied them from the L4 one. */
-// #define DFSDM_CHCFGR1_CKOUTDIV_Pos           (16U)
-// #define DFSDM_CHCFGR1_CKOUTDIV_Msk           (0xFFU << DFSDM_CHCFGR1_CKOUTDIV_Pos) /*!< 0x00FF0000 */
-// #define DFSDM_CHCFGR2_DTRBS_Pos              (3U)
-// #define DFSDM_FLTCR1_RCH_Pos                 (24U)
-// #define DFSDM_FLTCR1_RDMAEN_Pos              (21U)
-// #define DFSDM_FLTFCR_IOSR_Pos                (0U)
-// #define DFSDM_FLTFCR_FOSR_Pos                (16U)
-// #define DFSDM_FLTFCR_FORD_Pos                (29U)
-
-/* Both DFSDM units are wired to the same DMA channel, but is changed depending
- * on the DMA stream. Stream 0/4 go to FLT0, 1/5 FLT1, etc.
- *
- * See Table 28 (DMA2 request mapping) in the STM32F7 reference manual for
- * complete list.
- * */
-// #define DFSDM_FLT0_DMA_CHN 8
-// #define DFSDM_FLT1_DMA_CHN 8
-
 typedef struct {
     const stm32_dma_stream_t *dma_stream;
     DFSDM_config_t *cfg;
