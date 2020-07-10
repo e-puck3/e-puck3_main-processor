@@ -148,7 +148,8 @@ CSRC = $(ALLCSRC) \
        dcmi.c \
        ar0144.c \
        dcmi_cmd.c \
-       ir_remote.c
+       ir_remote.c \
+       lsm6dsox.c
 
 
 

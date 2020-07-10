@@ -1,6 +1,6 @@
 /**
  * @file	lsm6dsox.c
- * @brief  	Low level driver for a lsm6dsox IMU conencted with SPI
+ * @brief  	Low level driver for a lsm6dsox IMU connected with SPI
  * 
  * @written by  	Eliot Ferragni
  * @creation date	09.07.2020
@@ -8,6 +8,8 @@
  
 #include "ch.h"
 #include "hal.h"
+#include "math.h"
+#include "lsm6dsox.h"
 
 /********************              LSM6DSOX REGISTERS              ********************/
 
@@ -64,12 +66,12 @@
 #define REG_STATUS_MASTER_MAINPAGE		0x39
 #define REG_FIFO_STATUS1				0x3A
 #define REG_FIFO_STATUS2				0x3B
-#define REG_RESERVED					0x3C	//RESERVED from 0x3C to 0x3F
+#define REG_RESERVED_3					0x3C	//RESERVED from 0x3C to 0x3F
 #define REG_TIMESTAMP0					0x40
 #define REG_TIMESTAMP1					0x41
 #define REG_TIMESTAMP2					0x42
 #define REG_TIMESTAMP3					0x43
-#define REG_RESERVED_3					0x44	//RESERVED from 0x44 to 0x48
+#define REG_RESERVED_4					0x44	//RESERVED from 0x44 to 0x48
 #define REG_UI_STATUS_REG_OIS			0x49
 #define REG_UI_OUTX_L_G_OIS				0x4A
 #define REG_UI_OUTX_H_G_OIS				0x4B
@@ -97,7 +99,7 @@
 #define REG_S4S_DT_REG					0x61
 #define REG_I3C_BUS_AVB					0x62
 #define REG_INTERNAL_FREQ_FINE 			0x63
-#define REG_RESERVED_4					0x64	//RESERVED from 0x64 to 0x6E
+#define REG_RESERVED5					0x64	//RESERVED from 0x64 to 0x6E
 #define REG_UI_INT_OIS					0x6F
 #define REG_UI_CTRL1_OIS				0x70
 #define REG_UI_CTRL2_OIS				0x71
@@ -105,14 +107,14 @@
 #define REG_X_OFS_USR					0x73
 #define REG_Y_OFS_USR					0x74
 #define REG_Z_OFS_USR					0x75
-#define REG_RESERVED					0x76	//RESERVED from 0x76 to 0x77
+#define REG_RESERVED_6					0x76	//RESERVED from 0x76 to 0x77
 #define REG_FIFO_DATA_OUT_TAG			0x78
 #define REG_FIFO_DATA_OUT_X_L			0x79
 #define REG_FIFO_DATA_OUT_X_H			0x7A
 #define REG_FIFO_DATA_OUT_Y_L			0x7B
 #define REG_FIFO_DATA_OUT_Y_H			0x7C
 #define REG_FIFO_DATA_OUT_Z_L			0x7D
-#define REG_FIFO_DATA_OUT_X_H			0x7E
+#define REG_FIFO_DATA_OUT_Z_H			0x7E
 
 /********************        Bit definition for REG_CTRL1_XL       ********************/
 #define CTRL1_XL_ODR_XL(x) 				((x & 0x0F) << 4)
@@ -136,6 +138,14 @@
 static uint8_t txbuf[MAX_SPI_FRAME_LENGTH] = {0};
 static uint8_t rxbuf[MAX_SPI_FRAME_LENGTH] = {0};
 
+
+/********************                   Constants                  ********************/
+#define STANDARD_GRAVITY   				9.80665f
+#define INT16_MAX_VALUE 				32768.0f
+
+#define GYRO_SCALE_TO_DPS(scale)		((scale + 1) * 250)
+#define ACCEL_SCALE_TO_REG(scale)		(scale >> 5)
+#define ACCEL_SCALE_TO_G(scale)			(scale & 0x1F)
 
 /********************              Internal functions              ********************/
 
@@ -190,9 +200,12 @@ msg_t _lsm6dsox_read_reg_multi(lsm6dsox_device_t* imu, uint8_t reg, uint8_t len)
 
 msg_t lsm6dsox_configure(lsm6dsox_device_t* imu){
 
-	_lsm6dsox_write_reg(imu, REG_CTRL2_G, CTRL2_G_ODR_G(imu->reg->gyro_freq) | CTRL2_G_FS_G(imu->reg->gyro_scale));
+	_lsm6dsox_write_reg(imu, REG_CTRL2_G, CTRL2_G_ODR_G(imu->cfg->gyro_freq) | CTRL2_G_FS_G(imu->cfg->gyro_scale));
 
-	_lsm6dsox_write_reg(imu, REG_CTRL1_XL, CTRL1_XL_ODR_XL(imu->reg->accel_freq) | CTRL1_XL_FS_XL(imu->reg->accel_scale));
+	_lsm6dsox_write_reg(imu, REG_CTRL1_XL, CTRL1_XL_ODR_XL(imu->cfg->accel_freq) | CTRL1_XL_FS_XL(ACCEL_SCALE_TO_REG(imu->cfg->accel_scale)));
+
+	imu->gyro_raw_to_rad_s = (GYRO_SCALE_TO_DPS(imu->cfg->gyro_scale)) * M_PI / (INT16_MAX_VALUE * 180);
+	imu->accel_raw_to_m_ss = (ACCEL_SCALE_TO_G(imu->cfg->accel_scale) * STANDARD_GRAVITY) / INT16_MAX_VALUE;
 
 	return MSG_OK;
 }
@@ -200,12 +213,12 @@ msg_t lsm6dsox_configure(lsm6dsox_device_t* imu){
 msg_t lsm6dsox_read_raw_data(lsm6dsox_device_t* imu, lsm6dsox_data_t* data){
 	_lsm6dsox_read_reg_multi(imu, REG_OUTX_L_G, 12);
 
-	data->rate_raw[X_AXIS]			= (int16_t)(rxbuf[1] | rxbuf[2]<<8);
-	data->rate_raw[Y_AXIS]			= (int16_t)(rxbuf[3] | rxbuf[4]<<8);
-	data->rate_raw[Z_AXIS]			= (int16_t)(rxbuf[5] | rxbuf[6]<<8);
-	data->acceleration_raw[X_AXIS]	= (int16_t)(rxbuf[7] | rxbuf[8]<<8);
-	data->acceleration_raw[Y_AXIS]	= (int16_t)(rxbuf[9] | rxbuf[10]<<8);
-	data->acceleration_raw[Z_AXIS]	= (int16_t)(rxbuf[11] | rxbuf[12]<<8);
+	data->rate_raw[LSM6DSOX_X_AXIS]			= (int16_t)(rxbuf[1] | rxbuf[2]<<8);
+	data->rate_raw[LSM6DSOX_Y_AXIS]			= (int16_t)(rxbuf[3] | rxbuf[4]<<8);
+	data->rate_raw[LSM6DSOX_Z_AXIS]			= (int16_t)(rxbuf[5] | rxbuf[6]<<8);
+	data->acceleration_raw[LSM6DSOX_X_AXIS]	= (int16_t)(rxbuf[7] | rxbuf[8]<<8);
+	data->acceleration_raw[LSM6DSOX_Y_AXIS]	= (int16_t)(rxbuf[9] | rxbuf[10]<<8);
+	data->acceleration_raw[LSM6DSOX_Z_AXIS]	= (int16_t)(rxbuf[11] | rxbuf[12]<<8);
 
 	return MSG_OK;
 }
@@ -213,13 +226,13 @@ msg_t lsm6dsox_read_raw_data(lsm6dsox_device_t* imu, lsm6dsox_data_t* data){
 msg_t lsm6dsox_read_converted_data(lsm6dsox_device_t* imu, lsm6dsox_data_t* data){
 
 	lsm6dsox_read_raw_data(imu, data);
-	
-	data->rate_rad[X_AXIS]			= data->rate_raw[X_AXIS];
-	data->rate_rad[Y_AXIS]			= data->rate_raw[Y_AXIS];
-	data->rate_rad[Z_AXIS]			= data->rate_raw[Z_AXIS];
-	data->acceleration_g[X_AXIS]	= ;
-	data->acceleration_g[Y_AXIS]	= ;
-	data->acceleration_g[Z_AXIS]	= ;
+
+	data->rate_rad[LSM6DSOX_X_AXIS]			= data->rate_raw[LSM6DSOX_X_AXIS] * imu->gyro_raw_to_rad_s;
+	data->rate_rad[LSM6DSOX_Y_AXIS]			= data->rate_raw[LSM6DSOX_Y_AXIS] * imu->gyro_raw_to_rad_s;
+	data->rate_rad[LSM6DSOX_Z_AXIS]			= data->rate_raw[LSM6DSOX_Z_AXIS] * imu->gyro_raw_to_rad_s;
+	data->acceleration_ms2[LSM6DSOX_X_AXIS]	= data->acceleration_raw[LSM6DSOX_X_AXIS] * imu->accel_raw_to_m_ss;
+	data->acceleration_ms2[LSM6DSOX_Y_AXIS]	= data->acceleration_raw[LSM6DSOX_Y_AXIS] * imu->accel_raw_to_m_ss;
+	data->acceleration_ms2[LSM6DSOX_Z_AXIS]	= data->acceleration_raw[LSM6DSOX_Z_AXIS] * imu->accel_raw_to_m_ss;
 
 	return MSG_OK;
 }
