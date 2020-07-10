@@ -20,6 +20,7 @@
 #include "dcmi_cmd.h"
 #include "ir_remote.h"
 #include "imu.h"
+#include "pressure_sensor.h"
 
 // #define I2C_TEST
 // #ifdef I2C_TEST
@@ -173,17 +174,6 @@ static const SerialConfig ser_cfg_esp32 = {
 };
 
 /*
- * Maximum speed SPI configuration (13.5MHz, CPHA=0, CPOL=0, MSb first, 8bits).
- */
-static const SPIConfig spicfg_press = {
-  false,
-  NULL,
-  LINE_SPI2_CS_N_PRESS,
-  SPI_CR1_BR_0,   // clk/4
-  SPI_CR2_DS_2 | SPI_CR2_DS_1 | SPI_CR2_DS_0	//8bits
-};
-
-/*
  * I2C configuration object.
  * I2C2_TIMINGR: 1 MHz with I2CCLK = 216 MHz, rise time = 0 ns,
  *               fall time = 0 ns (0x00A02B91)
@@ -230,23 +220,13 @@ int main(void) {
 
 	chThdCreateStatic(waBlinker, sizeof(waBlinker), NORMALPRIO, Blinker, NULL);
 
-	uint8_t txbuf[30];
-	uint8_t rxbuf[30];
-
 	/* IMU CONFIG */
 	imu_start();
 	imu_data_t imu_data;
 	
-
 	/* PRESSURE CONFIG */
-	txbuf[0] = 0x10; // write register 0x10 (CTRL_REG1)
-	txbuf[1] = 0x50; // write 75Hz output rate
-	spiAcquireBus(&SPID2);
-	spiStart(&SPID2, &spicfg_press);
-	spiSelect(&SPID2);
-	spiExchange(&SPID2, 2, txbuf, rxbuf);
-	spiUnselect(&SPID2);
-	spiReleaseBus(&SPID2);
+	pressure_sensor_start();
+	pressure_sensor_data_t press_data;
 
 	/* DISTANCE SENSOR CONFIG */
 	int8_t status;
@@ -324,16 +304,9 @@ int main(void) {
 			chprintf((BaseSequentialStream *)&SD5, "                 %5f     %5f     %5f\r\n\r\n", imu_data.acceleration_ms2[IMU_X_AXIS], imu_data.acceleration_ms2[IMU_Y_AXIS], imu_data.acceleration_ms2[IMU_Z_AXIS]);
 
 			/* PRESSURE LPS22HD */
-			txbuf[0] = 0x80 | 0x28; // read register 0x28
-			txbuf[1] = 0;
-			spiAcquireBus(&SPID2);
-			spiStart(&SPID2, &spicfg_press);
-			spiSelect(&SPID2);
-			spiExchange(&SPID2, 1+5, txbuf, rxbuf);
-			spiUnselect(&SPID2);
-			spiReleaseBus(&SPID2);
-			chprintf((BaseSequentialStream *)&SD5, "Pressure:      %5f\r\n", (float)(rxbuf[1] | rxbuf[2]<<8 | rxbuf[3]<<16)/4096);
-			chprintf((BaseSequentialStream *)&SD5, "Temperature:   %5f\r\n\r\n", (float)(rxbuf[4] | rxbuf[5]<<8)/100);
+			pressure_sensor_get_data(&press_data);
+			chprintf((BaseSequentialStream *)&SD5, "Pressure:      %5f\r\n", press_data.pressure_hpa);
+			chprintf((BaseSequentialStream *)&SD5, "Temperature:   %5f\r\n\r\n", press_data.temperature_deg_c);
 
 			/* DISTANCE SENSOR READING */
 			status = VL53L1_WaitMeasurementDataReady(&vl53l1_dev);

@@ -150,7 +150,9 @@ CSRC = $(ALLCSRC) \
        dcmi_cmd.c \
        ir_remote.c \
        lsm6dsox.c \
-       imu.c
+       imu.c \
+       lps22hd.c \
+       pressure_sensor.c
 
 
 
