@@ -19,6 +19,7 @@
 #include "ar0144.h"
 #include "dcmi_cmd.h"
 #include "ir_remote.h"
+#include "imu.h"
 
 // #define I2C_TEST
 // #ifdef I2C_TEST
@@ -174,17 +175,6 @@ static const SerialConfig ser_cfg_esp32 = {
 /*
  * Maximum speed SPI configuration (13.5MHz, CPHA=0, CPOL=0, MSb first, 8bits).
  */
-static const SPIConfig spicfg_imu = {
-  false,
-  NULL,
-  LINE_SPI2_CS_N_IMU,
-  SPI_CR1_BR_0,   // clk/4
-  SPI_CR2_DS_2 | SPI_CR2_DS_1 | SPI_CR2_DS_0	//8bits
-};
-
-/*
- * Maximum speed SPI configuration (13.5MHz, CPHA=0, CPOL=0, MSb first, 8bits).
- */
 static const SPIConfig spicfg_press = {
   false,
   NULL,
@@ -244,24 +234,9 @@ int main(void) {
 	uint8_t rxbuf[30];
 
 	/* IMU CONFIG */
-
-	txbuf[0] = 0x10; // write register 0x10 (CTRL1_XL)
-	txbuf[1] = 0xA0; // write high performance mode accelerometer 2g
-	spiAcquireBus(&SPID2);
-	spiStart(&SPID2, &spicfg_imu);
-	spiSelect(&SPID2);
-	spiExchange(&SPID2, 2, txbuf, rxbuf);
-	spiUnselect(&SPID2);
-	spiReleaseBus(&SPID2);
-
-	txbuf[0] = 0x11; // write register 0x11 (CTRL2_G)
-	txbuf[1] = 0xA0 | 0x0C; // write high performance mode gyroscope 2000dps
-	spiAcquireBus(&SPID2);
-	spiStart(&SPID2, &spicfg_imu);
-	spiSelect(&SPID2);
-	spiExchange(&SPID2, 2, txbuf, rxbuf);
-	spiUnselect(&SPID2);
-	spiReleaseBus(&SPID2);
+	imu_start();
+	imu_data_t imu_data;
+	
 
 	/* PRESSURE CONFIG */
 	txbuf[0] = 0x10; // write register 0x10 (CTRL_REG1)
@@ -342,18 +317,11 @@ int main(void) {
 
 		if(!palReadLine(LINE_USER_BUTTON_N)){
 			/* IMU READING */
-			txbuf[0] = 0x80 | 0x22; // read register 0x22
-			txbuf[1] = 0;
-			spiAcquireBus(&SPID2);
-			spiStart(&SPID2, &spicfg_imu);
-			spiSelect(&SPID2);
-			spiExchange(&SPID2, 1+12, txbuf, rxbuf);
-			spiUnselect(&SPID2);
-			spiReleaseBus(&SPID2);
+			imu_get_data(&imu_data);
 			chprintf((BaseSequentialStream *)&SD5, "gyroscope:         X       Y       Z\r\n");
-			chprintf((BaseSequentialStream *)&SD5, "                 %5d     %5d     %5d\r\n", (int16_t)(rxbuf[1] | rxbuf[2]<<8), (int16_t)(rxbuf[3] | rxbuf[4]<<8), (int16_t)(rxbuf[5] | rxbuf[6]<<8));
+			chprintf((BaseSequentialStream *)&SD5, "                 %5f     %5f     %5f\r\n", imu_data.rate_rad[IMU_X_AXIS], imu_data.rate_rad[IMU_Y_AXIS], imu_data.rate_rad[IMU_Z_AXIS]);
 			chprintf((BaseSequentialStream *)&SD5, "Accelerometer:     X       Y       Z\r\n");
-			chprintf((BaseSequentialStream *)&SD5, "                 %5d     %5d     %5d\r\n\r\n", (int16_t)(rxbuf[7] | rxbuf[8]<<8), (int16_t)(rxbuf[9] | rxbuf[10]<<8), (int16_t)(rxbuf[11] | rxbuf[12]<<8));
+			chprintf((BaseSequentialStream *)&SD5, "                 %5f     %5f     %5f\r\n\r\n", imu_data.acceleration_ms2[IMU_X_AXIS], imu_data.acceleration_ms2[IMU_Y_AXIS], imu_data.acceleration_ms2[IMU_Z_AXIS]);
 
 			/* PRESSURE LPS22HD */
 			txbuf[0] = 0x80 | 0x28; // read register 0x28
