@@ -66,8 +66,8 @@
 
 /********************               Internal buffers               ********************/
 #define MAX_SPI_FRAME_LENGTH			6
-static uint8_t txbuf[MAX_SPI_FRAME_LENGTH] = {0};
-static uint8_t rxbuf[MAX_SPI_FRAME_LENGTH] = {0};
+static uint8_t _txbuf[MAX_SPI_FRAME_LENGTH] = {0};
+static uint8_t _rxbuf[MAX_SPI_FRAME_LENGTH] = {0};
 
 
 /********************                   Constants                  ********************/
@@ -78,13 +78,13 @@ static uint8_t rxbuf[MAX_SPI_FRAME_LENGTH] = {0};
 /********************              Internal functions              ********************/
 static msg_t _write_reg(lps22hd_device_t* dev, uint8_t reg, uint8_t val){
 
-	txbuf[0] = reg | WRITE_CMD;
-	txbuf[1] = val;
+	_txbuf[0] = reg | WRITE_CMD;
+	_txbuf[1] = val;
 
 	spiAcquireBus(dev->spid);
 	spiStart(dev->spid, dev->spi_cfg);
 	spiSelect(dev->spid);
-	spiExchange(dev->spid, 2, txbuf, rxbuf);
+	spiExchange(dev->spid, 2, _txbuf, _rxbuf);
 	spiUnselect(dev->spid);
 	spiReleaseBus(dev->spid);
 
@@ -93,12 +93,12 @@ static msg_t _write_reg(lps22hd_device_t* dev, uint8_t reg, uint8_t val){
 
 // static msg_t _read_reg(lps22hd_device_t* dev, uint8_t reg){
 
-// 	txbuf[0] = reg | READ_CMD;
+// 	_txbuf[0] = reg | READ_CMD;
 
 // 	spiAcquireBus(dev->spid);
 // 	spiStart(dev->spid, dev->spi_cfg);
 // 	spiSelect(dev->spid);
-// 	spiExchange(dev->spid, 2, txbuf, rxbuf);
+// 	spiExchange(dev->spid, 2, _txbuf, _rxbuf);
 // 	spiUnselect(dev->spid);
 // 	spiReleaseBus(dev->spid);
 
@@ -107,7 +107,7 @@ static msg_t _write_reg(lps22hd_device_t* dev, uint8_t reg, uint8_t val){
 
 static msg_t _read_reg_multi(lps22hd_device_t* dev, uint8_t reg, uint8_t len){
 	
-	txbuf[0] = reg | READ_CMD;
+	_txbuf[0] = reg | READ_CMD;
 
 	if(len >= MAX_SPI_FRAME_LENGTH){
 		return MSG_RESET;
@@ -116,7 +116,7 @@ static msg_t _read_reg_multi(lps22hd_device_t* dev, uint8_t reg, uint8_t len){
 	spiAcquireBus(dev->spid);
 	spiStart(dev->spid, dev->spi_cfg);
 	spiSelect(dev->spid);
-	spiExchange(dev->spid, 1 + len, txbuf, rxbuf);
+	spiExchange(dev->spid, 1 + len, _txbuf, _rxbuf);
 	spiUnselect(dev->spid);
 	spiReleaseBus(dev->spid);
 
@@ -138,8 +138,8 @@ msg_t lps22hd_configure(lps22hd_device_t* dev){
 msg_t lps22hd_read_raw_data(lps22hd_device_t* dev, lps22hd_data_t* data){
 	_read_reg_multi(dev, REG_PRESS_OUT_XL, 5);
 
-	data->pressure_raw = (int32_t)(rxbuf[1] | ((int32_t)rxbuf[2])<<8 | ((int32_t)rxbuf[3])<<16);
-	data->temperature_raw = (int16_t)(rxbuf[4] | ((int16_t)rxbuf[5])<<8);
+	data->pressure_raw = (int32_t)(_rxbuf[1] | ((int32_t)_rxbuf[2])<<8 | ((int32_t)_rxbuf[3])<<16);
+	data->temperature_raw = (int16_t)(_rxbuf[4] | ((int16_t)_rxbuf[5])<<8);
 
 	return MSG_OK;
 }

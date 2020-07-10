@@ -142,8 +142,8 @@
 
 /********************               Internal buffers               ********************/
 #define MAX_SPI_FRAME_LENGTH			30	
-static uint8_t txbuf[MAX_SPI_FRAME_LENGTH] = {0};
-static uint8_t rxbuf[MAX_SPI_FRAME_LENGTH] = {0};
+static uint8_t _txbuf[MAX_SPI_FRAME_LENGTH] = {0};
+static uint8_t _rxbuf[MAX_SPI_FRAME_LENGTH] = {0};
 
 
 /********************                   Constants                  ********************/
@@ -158,13 +158,13 @@ static uint8_t rxbuf[MAX_SPI_FRAME_LENGTH] = {0};
 
 static msg_t _write_reg(lsm6dsox_device_t* imu, uint8_t reg, uint8_t val){
 
-	txbuf[0] = reg | WRITE_CMD;
-	txbuf[1] = val;
+	_txbuf[0] = reg | WRITE_CMD;
+	_txbuf[1] = val;
 
 	spiAcquireBus(imu->spid);
 	spiStart(imu->spid, imu->spi_cfg);
 	spiSelect(imu->spid);
-	spiExchange(imu->spid, 2, txbuf, rxbuf);
+	spiExchange(imu->spid, 2, _txbuf, _rxbuf);
 	spiUnselect(imu->spid);
 	spiReleaseBus(imu->spid);
 
@@ -173,12 +173,12 @@ static msg_t _write_reg(lsm6dsox_device_t* imu, uint8_t reg, uint8_t val){
 
 // static msg_t _read_reg(lsm6dsox_device_t* imu, uint8_t reg){
 
-// 	txbuf[0] = reg | READ_CMD;
+// 	_txbuf[0] = reg | READ_CMD;
 
 // 	spiAcquireBus(imu->spid);
 // 	spiStart(imu->spid, imu->spi_cfg);
 // 	spiSelect(imu->spid);
-// 	spiExchange(imu->spid, 2, txbuf, rxbuf);
+// 	spiExchange(imu->spid, 2, _txbuf, _rxbuf);
 // 	spiUnselect(imu->spid);
 // 	spiReleaseBus(imu->spid);
 
@@ -187,7 +187,7 @@ static msg_t _write_reg(lsm6dsox_device_t* imu, uint8_t reg, uint8_t val){
 
 static msg_t _read_reg_multi(lsm6dsox_device_t* imu, uint8_t reg, uint8_t len){
 	
-	txbuf[0] = reg | READ_CMD;
+	_txbuf[0] = reg | READ_CMD;
 
 	if(len >= MAX_SPI_FRAME_LENGTH){
 		return MSG_RESET;
@@ -196,7 +196,7 @@ static msg_t _read_reg_multi(lsm6dsox_device_t* imu, uint8_t reg, uint8_t len){
 	spiAcquireBus(imu->spid);
 	spiStart(imu->spid, imu->spi_cfg);
 	spiSelect(imu->spid);
-	spiExchange(imu->spid, 1 + len, txbuf, rxbuf);
+	spiExchange(imu->spid, 1 + len, _txbuf, _rxbuf);
 	spiUnselect(imu->spid);
 	spiReleaseBus(imu->spid);
 
@@ -222,12 +222,12 @@ msg_t lsm6dsox_configure(lsm6dsox_device_t* imu){
 msg_t lsm6dsox_read_raw_data(lsm6dsox_device_t* imu, lsm6dsox_data_t* data){
 	_read_reg_multi(imu, REG_OUTX_L_G, 12);
 
-	data->rate_raw[LSM6DSOX_X_AXIS]			= (int16_t)(rxbuf[1] | ((int16_t)rxbuf[2])<<8);
-	data->rate_raw[LSM6DSOX_Y_AXIS]			= (int16_t)(rxbuf[3] | ((int16_t)rxbuf[4])<<8);
-	data->rate_raw[LSM6DSOX_Z_AXIS]			= (int16_t)(rxbuf[5] | ((int16_t)rxbuf[6])<<8);
-	data->acceleration_raw[LSM6DSOX_X_AXIS]	= (int16_t)(rxbuf[7] | ((int16_t)rxbuf[8])<<8);
-	data->acceleration_raw[LSM6DSOX_Y_AXIS]	= (int16_t)(rxbuf[9] | ((int16_t)rxbuf[10])<<8);
-	data->acceleration_raw[LSM6DSOX_Z_AXIS]	= (int16_t)(rxbuf[11] | ((int16_t)rxbuf[12])<<8);
+	data->rate_raw[LSM6DSOX_X_AXIS]			= (int16_t)(_rxbuf[1] | ((int16_t)_rxbuf[2])<<8);
+	data->rate_raw[LSM6DSOX_Y_AXIS]			= (int16_t)(_rxbuf[3] | ((int16_t)_rxbuf[4])<<8);
+	data->rate_raw[LSM6DSOX_Z_AXIS]			= (int16_t)(_rxbuf[5] | ((int16_t)_rxbuf[6])<<8);
+	data->acceleration_raw[LSM6DSOX_X_AXIS]	= (int16_t)(_rxbuf[7] | ((int16_t)_rxbuf[8])<<8);
+	data->acceleration_raw[LSM6DSOX_Y_AXIS]	= (int16_t)(_rxbuf[9] | ((int16_t)_rxbuf[10])<<8);
+	data->acceleration_raw[LSM6DSOX_Z_AXIS]	= (int16_t)(_rxbuf[11] | ((int16_t)_rxbuf[12])<<8);
 
 	return MSG_OK;
 }
