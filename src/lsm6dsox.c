@@ -126,6 +126,13 @@
 #define CTRL2_G_FS_G(x)					((x & 0x03) << 2)
 #define CTRL2_G_FS_125					(1 << 1)
 
+/********************          Bit definition for CTRL4_C          ********************/
+#define CTRL4_C_SLEEP_G					(1 << 6)
+#define CTRL4_C_INT2_OM_INT1			(1 << 5)
+#define CTRL4_C_DRDY_MASK				(1 << 3)
+#define CTRL4_C_I2C_DISABLE				(1 << 2)
+#define CTRL4_C_LPF1_SEL_G				(1 << 1)
+
 
 /********************              LSM6DSOX WRITE/READ             ********************/
 #define READ_CMD 						0x80
@@ -199,6 +206,8 @@ msg_t _lsm6dsox_read_reg_multi(lsm6dsox_device_t* imu, uint8_t reg, uint8_t len)
 /********************               Public functions               ********************/
 
 msg_t lsm6dsox_configure(lsm6dsox_device_t* imu){
+
+	_lsm6dsox_write_reg(imu, REG_CTRL4_C, CTRL4_C_I2C_DISABLE);
 
 	_lsm6dsox_write_reg(imu, REG_CTRL2_G, CTRL2_G_ODR_G(imu->cfg->gyro_freq) | CTRL2_G_FS_G(imu->cfg->gyro_scale));
 
