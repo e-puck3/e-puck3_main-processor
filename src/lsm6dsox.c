@@ -156,7 +156,7 @@ static uint8_t rxbuf[MAX_SPI_FRAME_LENGTH] = {0};
 
 /********************              Internal functions              ********************/
 
-msg_t _lsm6dsox_write_reg(lsm6dsox_device_t* imu, uint8_t reg, uint8_t val){
+static msg_t _write_reg(lsm6dsox_device_t* imu, uint8_t reg, uint8_t val){
 
 	txbuf[0] = reg | WRITE_CMD;
 	txbuf[1] = val;
@@ -171,21 +171,21 @@ msg_t _lsm6dsox_write_reg(lsm6dsox_device_t* imu, uint8_t reg, uint8_t val){
 	return MSG_OK;
 }
 
-msg_t _lsm6dsox_read_reg(lsm6dsox_device_t* imu, uint8_t reg){
+// static msg_t _read_reg(lsm6dsox_device_t* imu, uint8_t reg){
 
-	txbuf[0] = reg | READ_CMD;
+// 	txbuf[0] = reg | READ_CMD;
 
-	spiAcquireBus(imu->spid);
-	spiStart(imu->spid, imu->spi_cfg);
-	spiSelect(imu->spid);
-	spiExchange(imu->spid, 2, txbuf, rxbuf);
-	spiUnselect(imu->spid);
-	spiReleaseBus(imu->spid);
+// 	spiAcquireBus(imu->spid);
+// 	spiStart(imu->spid, imu->spi_cfg);
+// 	spiSelect(imu->spid);
+// 	spiExchange(imu->spid, 2, txbuf, rxbuf);
+// 	spiUnselect(imu->spid);
+// 	spiReleaseBus(imu->spid);
 
-	return MSG_OK;
-}
+// 	return MSG_OK;
+// }
 
-msg_t _lsm6dsox_read_reg_multi(lsm6dsox_device_t* imu, uint8_t reg, uint8_t len){
+static msg_t _read_reg_multi(lsm6dsox_device_t* imu, uint8_t reg, uint8_t len){
 	
 	txbuf[0] = reg | READ_CMD;
 
@@ -207,11 +207,11 @@ msg_t _lsm6dsox_read_reg_multi(lsm6dsox_device_t* imu, uint8_t reg, uint8_t len)
 
 msg_t lsm6dsox_configure(lsm6dsox_device_t* imu){
 
-	_lsm6dsox_write_reg(imu, REG_CTRL4_C, CTRL4_C_I2C_DISABLE);
+	_write_reg(imu, REG_CTRL4_C, CTRL4_C_I2C_DISABLE);
 
-	_lsm6dsox_write_reg(imu, REG_CTRL2_G, CTRL2_G_ODR_G(imu->cfg->gyro_freq) | CTRL2_G_FS_G(imu->cfg->gyro_scale));
+	_write_reg(imu, REG_CTRL2_G, CTRL2_G_ODR_G(imu->cfg->gyro_freq) | CTRL2_G_FS_G(imu->cfg->gyro_scale));
 
-	_lsm6dsox_write_reg(imu, REG_CTRL1_XL, CTRL1_XL_ODR_XL(imu->cfg->accel_freq) | CTRL1_XL_FS_XL(ACCEL_SCALE_TO_REG(imu->cfg->accel_scale)));
+	_write_reg(imu, REG_CTRL1_XL, CTRL1_XL_ODR_XL(imu->cfg->accel_freq) | CTRL1_XL_FS_XL(ACCEL_SCALE_TO_REG(imu->cfg->accel_scale)));
 
 	imu->gyro_raw_to_rad_s = (GYRO_SCALE_TO_DPS(imu->cfg->gyro_scale)) * M_PI / (INT16_MAX_VALUE * 180);
 	imu->accel_raw_to_m_ss = (ACCEL_SCALE_TO_G(imu->cfg->accel_scale) * STANDARD_GRAVITY) / INT16_MAX_VALUE;
@@ -220,14 +220,14 @@ msg_t lsm6dsox_configure(lsm6dsox_device_t* imu){
 }
 
 msg_t lsm6dsox_read_raw_data(lsm6dsox_device_t* imu, lsm6dsox_data_t* data){
-	_lsm6dsox_read_reg_multi(imu, REG_OUTX_L_G, 12);
+	_read_reg_multi(imu, REG_OUTX_L_G, 12);
 
-	data->rate_raw[LSM6DSOX_X_AXIS]			= (int16_t)(rxbuf[1] | rxbuf[2]<<8);
-	data->rate_raw[LSM6DSOX_Y_AXIS]			= (int16_t)(rxbuf[3] | rxbuf[4]<<8);
-	data->rate_raw[LSM6DSOX_Z_AXIS]			= (int16_t)(rxbuf[5] | rxbuf[6]<<8);
-	data->acceleration_raw[LSM6DSOX_X_AXIS]	= (int16_t)(rxbuf[7] | rxbuf[8]<<8);
-	data->acceleration_raw[LSM6DSOX_Y_AXIS]	= (int16_t)(rxbuf[9] | rxbuf[10]<<8);
-	data->acceleration_raw[LSM6DSOX_Z_AXIS]	= (int16_t)(rxbuf[11] | rxbuf[12]<<8);
+	data->rate_raw[LSM6DSOX_X_AXIS]			= (int16_t)(rxbuf[1] | ((int16_t)rxbuf[2])<<8);
+	data->rate_raw[LSM6DSOX_Y_AXIS]			= (int16_t)(rxbuf[3] | ((int16_t)rxbuf[4])<<8);
+	data->rate_raw[LSM6DSOX_Z_AXIS]			= (int16_t)(rxbuf[5] | ((int16_t)rxbuf[6])<<8);
+	data->acceleration_raw[LSM6DSOX_X_AXIS]	= (int16_t)(rxbuf[7] | ((int16_t)rxbuf[8])<<8);
+	data->acceleration_raw[LSM6DSOX_Y_AXIS]	= (int16_t)(rxbuf[9] | ((int16_t)rxbuf[10])<<8);
+	data->acceleration_raw[LSM6DSOX_Z_AXIS]	= (int16_t)(rxbuf[11] | ((int16_t)rxbuf[12])<<8);
 
 	return MSG_OK;
 }

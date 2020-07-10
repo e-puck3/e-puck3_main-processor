@@ -49,6 +49,9 @@ static THD_FUNCTION(thdIMU,arg) {
 	while(true){
 		
 		lsm6dsox_read_converted_data(&lsm6dsox, &lsm6dsox_data);
+
+		//the sensor is configured to output ODR/2 Hz for accelerometer
+		//and 1442 Hz for gyroscope -> ~1ms refresh rate
 		chThdSleepMilliseconds(1);
 		
 	}
