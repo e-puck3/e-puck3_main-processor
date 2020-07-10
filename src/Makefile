@@ -152,7 +152,8 @@ CSRC = $(ALLCSRC) \
        lsm6dsox.c \
        imu.c \
        lps22hd.c \
-       pressure_sensor.c
+       pressure_sensor.c \
+       distance_sensor.c
 
 
 

@@ -16,8 +16,10 @@
 /********************              DISTANCE SENSOR DATA STRUCTURES             ********************/
 
 typedef struct{
-
-}distance_data_t;
+	float 		distance_mm;		// distance in mm
+	bool		valid;				// true if the last measurement is valid, false otherwise
+	systime_t	timestamp;			// true if the last measurement is valid, false otherwise
+}distance_sensor_data_t;
 
 /********************               Public functions               ********************/
 
@@ -31,5 +33,5 @@ void distance_sensor_start(void);
  * 
  * @param data distance_sensor_data_t pointer to store the data
  */
-void distance_sensor_get_data(imu_data_t* data);
+void distance_sensor_get_data(distance_sensor_data_t* data);
 #endif /* DISTANCE_SENSOR_H */
