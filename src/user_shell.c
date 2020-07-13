@@ -17,6 +17,7 @@
 #include "fatfs_cmd.h"
 #include "dfsdm_cmd.h"
 #include "dcmi_cmd.h"
+#include "threads_utilities.h"
 
 
 static THD_WORKING_AREA(waShell,4096);
@@ -28,6 +29,7 @@ static const ShellCommand commands[] = {
   FATFS_SHELL_CMD
   DFSDM_SHELL_CMD
   DCMI_SHELL_CMD
+  THREADS_UTILITIES_SHELL_CMD
   {NULL, NULL}
 };
 

@@ -118,11 +118,11 @@ include $(CHIBIOS)/os/hal/lib/streams/streams.mk
 include $(CHIBIOS)/os/various/shell/shell.mk
 include ../fatfs/fatfs.mk
 
-# THDULIB = ../threads_utilities_ChibiOS
-# USE_THREADS_TIMESTAMPS = true
-# THREADS_TIMESTAMPS_LOG_SIZE = 5000
-# THREADS_TIMESTAMPS_DEFAULT_LOG  =  false
-# include $(THDULIB)/threads_utilities.mk
+THDULIB = ../threads_utilities_ChibiOS
+USE_THREADS_TIMESTAMPS = false
+THREADS_TIMESTAMPS_LOG_SIZE = 5000
+THREADS_TIMESTAMPS_DEFAULT_LOG  =  false
+include $(THDULIB)/threads_utilities.mk
 
 # Define linker script file here
 LDSCRIPT= ./STM32F76xxI_MAX.ld
