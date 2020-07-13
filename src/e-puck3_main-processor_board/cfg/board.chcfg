@@ -10,12 +10,19 @@
   </configuration_settings>
   <board_name>e-puck3 main processor</board_name>
   <board_id>EPUCK3_MAIN_PROCESSOR</board_id>
-  <board_functions></board_functions>
+  <board_functions>
+    <sdc_lld_is_card_inserted>
+  (void)sdcp;
+  return !palReadLine(LINE_SDMMC_DET_N);</sdc_lld_is_card_inserted>
+  </board_functions>
   <headers></headers>
   <ethernet_phy>
     <identifier>MII_LAN8742A_ID</identifier>
     <bus_type>RMII</bus_type>
   </ethernet_phy>
+  <usb_phy>
+    <bus_type>ULPI</bus_type>
+  </usb_phy>
   <subtype>STM32F779xx</subtype>
   <clocks
     HSEFrequency="26000000"
@@ -355,7 +362,7 @@
         Type="PushPull"
         Level="High"
         Speed="Maximum"
-        Resistor="Floating"
+        Resistor="PullUp"
         Mode="Alternate"
         Alternate="12" />
       <pin9
@@ -363,7 +370,7 @@
         Type="PushPull"
         Level="High"
         Speed="Maximum"
-        Resistor="Floating"
+        Resistor="PullUp"
         Mode="Alternate"
         Alternate="12" />
       <pin10
@@ -371,7 +378,7 @@
         Type="PushPull"
         Level="High"
         Speed="Maximum"
-        Resistor="Floating"
+        Resistor="PullUp"
         Mode="Alternate"
         Alternate="12" />
       <pin11
@@ -379,7 +386,7 @@
         Type="PushPull"
         Level="High"
         Speed="Maximum"
-        Resistor="Floating"
+        Resistor="PullUp"
         Mode="Alternate"
         Alternate="12" />
       <pin12
@@ -387,7 +394,7 @@
         Type="PushPull"
         Level="High"
         Speed="Maximum"
-        Resistor="Floating"
+        Resistor="PullUp"
         Mode="Alternate"
         Alternate="12" />
       <pin13
@@ -437,7 +444,7 @@
         Type="PushPull"
         Level="High"
         Speed="Maximum"
-        Resistor="Floating"
+        Resistor="PullUp"
         Mode="Alternate"
         Alternate="12" />
       <pin3
@@ -677,7 +684,7 @@
     </GPIOE>
     <GPIOF>
       <pin0
-        ID="USSR_BUTTON_N"
+        ID="USER_BUTTON_N"
         Type="PushPull"
         Level="High"
         Speed="Maximum"

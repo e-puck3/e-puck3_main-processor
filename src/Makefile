@@ -65,7 +65,7 @@ endif
 # Stack size to be allocated to the Cortex-M process stack. This stack is
 # the stack used by the main() thread.
 ifeq ($(USE_PROCESS_STACKSIZE),)
-  USE_PROCESS_STACKSIZE = 0x400
+  USE_PROCESS_STACKSIZE = 0x1000
 endif
 
 # Stack size to the allocated to the Cortex-M main/exceptions stack. This
@@ -116,22 +116,46 @@ include $(CHIBIOS)/os/common/ports/ARMCMx/compilers/GCC/mk/port_v7m.mk
 # include $(CHIBIOS)/test/oslib/oslib_test.mk
 include $(CHIBIOS)/os/hal/lib/streams/streams.mk
 include $(CHIBIOS)/os/various/shell/shell.mk
+include ../fatfs/fatfs.mk
 
-# THDULIB = ../threads_utilities_ChibiOS
-# USE_THREADS_TIMESTAMPS = true
-# THREADS_TIMESTAMPS_LOG_SIZE = 5000
-# THREADS_TIMESTAMPS_DEFAULT_LOG  =  false
-# include $(THDULIB)/threads_utilities.mk
+THDULIB = ../threads_utilities_ChibiOS
+USE_THREADS_TIMESTAMPS = false
+THREADS_TIMESTAMPS_LOG_SIZE = 5000
+THREADS_TIMESTAMPS_DEFAULT_LOG  =  false
+include $(THDULIB)/threads_utilities.mk
 
 # Define linker script file here
 LDSCRIPT= ./STM32F76xxI_MAX.ld
+
+VL53L1_SRC = $(wildcard ../STSW-IMG007-2.3.3/api/core/*.c)
+VL53L1_SRC += $(wildcard ../STSW-IMG007-2.3.3/api/platform/*.c)
+
+VL53L1_INC =  ../STSW-IMG007-2.3.3/api/core/ \
+              ../STSW-IMG007-2.3.3/api/platform/
 
 # C sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.
 CSRC = $(ALLCSRC) \
        $(TESTSRC) \
        main.c \
-       panic.c
+       panic.c \
+       $(VL53L1_SRC) \
+       user_shell.c \
+       fatfs_cmd.c \
+       dfsdm.c \
+       dfsdm_cmd.c \
+       usbcfg.c \
+       dcmi.c \
+       ar0144.c \
+       dcmi_cmd.c \
+       ir_remote.c \
+       lsm6dsox.c \
+       imu.c \
+       lps22hd.c \
+       pressure_sensor.c \
+       distance_sensor.c
+
+
 
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
@@ -162,7 +186,7 @@ TCPPSRC =
 ASMSRC = $(ALLASMSRC)
 ASMXSRC = $(ALLXASMSRC)
 
-INCDIR = $(ALLINC) $(TESTINC)
+INCDIR = $(ALLINC) $(TESTINC) $(VL53L1_INC)
 
 #
 # Project, sources and paths
@@ -212,7 +236,7 @@ CPPWARN = -Wall -Wextra -Wundef
 #
 
 # List all user C define here, like -D_DEBUG=1
-UDEFS = $(ALLDEFS)
+UDEFS = $(ALLDEFS) -DUSE_I2C_2V8
 
 # Define ASM defines here
 UADEFS =

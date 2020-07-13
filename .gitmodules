@@ -1,3 +1,6 @@
 [submodule "ChibiOS"]
 	path = ChibiOS
 	url = https://github.com/e-puck2/ChibiOS.git
+[submodule "threads_utilities_ChibiOS"]
+	path = threads_utilities_ChibiOS
+	url = https://github.com/e-puck3/threads_utilities_ChibiOS.git

@@ -642,12 +642,16 @@
   /* Add threads initialization code here.*/                                \
 }
 
+#define TIMESTAMPS_INCLUDE
+#include "threads_utilities_chconf.h"
+
 /**
  * @brief   Threads descriptor structure extension.
  * @details User fields added to the end of the @p thread_t structure.
  */
 #define CH_CFG_THREAD_EXTRA_FIELDS                                          \
-  /* Add threads custom fields here.*/
+  /* Add threads custom fields here.*/                                      \
+    TIMESTAMPS_THREAD_EXTRA_FIELDS                                          \
 
 /**
  * @brief   Threads initialization hook.
@@ -658,6 +662,7 @@
  */
 #define CH_CFG_THREAD_INIT_HOOK(tp) {                                       \
   /* Add threads initialization code here.*/                                \
+        TIMESTAMPS_THREAD_INIT_HOOK                                         \
 }
 
 /**
@@ -666,6 +671,7 @@
  */
 #define CH_CFG_THREAD_EXIT_HOOK(tp) {                                       \
   /* Add threads finalization code here.*/                                  \
+        TIMESTAMPS_THREAD_EXIT_HOOK(tp)                                     \
 }
 
 /**
@@ -674,6 +680,7 @@
  */
 #define CH_CFG_CONTEXT_SWITCH_HOOK(ntp, otp) {                              \
   /* Context switch code here.*/                                            \
+        TIMESTAMPS_CONTEXT_SWITCH_HOOK(ntp, otp)                            \
 }
 
 /**
@@ -766,6 +773,7 @@ void panic_handler(const char *reason);
 #define SHELL_USE_COMPLETION    TRUE
 #define SHELL_USE_ESC_SEQ       TRUE
 #define SHELL_CMD_TEST_ENABLED  FALSE
+#define SHELL_THREAD_NAME       "UART shell"
 #endif  /* CHCONF_H */
 
 /** @} */

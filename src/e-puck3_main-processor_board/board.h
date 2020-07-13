@@ -43,6 +43,11 @@
 #define BOARD_PHY_RMII
 
 /*
+ * The board has an ULPI USB PHY.
+ */
+#define BOARD_OTG2_USES_ULPI
+
+/*
  * Board oscillators-related settings.
  */
 #if !defined(STM32_LSECLK)
@@ -156,7 +161,7 @@
 #define GPIOE_FRONT_LED_G           14U
 #define GPIOE_FRONT_LED_B           15U
 
-#define GPIOF_USSR_BUTTON_N         0U
+#define GPIOF_USER_BUTTON_N         0U
 #define GPIOF_I2C2_SCL              1U
 #define GPIOF_POWER_ON              2U
 #define GPIOF_ADC3_IN9              3U
@@ -334,7 +339,7 @@
 #define LINE_FRONT_LED_R            PAL_LINE(GPIOE, 13U)
 #define LINE_FRONT_LED_G            PAL_LINE(GPIOE, 14U)
 #define LINE_FRONT_LED_B            PAL_LINE(GPIOE, 15U)
-#define LINE_USSR_BUTTON_N          PAL_LINE(GPIOF, 0U)
+#define LINE_USER_BUTTON_N          PAL_LINE(GPIOF, 0U)
 #define LINE_I2C2_SCL               PAL_LINE(GPIOF, 1U)
 #define LINE_POWER_ON               PAL_LINE(GPIOF, 2U)
 #define LINE_ADC3_IN9               PAL_LINE(GPIOF, 3U)
@@ -733,11 +738,11 @@
                                      PIN_PUPDR_PULLDOWN(GPIOC_PIN5) |       \
                                      PIN_PUPDR_FLOATING(GPIOC_USART6_TX) |  \
                                      PIN_PUPDR_FLOATING(GPIOC_USART6_RX) |  \
-                                     PIN_PUPDR_FLOATING(GPIOC_SDMMC1_D0) |  \
-                                     PIN_PUPDR_FLOATING(GPIOC_SDMMC1_D1) |  \
-                                     PIN_PUPDR_FLOATING(GPIOC_SDMMC1_D2) |  \
-                                     PIN_PUPDR_FLOATING(GPIOC_SDMMC1_D3) |  \
-                                     PIN_PUPDR_FLOATING(GPIOC_SDMMC1_CK) |  \
+                                     PIN_PUPDR_PULLUP(GPIOC_SDMMC1_D0) |    \
+                                     PIN_PUPDR_PULLUP(GPIOC_SDMMC1_D1) |    \
+                                     PIN_PUPDR_PULLUP(GPIOC_SDMMC1_D2) |    \
+                                     PIN_PUPDR_PULLUP(GPIOC_SDMMC1_D3) |    \
+                                     PIN_PUPDR_PULLUP(GPIOC_SDMMC1_CK) |    \
                                      PIN_PUPDR_PULLDOWN(GPIOC_PIN13) |      \
                                      PIN_PUPDR_PULLDOWN(GPIOC_PIN14) |      \
                                      PIN_PUPDR_PULLDOWN(GPIOC_PIN15))
@@ -844,7 +849,7 @@
                                      PIN_OSPEED_HIGH(GPIOD_TIM4_CH4_EXTCLK_DCMI))
 #define VAL_GPIOD_PUPDR             (PIN_PUPDR_FLOATING(GPIOD_CAN1_RX) |    \
                                      PIN_PUPDR_FLOATING(GPIOD_CAN1_TX) |    \
-                                     PIN_PUPDR_FLOATING(GPIOD_SDMMC1_CMD) | \
+                                     PIN_PUPDR_PULLUP(GPIOD_SDMMC1_CMD) |   \
                                      PIN_PUPDR_FLOATING(GPIOD_SPI2_SCK_IMU_PRESS) |\
                                      PIN_PUPDR_FLOATING(GPIOD_IMU_INT1) |   \
                                      PIN_PUPDR_FLOATING(GPIOD_USART2_TX) |  \
@@ -1011,7 +1016,7 @@
 /*
  * GPIOF setup:
  *
- * PF0  - USSR_BUTTON_N             (input pullup).
+ * PF0  - USER_BUTTON_N             (input pullup).
  * PF1  - I2C2_SCL                  (alternate 4).
  * PF2  - POWER_ON                  (output pushpull minimum).
  * PF3  - ADC3_IN9                  (analog).
@@ -1028,7 +1033,7 @@
  * PF14 - RIGHT_LED_G               (output pushpull maximum).
  * PF15 - RIGHT_LED_B               (output pushpull maximum).
  */
-#define VAL_GPIOF_MODER             (PIN_MODE_INPUT(GPIOF_USSR_BUTTON_N) |  \
+#define VAL_GPIOF_MODER             (PIN_MODE_INPUT(GPIOF_USER_BUTTON_N) |  \
                                      PIN_MODE_ALTERNATE(GPIOF_I2C2_SCL) |   \
                                      PIN_MODE_OUTPUT(GPIOF_POWER_ON) |      \
                                      PIN_MODE_ANALOG(GPIOF_ADC3_IN9) |      \
@@ -1044,7 +1049,7 @@
                                      PIN_MODE_OUTPUT(GPIOF_RIGHT_LED_R) |   \
                                      PIN_MODE_OUTPUT(GPIOF_RIGHT_LED_G) |   \
                                      PIN_MODE_OUTPUT(GPIOF_RIGHT_LED_B))
-#define VAL_GPIOF_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOF_USSR_BUTTON_N) |\
+#define VAL_GPIOF_OTYPER            (PIN_OTYPE_PUSHPULL(GPIOF_USER_BUTTON_N) |\
                                      PIN_OTYPE_OPENDRAIN(GPIOF_I2C2_SCL) |  \
                                      PIN_OTYPE_PUSHPULL(GPIOF_POWER_ON) |   \
                                      PIN_OTYPE_PUSHPULL(GPIOF_ADC3_IN9) |   \
@@ -1060,7 +1065,7 @@
                                      PIN_OTYPE_PUSHPULL(GPIOF_RIGHT_LED_R) |\
                                      PIN_OTYPE_PUSHPULL(GPIOF_RIGHT_LED_G) |\
                                      PIN_OTYPE_PUSHPULL(GPIOF_RIGHT_LED_B))
-#define VAL_GPIOF_OSPEEDR           (PIN_OSPEED_HIGH(GPIOF_USSR_BUTTON_N) | \
+#define VAL_GPIOF_OSPEEDR           (PIN_OSPEED_HIGH(GPIOF_USER_BUTTON_N) | \
                                      PIN_OSPEED_HIGH(GPIOF_I2C2_SCL) |      \
                                      PIN_OSPEED_VERYLOW(GPIOF_POWER_ON) |   \
                                      PIN_OSPEED_VERYLOW(GPIOF_ADC3_IN9) |   \
@@ -1076,7 +1081,7 @@
                                      PIN_OSPEED_HIGH(GPIOF_RIGHT_LED_R) |   \
                                      PIN_OSPEED_HIGH(GPIOF_RIGHT_LED_G) |   \
                                      PIN_OSPEED_HIGH(GPIOF_RIGHT_LED_B))
-#define VAL_GPIOF_PUPDR             (PIN_PUPDR_PULLUP(GPIOF_USSR_BUTTON_N) |\
+#define VAL_GPIOF_PUPDR             (PIN_PUPDR_PULLUP(GPIOF_USER_BUTTON_N) |\
                                      PIN_PUPDR_FLOATING(GPIOF_I2C2_SCL) |   \
                                      PIN_PUPDR_FLOATING(GPIOF_POWER_ON) |   \
                                      PIN_PUPDR_FLOATING(GPIOF_ADC3_IN9) |   \
@@ -1092,7 +1097,7 @@
                                      PIN_PUPDR_FLOATING(GPIOF_RIGHT_LED_R) |\
                                      PIN_PUPDR_FLOATING(GPIOF_RIGHT_LED_G) |\
                                      PIN_PUPDR_FLOATING(GPIOF_RIGHT_LED_B))
-#define VAL_GPIOF_ODR               (PIN_ODR_HIGH(GPIOF_USSR_BUTTON_N) |    \
+#define VAL_GPIOF_ODR               (PIN_ODR_HIGH(GPIOF_USER_BUTTON_N) |    \
                                      PIN_ODR_HIGH(GPIOF_I2C2_SCL) |         \
                                      PIN_ODR_LOW(GPIOF_POWER_ON) |          \
                                      PIN_ODR_HIGH(GPIOF_ADC3_IN9) |         \
@@ -1108,7 +1113,7 @@
                                      PIN_ODR_HIGH(GPIOF_RIGHT_LED_R) |      \
                                      PIN_ODR_HIGH(GPIOF_RIGHT_LED_G) |      \
                                      PIN_ODR_HIGH(GPIOF_RIGHT_LED_B))
-#define VAL_GPIOF_AFRL              (PIN_AFIO_AF(GPIOF_USSR_BUTTON_N, 0U) | \
+#define VAL_GPIOF_AFRL              (PIN_AFIO_AF(GPIOF_USER_BUTTON_N, 0U) | \
                                      PIN_AFIO_AF(GPIOF_I2C2_SCL, 4U) |      \
                                      PIN_AFIO_AF(GPIOF_POWER_ON, 0U) |      \
                                      PIN_AFIO_AF(GPIOF_ADC3_IN9, 0U) |      \
