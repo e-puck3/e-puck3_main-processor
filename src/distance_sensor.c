@@ -108,9 +108,9 @@ static void _i2c_test(VL53L1_Dev_t *dev)
 static void _configure(VL53L1_Dev_t* dev){
 
 	//Reset
-	palClearLine(LINE_EN_TOF);
+	palClearLine(dev->en_line);
 	chThdSleepMilliseconds(10);
-	palSetLine(LINE_EN_TOF);
+	palSetLine(dev->en_line);
 	chThdSleepMilliseconds(10);
 
 	VL53L1_WaitDeviceBooted(dev);
@@ -148,6 +148,7 @@ static THD_FUNCTION(thdDistanceSensor,arg) {
 	static VL53L1_Dev_t vl53l1_dev = {
 		.I2cHandle 	= &I2C_DISTANCE_SENSOR,
 		.I2cDevAddr = 0x52, //8bit address
+		.en_line	= LINE_EN_TOF,
 	};
 
 	// I2C config
@@ -164,11 +165,11 @@ static THD_FUNCTION(thdDistanceSensor,arg) {
 				VL53L1_ClearInterruptAndStartMeasurement(&vl53l1_dev);
 				first_time = 0;
 			}else{
-				VL53L1_GetRangingMeasurementData(&vl53l1_dev, &RangingData);
+				status = VL53L1_GetRangingMeasurementData(&vl53l1_dev, &RangingData);
 				VL53L1_ClearInterruptAndStartMeasurement(&vl53l1_dev);
 
 				_distance_data.distance_mm = RangingData.RangeMilliMeter;
-				if(_distance_data.distance_mm < MIN_VALID_DISTANCE_MM || _distance_data.distance_mm > MAX_VALID_DISTANCE_MM){
+				if(status != VL53L1_ERROR_NONE || _distance_data.distance_mm < MIN_VALID_DISTANCE_MM || _distance_data.distance_mm > MAX_VALID_DISTANCE_MM){
 					_distance_data.valid = false;
 				}
 				else{

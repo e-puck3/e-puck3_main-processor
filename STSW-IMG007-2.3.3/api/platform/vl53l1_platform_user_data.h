@@ -85,6 +85,7 @@ typedef struct {
 	uint16_t  comms_speed_khz;
 	uint32_t  new_data_ready_poll_duration_ms;
 	I2CDriver *I2cHandle;
+	ioline_t  en_line;
 
 } VL53L1_Dev_t;
 
