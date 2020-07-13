@@ -117,7 +117,6 @@ int main(void) {
 	chThdSleepMilliseconds(100);
 	usbSerialStart();
 
-
 	sdStart(&SD5, &ser_cfg_esp32);
 	//spawn_shell();
 
@@ -134,8 +133,6 @@ int main(void) {
 	/* DISTANCE SENSOR CONFIG */
 	distance_sensor_start();
 	distance_sensor_data_t dist_data;
-
-	// i2c_test(&vl53l1_dev);
 
 	// SD CARD CONFIG //
 	sdcStart(&SDCD1, &sd_card_config);
