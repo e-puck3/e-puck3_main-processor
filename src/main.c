@@ -95,6 +95,25 @@ static const SDCConfig sd_card_config = {
     .bus_width = SDC_MODE_4BIT,
 };
 
+/*
+ * STM32F76xxI maximum RAM setup.
+ * 
+ * RAM0 - Data, BSS, Heap.
+ * RAM3 - Main Stack, Process Stack, NOCACHE, ETH.
+ *
+ * Notes:
+ * By default, everything is placed into ram3 (DTCM)
+ * which is the fastest but has only 128k of space.
+ * 
+ * Then if the data exceed the 64k when compiling, it is neccesarry to
+ * put the data that are not time critical into ram0 (SRAM) with the keyword 
+ * below before the delcaration:
+ * 
+ * __attribute__((section(".ram0")))
+ *
+ * Data thare are used by the DMA should not be placed in ram0, because of the cache.
+ */
+
 int main(void) {
 	
 	/*
