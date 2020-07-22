@@ -30,7 +30,7 @@ static void dcmi_data_callback(void *p, uint32_t *buffer, size_t n)
     chSysUnlockFromISR();
 }
 
-static uint32_t cam_buffer[CAM_BUFFER_SIZE];
+__attribute__((section(".ram0"))) static uint32_t cam_buffer[CAM_BUFFER_SIZE];
 static DCMI_config_t cam_cfg = {
     .end_cb = dcmi_data_callback,
     .error_cb = dcmi_err_cb,
