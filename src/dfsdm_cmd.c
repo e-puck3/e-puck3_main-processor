@@ -7,7 +7,7 @@
 #include "dfsdm_cmd.h"
 #include "fatfs_cmd.h"
 
-#define AUDIO_BUFFER_SIZE   8192
+#define AUDIO_BUFFER_SIZE   4096
 #define TIME_TO_RECORD_S    4
 #define SAMPLE_RATE         43600
 
