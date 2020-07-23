@@ -118,6 +118,9 @@ include $(CHIBIOS)/os/hal/lib/streams/streams.mk
 include $(CHIBIOS)/os/various/shell/shell.mk
 include ../fatfs/fatfs.mk
 
+BLACKMAGIC = ../blackmagic
+include $(BLACKMAGIC)/src/platforms/stm32-ChibiOS/Blackmagic_ChibiOS.mk
+
 THDULIB = ../threads_utilities_ChibiOS
 USE_THREADS_TIMESTAMPS = false
 THREADS_TIMESTAMPS_LOG_SIZE = 5000
@@ -153,9 +156,8 @@ CSRC = $(ALLCSRC) \
        imu.c \
        lps22hd.c \
        pressure_sensor.c \
-       distance_sensor.c
-
-
+       distance_sensor.c \
+       platform.c
 
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
