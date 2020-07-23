@@ -157,7 +157,8 @@ CSRC = $(ALLCSRC) \
        lps22hd.c \
        pressure_sensor.c \
        distance_sensor.c \
-       platform.c
+       platform.c \
+       bypass_prog.c
 
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global

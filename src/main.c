@@ -23,6 +23,7 @@
 #include "pressure_sensor.h"
 #include "distance_sensor.h"
 #include "gdb.h"
+#include "bypass_prog.h"
 
 static THD_WORKING_AREA(waBlinker,128);
 static THD_FUNCTION(Blinker,arg) {
@@ -116,6 +117,11 @@ static const SDCConfig sd_card_config = {
  */
 
 int main(void) {
+	/**
+	 * Special function to check if we should bypass the prog. 
+	 * Called before everything to catch the button pressed.
+	 */
+	bypassProgCheck();
 	
 	/*
 	* System initializations.
