@@ -1140,8 +1140,8 @@
  * PG4  - LEFT_LED_G                (output pushpull maximum).
  * PG5  - LEFT_LED_B                (output pushpull maximum).
  * PG6  - PIN6                      (input pulldown).
- * PG7  - SWCLK_PROG                (input floating).
- * PG8  - SWDIO_PROG                (input floating).
+ * PG7  - SWCLK_PROG                (output pushpull maximum).
+ * PG8  - SWDIO_PROG                (output pushpull maximum).
  * PG9  - SPI1_MISO                 (alternate 5).
  * PG10 - DCMI_D2                   (alternate 13).
  * PG11 - SPI1_SCK                  (alternate 5).
@@ -1157,8 +1157,8 @@
                                      PIN_MODE_OUTPUT(GPIOG_LEFT_LED_G) |    \
                                      PIN_MODE_OUTPUT(GPIOG_LEFT_LED_B) |    \
                                      PIN_MODE_INPUT(GPIOG_PIN6) |           \
-                                     PIN_MODE_INPUT(GPIOG_SWCLK_PROG) |     \
-                                     PIN_MODE_INPUT(GPIOG_SWDIO_PROG) |     \
+                                     PIN_MODE_OUTPUT(GPIOG_SWCLK_PROG) |    \
+                                     PIN_MODE_OUTPUT(GPIOG_SWDIO_PROG) |    \
                                      PIN_MODE_ALTERNATE(GPIOG_SPI1_MISO) |  \
                                      PIN_MODE_ALTERNATE(GPIOG_DCMI_D2) |    \
                                      PIN_MODE_ALTERNATE(GPIOG_SPI1_SCK) |   \

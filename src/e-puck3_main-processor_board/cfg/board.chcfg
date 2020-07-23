@@ -875,7 +875,7 @@
         Level="High"
         Speed="Maximum"
         Resistor="Floating"
-        Mode="Input"
+        Mode="Output"
         Alternate="0" />
       <pin8
         ID="SWDIO_PROG"
@@ -883,7 +883,7 @@
         Level="High"
         Speed="Maximum"
         Resistor="Floating"
-        Mode="Input"
+        Mode="Output"
         Alternate="0" />
       <pin9
         ID="SPI1_MISO"
