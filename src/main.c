@@ -22,6 +22,7 @@
 #include "imu.h"
 #include "pressure_sensor.h"
 #include "distance_sensor.h"
+#include "gdb.h"
 
 static THD_WORKING_AREA(waBlinker,128);
 static THD_FUNCTION(Blinker,arg) {
@@ -172,6 +173,9 @@ int main(void) {
 
 	/* IR REMOTE TEST CONFIG */
 	ir_remote_start();
+
+	initGDBEvents();
+	gdbStart();
   
 	while (true){
 		chThdSleepMilliseconds(100);
@@ -201,11 +205,11 @@ int main(void) {
 			/* USB DATARATE TEST  */
 			// //Sends 60MB of data
 			// systime_t begin_time = chVTGetSystemTime();
-			// chprintf((BaseSequentialStream *)&SDU1,"Begins the test\r\n"); 
+			// chprintf((BaseSequentialStream *)&SDU2,"Begins the test\r\n"); 
 			// for(uint32_t i = 0 ; i < 750 ; i++){
-			// 	streamWrite((BaseSequentialStream *)&SDU1, tab, 80000);
+			// 	streamWrite((BaseSequentialStream *)&SDU2, tab, 80000);
 			// }
-			// chprintf((BaseSequentialStream *)&SDU1,"Test finished in %d ms\r\n\r\n", chVTGetSystemTime() - begin_time); 
+			// chprintf((BaseSequentialStream *)&SDU2,"Test finished in %d ms\r\n\r\n", chVTGetSystemTime() - begin_time); 
 		}
 
 		

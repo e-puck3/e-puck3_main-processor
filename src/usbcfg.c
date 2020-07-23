@@ -652,7 +652,7 @@ uint8_t isUSBConfigured(void){
 }
 
 uint8_t getControlLineState(interface_name_t interface, control_line_t rts_dtr){
-  if(interface == GDB_INTERFACE){
+  if(interface == SERIAL_1_INTERFACE){
     if(rts_dtr == CONTROL_LINE_RTS){
       return control_line_states.cdc_cif_num0_rts;
     }else if(rts_dtr == CONTROL_LINE_DTR){
@@ -660,7 +660,7 @@ uint8_t getControlLineState(interface_name_t interface, control_line_t rts_dtr){
     }
   }
 #ifdef USE_TWO_USB_SERIAL
-  else if(interface == SERIAL_INTERFACE){
+  else if(interface == SERIAL_2_INTERFACE){
     if(rts_dtr == CONTROL_LINE_RTS){
       return control_line_states.cdc_cif_num1_rts;
     }else if(rts_dtr == CONTROL_LINE_DTR){

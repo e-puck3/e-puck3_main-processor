@@ -44,14 +44,14 @@
 #define USB_SERIAL2_NAME    "Serial 2"
 #endif /* USE_TWO_USB_SERIAL */
 
-#define USB_GDB             SDU1
+#define USB_SERIAL_1          SDU1
 #ifdef USE_TWO_USB_SERIAL
-#define USB_SERIAL          SDU2
+#define USB_SERIAL_2          SDU2
 #endif /* USE_TWO_USB_SERIAL */
 
 typedef enum{
-    GDB_INTERFACE = 0,
-    SERIAL_INTERFACE,
+    SERIAL_1_INTERFACE = 0,
+    SERIAL_2_INTERFACE,
     NUM_INTERFACES,
 }interface_name_t;
 
