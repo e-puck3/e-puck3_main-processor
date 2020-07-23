@@ -117,9 +117,7 @@
 
 VL53L1_Error VL53L1_WriteMulti(VL53L1_DEV Dev, uint16_t index, uint8_t *pdata, uint32_t count) {
     int32_t status_int;
-    // on STM32F7, first regions of SRAM1 are cached and DMA read and write to cached ram is random
-    // -> put the buffer into ram3 (DTCM)
-    __attribute__((section(".ram3"))) static uint8_t txbuff[256];
+    static uint8_t txbuff[256];
 
     VL53L1_Error Status = VL53L1_ERROR_NONE;
     if (count > sizeof(txbuff) - 2) {
