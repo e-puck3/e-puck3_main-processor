@@ -147,7 +147,8 @@ CSRC = $(ALLCSRC) \
        fatfs_cmd.c \
        dfsdm.c \
        dfsdm_cmd.c \
-       usbcfg.c \
+       usbfscfg.c \
+       usbhscfg.c \
        dcmi.c \
        ar0144.c \
        dcmi_cmd.c \

@@ -25,10 +25,10 @@
 /*
  * Virtual serial ports over USB.
  */
-SerialUSBDriver SDUFS1;
-#ifdef USE_TWO_USB_FS_SERIAL
-SerialUSBDriver SDUFS2;
-#endif /* USE_TWO_USB_FS_SERIAL */
+SerialUSBDriver SDUHS1;
+#ifdef USE_TWO_USB_HS_SERIAL
+SerialUSBDriver SDUHS2;
+#endif /* USE_TWO_USB_HS_SERIAL */
 
 /*
  * Endpoints.
@@ -36,11 +36,11 @@ SerialUSBDriver SDUFS2;
 #define USB_DATA_AVAILABLE_EP_A         1
 #define USB_DATA_REQUEST_EP_A           1
 #define USB_INTERRUPT_REQUEST_EP_A      2
-#ifdef USE_TWO_USB_FS_SERIAL
+#ifdef USE_TWO_USB_HS_SERIAL
 #define USB_DATA_AVAILABLE_EP_B         3
 #define USB_DATA_REQUEST_EP_B           3
 #define USB_INTERRUPT_REQUEST_EP_B      4
-#endif /* USE_TWO_USB_FS_SERIAL */
+#endif /* USE_TWO_USB_HS_SERIAL */
 #define USB_INTERRUPT_REQUEST_SIZE      0x10
 
 /*
@@ -49,10 +49,10 @@ SerialUSBDriver SDUFS2;
 typedef enum{
   USB_CDC_CIF_NUM0 = 0,  
   USB_CDC_DIF_NUM0,
-#ifdef USE_TWO_USB_FS_SERIAL
+#ifdef USE_TWO_USB_HS_SERIAL
   USB_CDC_CIF_NUM1,
   USB_CDC_DIF_NUM1,
-#endif /* USE_TWO_USB_FS_SERIAL */
+#endif /* USE_TWO_USB_HS_SERIAL */
   USB_NUM_INTERFACES
 } t_numInterface;
 
@@ -65,19 +65,19 @@ typedef enum{
 typedef struct{
   uint8_t cdc_cif_num0_dtr;
   uint8_t cdc_cif_num0_rts;
-#ifdef USE_TWO_USB_FS_SERIAL
+#ifdef USE_TWO_USB_HS_SERIAL
   uint8_t cdc_cif_num1_dtr;
   uint8_t cdc_cif_num1_rts;
-#endif /* USE_TWO_USB_FS_SERIAL */
+#endif /* USE_TWO_USB_HS_SERIAL */
 }control_line_states_t;
 
 static control_line_states_t control_line_states = {
   .cdc_cif_num0_dtr = 0,
   .cdc_cif_num0_rts = 0,
-#ifdef USE_TWO_USB_FS_SERIAL
+#ifdef USE_TWO_USB_HS_SERIAL
   .cdc_cif_num1_dtr = 0,
   .cdc_cif_num1_rts = 0
-#endif /* USE_TWO_USB_FS_SERIAL */
+#endif /* USE_TWO_USB_HS_SERIAL */
 };
 
 /*
@@ -94,7 +94,7 @@ static cdc_linecoding_t linecoding = {
 static const uint8_t vcom_device_descriptor_data[] = {
   USB_DESC_DEVICE(
     0x0200,                                 /* bcdUSB (1.1).                */
-#ifdef USE_TWO_USB_FS_SERIAL
+#ifdef USE_TWO_USB_HS_SERIAL
     0xEF,                                   /* bDeviceClass (misc).         */
     0x02,                                   /* bDeviceSubClass (common).    */
     0x01,                                   /* bDeviceProtocol (IAD).       */
@@ -102,9 +102,9 @@ static const uint8_t vcom_device_descriptor_data[] = {
     0x02,                                   /* bDeviceClass (CDC).         */
     0x00,                                   /* bDeviceSubClass.    */
     0x00,                                   /* bDeviceProtocol.       */
-#endif /* USE_TWO_USB_FS_SERIAL */
+#endif /* USE_TWO_USB_HS_SERIAL */
 
-    USB_FS_DATA_SIZE,                          /* bMaxPacketSize.              */
+    USB_HS_DATA_SIZE,                          /* bMaxPacketSize.              */
     USB_DEVICE_VID,                      /* idVendor.                    */
     USB_DEVICE_PID,                      /* idProduct.                   */
     0x0200,                                 /* bcdDevice.                   */
@@ -182,13 +182,13 @@ static const USBDescriptor vcom_device_descriptor = {
   USB_DESC_ENDPOINT(                                                        \
     datOutEp,                               /* bEndpointAddress.        */  \
     USB_EP_MODE_TYPE_BULK,                  /* bmAttributes.            */  \
-    USB_FS_DATA_SIZE,                          /* wMaxPacketSize.          */  \
+    USB_HS_DATA_SIZE,                          /* wMaxPacketSize.          */  \
     0x01),                                  /* bInterval.               */  \
   /* Endpoint, Bulk IN.*/                                                   \
   USB_DESC_ENDPOINT(                                                        \
     datInEp,                                /* bEndpointAddress.        */  \
     USB_EP_MODE_TYPE_BULK,                  /* bmAttributes.            */  \
-    USB_FS_DATA_SIZE,                          /* wMaxPacketSize.          */  \
+    USB_HS_DATA_SIZE,                          /* wMaxPacketSize.          */  \
     0x01)                                   /* bInterval.               */
 
 #define IAD_CDC_IF_DESC_SET_SIZE                                            \
@@ -212,22 +212,22 @@ static const uint8_t vcom_configuration_descriptor_data[] = {
   /* Configuration Descriptor.*/
   USB_DESC_CONFIGURATION(
     USB_DESC_CONFIGURATION_SIZE +
-#ifdef USE_TWO_USB_FS_SERIAL
+#ifdef USE_TWO_USB_HS_SERIAL
     (IAD_CDC_IF_DESC_SET_SIZE * 2),         /* wTotalLength.                */
 #else
     (CDC_IF_DESC_SET_SIZE),                 /* wTotalLength.                */
-#endif /* USE_TWO_USB_FS_SERIAL */
+#endif /* USE_TWO_USB_HS_SERIAL */
     USB_NUM_INTERFACES,                     /* bNumInterfaces.              */
     0x01,                                   /* bConfigurationValue.         */
     0,                                      /* iConfiguration.              */
     0x80,                                   /* bmAttributes. */
     USB_POWER                            /* bMaxPower.                   */
   ),
-#ifdef USE_TWO_USB_FS_SERIAL
+#ifdef USE_TWO_USB_HS_SERIAL
   IAD_CDC_IF_DESC_SET(
 #else
   CDC_IF_DESC_SET(
-#endif /* USE_TWO_USB_FS_SERIAL */
+#endif /* USE_TWO_USB_HS_SERIAL */
     USB_CDC_CIF_NUM0,
     USB_CDC_DIF_NUM0,
     USB_ENDPOINT_IN(USB_INTERRUPT_REQUEST_EP_A),
@@ -235,7 +235,7 @@ static const uint8_t vcom_configuration_descriptor_data[] = {
     USB_ENDPOINT_IN(USB_DATA_REQUEST_EP_A),
     USB_INDEX_STRING_SERIAL_A
   ),
-#ifdef USE_TWO_USB_FS_SERIAL
+#ifdef USE_TWO_USB_HS_SERIAL
   IAD_CDC_IF_DESC_SET(
     USB_CDC_CIF_NUM1,
     USB_CDC_DIF_NUM1,
@@ -244,7 +244,7 @@ static const uint8_t vcom_configuration_descriptor_data[] = {
     USB_ENDPOINT_IN(USB_DATA_REQUEST_EP_B),
     USB_INDEX_STRING_SERIAL_B
   ),
-#endif /* USE_TWO_USB_FS_SERIAL */
+#endif /* USE_TWO_USB_HS_SERIAL */
 };
 
 /*
@@ -295,7 +295,7 @@ static uint8_t vcom_string2[SIZE_VCOM_STRING2] = {
 /*
  * Serial Number string.
  */
-#define SIZE_VCOM_STRING3   (2 * sizeof(USB_FS_SERIAL_NUMBER) + 2)
+#define SIZE_VCOM_STRING3   (2 * sizeof(USB_HS_SERIAL_NUMBER) + 2)
 static uint8_t vcom_string3[SIZE_VCOM_STRING3] = {
   USB_DESC_BYTE(SIZE_VCOM_STRING3),     /* bLength.                         */
   USB_DESC_BYTE(USB_DESCRIPTOR_STRING), /* bDescriptorType.                 */
@@ -304,23 +304,23 @@ static uint8_t vcom_string3[SIZE_VCOM_STRING3] = {
 /*
  * Name Serial A.
  */
-#define SIZE_VCOM_STRING4   (2 * sizeof(USB_FS_SERIAL1_NAME) + 2)
+#define SIZE_VCOM_STRING4   (2 * sizeof(USB_HS_SERIAL1_NAME) + 2)
 static uint8_t vcom_string4[SIZE_VCOM_STRING4] = {
   USB_DESC_BYTE(SIZE_VCOM_STRING4),     /* bLength.                         */
   USB_DESC_BYTE(USB_DESCRIPTOR_STRING), /* bDescriptorType.                 */
 };
 
-#ifdef USE_TWO_USB_FS_SERIAL
+#ifdef USE_TWO_USB_HS_SERIAL
 /*
  * Name Serial B.
  */
-#define SIZE_VCOM_STRING5   (2 * sizeof(USB_FS_SERIAL2_NAME) + 2)
+#define SIZE_VCOM_STRING5   (2 * sizeof(USB_HS_SERIAL2_NAME) + 2)
 static uint8_t vcom_string5[SIZE_VCOM_STRING5] = {
   USB_DESC_BYTE(SIZE_VCOM_STRING5),     /* bLength.                         */
   USB_DESC_BYTE(USB_DESCRIPTOR_STRING), /* bDescriptorType.                 */
 };
 
-#endif /* USE_TWO_USB_FS_SERIAL */
+#endif /* USE_TWO_USB_HS_SERIAL */
 /*
  * Strings wrappers array.
  */
@@ -330,9 +330,9 @@ static const USBDescriptor vcom_strings[] = {
   {sizeof vcom_string2, vcom_string2},
   {sizeof vcom_string3, vcom_string3},
   {sizeof vcom_string4, vcom_string4},
-#ifdef USE_TWO_USB_FS_SERIAL
+#ifdef USE_TWO_USB_HS_SERIAL
   {sizeof vcom_string5, vcom_string5}
-#endif /* USE_TWO_USB_FS_SERIAL */
+#endif /* USE_TWO_USB_HS_SERIAL */
 };
 
 /*
@@ -397,15 +397,15 @@ static const USBEndpointConfig ep2config = {
   NULL,
   sduDataTransmitted,
   sduDataReceived,
-  USB_FS_DATA_SIZE,
-  USB_FS_DATA_SIZE,
+  USB_HS_DATA_SIZE,
+  USB_HS_DATA_SIZE,
   &ep2instate,
   &ep2outstate,
   1,
   NULL
 };
 
-#ifdef USE_TWO_USB_FS_SERIAL
+#ifdef USE_TWO_USB_HS_SERIAL
 /**
  * @brief   IN EP3 state.
  */
@@ -445,23 +445,23 @@ static const USBEndpointConfig ep4config = {
   NULL,
   sduDataTransmitted,
   sduDataReceived,
-  USB_FS_DATA_SIZE,
-  USB_FS_DATA_SIZE,
+  USB_HS_DATA_SIZE,
+  USB_HS_DATA_SIZE,
   &ep4instate,
   &ep4outstate,
   1,
   NULL
 };
-#endif /* USE_TWO_USB_FS_SERIAL */
+#endif /* USE_TWO_USB_HS_SERIAL */
 
 /*
  * Handles the USB driver global events.
  */
 static void usb_event(USBDriver *usbp, usbevent_t event) {
-  extern SerialUSBDriver SDUFS1;
-#ifdef USE_TWO_USB_FS_SERIAL
-  extern SerialUSBDriver SDUFS2;
-#endif /* USE_TWO_USB_FS_SERIAL */
+  extern SerialUSBDriver SDUHS1;
+#ifdef USE_TWO_USB_HS_SERIAL
+  extern SerialUSBDriver SDUHS2;
+#endif /* USE_TWO_USB_HS_SERIAL */
 
   switch (event) {
   case USB_EVENT_ADDRESS:
@@ -475,16 +475,16 @@ static void usb_event(USBDriver *usbp, usbevent_t event) {
          must be used.*/
       usbInitEndpointI(usbp, USB_INTERRUPT_REQUEST_EP_A, &ep1config);
       usbInitEndpointI(usbp, USB_DATA_REQUEST_EP_A, &ep2config);
-#ifdef USE_TWO_USB_FS_SERIAL
+#ifdef USE_TWO_USB_HS_SERIAL
       usbInitEndpointI(usbp, USB_INTERRUPT_REQUEST_EP_B, &ep3config);
       usbInitEndpointI(usbp, USB_DATA_REQUEST_EP_B, &ep4config);
-#endif /* USE_TWO_USB_FS_SERIAL */
+#endif /* USE_TWO_USB_HS_SERIAL */
 
       /* Resetting the state of the CDC subsystem.*/
-      sduConfigureHookI(&SDUFS1);
-#ifdef USE_TWO_USB_FS_SERIAL
-      sduConfigureHookI(&SDUFS2);
-#endif /* USE_TWO_USB_FS_SERIAL */
+      sduConfigureHookI(&SDUHS1);
+#ifdef USE_TWO_USB_HS_SERIAL
+      sduConfigureHookI(&SDUHS2);
+#endif /* USE_TWO_USB_HS_SERIAL */
     }
     else if (usbp->state == USB_SELECTED) {
       usbDisableEndpointsI(usbp);
@@ -500,10 +500,10 @@ static void usb_event(USBDriver *usbp, usbevent_t event) {
     chSysLockFromISR();
 
     /* Disconnection event on suspend.*/
-    sduSuspendHookI(&SDUFS1);
-#ifdef USE_TWO_USB_FS_SERIAL
-    sduSuspendHookI(&SDUFS2);
-#endif /* USE_TWO_USB_FS_SERIAL */
+    sduSuspendHookI(&SDUHS1);
+#ifdef USE_TWO_USB_HS_SERIAL
+    sduSuspendHookI(&SDUHS2);
+#endif /* USE_TWO_USB_HS_SERIAL */
 
     chSysUnlockFromISR();
     return;
@@ -511,10 +511,10 @@ static void usb_event(USBDriver *usbp, usbevent_t event) {
     chSysLockFromISR();
 
     /* Disconnection event on suspend.*/
-    sduWakeupHookI(&SDUFS1);
-#ifdef USE_TWO_USB_FS_SERIAL
-    sduWakeupHookI(&SDUFS2);
-#endif /* USE_TWO_USB_FS_SERIAL */
+    sduWakeupHookI(&SDUHS1);
+#ifdef USE_TWO_USB_HS_SERIAL
+    sduWakeupHookI(&SDUHS2);
+#endif /* USE_TWO_USB_HS_SERIAL */
 
     chSysUnlockFromISR();
     return;
@@ -550,12 +550,12 @@ static bool requests_hook(USBDriver *usbp) {
             control_line_states.cdc_cif_num0_dtr = (usbp->setup[2] & 1) ? TRUE : FALSE;
             control_line_states.cdc_cif_num0_rts = (usbp->setup[2] & 2) ? TRUE : FALSE;
             return TRUE;
-#ifdef USE_TWO_USB_FS_SERIAL
+#ifdef USE_TWO_USB_HS_SERIAL
           case USB_CDC_CIF_NUM1:
             control_line_states.cdc_cif_num1_dtr = (usbp->setup[2] & 1) ? TRUE : FALSE;
             control_line_states.cdc_cif_num1_rts = (usbp->setup[2] & 2) ? TRUE : FALSE;
             return TRUE;
-#endif /* USE_TWO_USB_FS_SERIAL */
+#endif /* USE_TWO_USB_HS_SERIAL */
         }
     default:
       return false;
@@ -573,10 +573,10 @@ static void sof_handler(USBDriver *usbp) {
   (void)usbp;
 
   osalSysLockFromISR();
-  sduSOFHookI(&SDUFS1);
-#ifdef USE_TWO_USB_FS_SERIAL
-  sduSOFHookI(&SDUFS2);
-#endif /* USE_TWO_USB_FS_SERIAL */
+  sduSOFHookI(&SDUHS1);
+#ifdef USE_TWO_USB_HS_SERIAL
+  sduSOFHookI(&SDUHS2);
+#endif /* USE_TWO_USB_HS_SERIAL */
   osalSysUnlockFromISR();
 }
 
@@ -594,44 +594,44 @@ static const USBConfig usbcfg = {
  * Serial over USB driver configuration 1.
  */
 static const SerialUSBConfig serusbcfg1 = {
-  &USBD1,
+  &USBD2,
   USB_DATA_REQUEST_EP_A,
   USB_DATA_AVAILABLE_EP_A,
   USB_INTERRUPT_REQUEST_EP_A
 };
 
-#ifdef USE_TWO_USB_FS_SERIAL
+#ifdef USE_TWO_USB_HS_SERIAL
 /*
  * Serial over USB driver configuration 2.
  */
 static const SerialUSBConfig serusbcfg2 = {
-  &USBD1,
+  &USBD2,
   USB_DATA_REQUEST_EP_B,
   USB_DATA_AVAILABLE_EP_B,
   USB_INTERRUPT_REQUEST_EP_B
 };
-#endif /* USE_TWO_USB_FS_SERIAL */
+#endif /* USE_TWO_USB_HS_SERIAL */
 
-void usbFSSerialStart(void){
+void usbHSSerialStart(void){
 
   //fills the vcom strings dynamically with the strings in usbcfg.h
   fillVcomString(vcom_string1, USB_VENDOR_NAME,   sizeof(USB_VENDOR_NAME));
   fillVcomString(vcom_string2, USB_DEVICE_NAME,   sizeof(USB_DEVICE_NAME));
-  fillVcomString(vcom_string3, USB_FS_SERIAL_NUMBER, sizeof(USB_FS_SERIAL_NUMBER));
-  fillVcomString(vcom_string4, USB_FS_SERIAL1_NAME,  sizeof(USB_FS_SERIAL1_NAME));
-#ifdef USE_TWO_USB_FS_SERIAL
-  fillVcomString(vcom_string5, USB_FS_SERIAL2_NAME,  sizeof(USB_FS_SERIAL2_NAME));
-#endif /* USE_TWO_USB_FS_SERIAL */
+  fillVcomString(vcom_string3, USB_HS_SERIAL_NUMBER, sizeof(USB_HS_SERIAL_NUMBER));
+  fillVcomString(vcom_string4, USB_HS_SERIAL1_NAME,  sizeof(USB_HS_SERIAL1_NAME));
+#ifdef USE_TWO_USB_HS_SERIAL
+  fillVcomString(vcom_string5, USB_HS_SERIAL2_NAME,  sizeof(USB_HS_SERIAL2_NAME));
+#endif /* USE_TWO_USB_HS_SERIAL */
 
   /*
    * Initializes two serial-over-USB CDC drivers.
    */
-  sduObjectInit(&SDUFS1);
-  sduStart(&SDUFS1, &serusbcfg1);
-#ifdef USE_TWO_USB_FS_SERIAL
-  sduObjectInit(&SDUFS2);
-  sduStart(&SDUFS2, &serusbcfg2);
-#endif /* USE_TWO_USB_FS_SERIAL */
+  sduObjectInit(&SDUHS1);
+  sduStart(&SDUHS1, &serusbcfg1);
+#ifdef USE_TWO_USB_HS_SERIAL
+  sduObjectInit(&SDUHS2);
+  sduStart(&SDUHS2, &serusbcfg2);
+#endif /* USE_TWO_USB_HS_SERIAL */
 
   /*
    * Activates the USB driver and then the USB bus pull-up on D+.
@@ -641,14 +641,17 @@ void usbFSSerialStart(void){
   usbDisconnectBus(serusbcfg1.usbp);
   chThdSleepMilliseconds(100);
   usbStart(serusbcfg1.usbp, &usbcfg);
+  // Enables the XCVRDLY bit to add a delay for the chirp sequence 
+  // Needed with the USB3333 transceiver to enumerate at USB HS speed
+  serusbcfg1.usbp->otg->DCFG |= (1<<14);
   usbConnectBus(serusbcfg1.usbp);
 }
 
-uint8_t isUSBFSConfigured(void){
-  return (SDUFS1.config->usbp->state == USB_ACTIVE) ? 1 : 0;
+uint8_t isUSBHSConfigured(void){
+  return (SDUHS1.config->usbp->state == USB_ACTIVE) ? 1 : 0;
 }
 
-uint8_t getControlLineStateFS(interface_name_t interface, control_line_t rts_dtr){
+uint8_t getControlLineStateHS(interface_name_t interface, control_line_t rts_dtr){
   if(interface == SERIAL_1_INTERFACE){
     if(rts_dtr == CONTROL_LINE_RTS){
       return control_line_states.cdc_cif_num0_rts;
@@ -656,7 +659,7 @@ uint8_t getControlLineStateFS(interface_name_t interface, control_line_t rts_dtr
       return control_line_states.cdc_cif_num0_dtr;
     }
   }
-#ifdef USE_TWO_USB_FS_SERIAL
+#ifdef USE_TWO_USB_HS_SERIAL
   else if(interface == SERIAL_2_INTERFACE){
     if(rts_dtr == CONTROL_LINE_RTS){
       return control_line_states.cdc_cif_num1_rts;
@@ -664,6 +667,6 @@ uint8_t getControlLineStateFS(interface_name_t interface, control_line_t rts_dtr
       return control_line_states.cdc_cif_num1_dtr;
     }
   }
-#endif /* USE_TWO_USB_FS_SERIAL */
+#endif /* USE_TWO_USB_HS_SERIAL */
   return 0;
 }
