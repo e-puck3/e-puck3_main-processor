@@ -48,9 +48,14 @@ isn't connected. It means the USB has always the priority*/
 
 //#define PLATFORM_HAS_CUSTOM_COMMANDS
 
-/* You must specify which usb serial port to use */
-#define GDB_USB_INTERFACE_NB	SERIAL_1_INTERFACE	// USB interface number (interface_name_t)
-#define GDB_USB_INTERFACE		USB_SERIAL_1		// USB interface (SerialUSBDrivers)
+/* USB related settings. Go in pair with usbcfg.c/.h */
+#define GDB_USB_INTERFACE_NB	SERIAL_1_INTERFACE			// USB interface number (interface_name_t)
+#define GDB_USB_INTERFACE		USB_FS_SERIAL_1				// USB interface (SerialUSBDrivers)
+#define GDB_DEVICE_NAME			"e-puck3 main processor"	// Name of GDB device
+#define GDB_VENDOR_NAME			"EPFL"						// Name of vendor 
+#define GDB_USB_DATA_SIZE		USB_FS_DATA_SIZE			// USB packet size
+#define gdbIsUSBConfigured		isUSBFSConfigured			// Wrapper to the function to tell if usb is configured
+#define gdbGetControlLineState	getControlLineStateFS		// Wrapper to the functions to get control line state
 
 #ifdef USE_SECOND_GDB_INTERFACE
 //Replace with the Serial or USB Serial object you want to use (for example SD2 for UART2) 
