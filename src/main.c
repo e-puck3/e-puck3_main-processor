@@ -107,13 +107,13 @@ static const SDCConfig sd_card_config = {
  * By default, everything is placed into ram3 (DTCM)
  * which is the fastest but has only 128k of space.
  * 
- * Then if the data exceed the 128k when compiling, it is neccesarry to
+ * Then if the data exceed the 128k when compiling, it is necessary to
  * put the data that are not time critical into ram0 (SRAM) with the keyword 
- * below before the delcaration:
+ * below before the declaration:
  * 
  * __attribute__((section(".ram0")))
  *
- * Data thare are used by the DMA should not be placed in ram0, because of the cache.
+ * Data that are used by the DMA should not be placed in ram0, because of the cache.
  */
 
 int main(void) {
