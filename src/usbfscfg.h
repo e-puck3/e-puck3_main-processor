@@ -21,33 +21,33 @@
 #include "ch.h"
 #include "hal.h"
 
-#ifndef USBCFG_H
-#define USBCFG_H
+#ifndef USBFSCFG_H
+#define USBFSCFG_H
 
 /*  Comment if you only want to have one USB serial port. 
     You can't have two serial ports
     if you don't have enough endpoints to run them
     (we need 2 IN endpoints and 1 OUT endpoints for each serial port)
 */
-#define USE_TWO_USB_SERIAL
+#define USE_TWO_USB_FS_SERIAL
 
 //power asked to the computer in 2mA increment (min 100mA, max 500mA)
-#define USB_POWER           50          //(100mA)
+#define USB_FS_POWER           50          //(100mA)
 
-#define USB_DEVICE_VID      0x1D50
-#define USB_DEVICE_PID      0x6018
-#define USB_VENDOR_NAME     "EPFL"
-#define USB_DEVICE_NAME     "E-PUCK3 MAIN PROCESSOR"
-#define USB_SERIAL_NUMBER   "EPUCK3"
-#define USB_SERIAL1_NAME    "Serial 1"
-#ifdef USE_TWO_USB_SERIAL
-#define USB_SERIAL2_NAME    "Serial 2"
-#endif /* USE_TWO_USB_SERIAL */
+#define USB_FS_DEVICE_VID      0x1D50
+#define USB_FS_DEVICE_PID      0x6018
+#define USB_FS_VENDOR_NAME     "EPFL"
+#define USB_FS_DEVICE_NAME     "E-PUCK3 MAIN PROCESSOR"
+#define USB_FS_SERIAL_NUMBER   "EPUCK3FS"
+#define USB_FS_SERIAL1_NAME    "Serial FS 1"
+#ifdef USE_TWO_USB_FS_SERIAL
+#define USB_FS_SERIAL2_NAME    "Serial FS 2"
+#endif /* USE_TWO_USB_FS_SERIAL */
 
-#define USB_SERIAL_1          SDU1
-#ifdef USE_TWO_USB_SERIAL
-#define USB_SERIAL_2          SDU2
-#endif /* USE_TWO_USB_SERIAL */
+#define USB_FS_SERIAL_1          SDUFS1
+#ifdef USE_TWO_USB_FS_SERIAL
+#define USB_FS_SERIAL_2          SDUFS2
+#endif /* USE_TWO_USB_FS_SERIAL */
 
 typedef enum{
     SERIAL_1_INTERFACE = 0,
@@ -61,27 +61,23 @@ typedef enum{
     NUM_CONTROL_LINE,
 }control_line_t;
 
-#define USB_DATA_SIZE                   0x200
+#define USB_FS_DATA_SIZE                   0x40
 
-extern const USBConfig usbcfg;
-extern SerialUSBDriver SDU1;
-extern const SerialUSBConfig serusbcfg1;
-
-#ifdef USE_TWO_USB_SERIAL
-extern const SerialUSBConfig serusbcfg2;
-extern SerialUSBDriver SDU2;
-#endif /* USE_TWO_USB_SERIAL */
+extern SerialUSBDriver SDUFS1;
+#ifdef USE_TWO_USB_FS_SERIAL
+extern SerialUSBDriver SDUFS2;
+#endif /* USE_TWO_USB_FS_SERIAL */
 
 /*
 * Initializes two serial-over-USB CDC drivers and starts and connects the USB.
 */
-void usbSerialStart(void);
+void usbFSSerialStart(void);
 
 /**
  * @brief Returns if the USB is configured or not
  * @return 1 or 0
  */
-uint8_t isUSBConfigured(void);
+uint8_t isUSBFSConfigured(void);
 
 /**
  * @brief   Returns the state of the selected control line of the selected interface
@@ -91,8 +87,8 @@ uint8_t isUSBConfigured(void);
  * 
  * @return              The state desired
  */
-uint8_t getControlLineState(interface_name_t interface, control_line_t rts_dtr);
+uint8_t getControlLineStateFS(interface_name_t interface, control_line_t rts_dtr);
 
-#endif  /* USBCFG_H */
+#endif  /* USBFSCFG_H */
 
 /** @} */
