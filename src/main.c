@@ -141,7 +141,8 @@ int main(void) {
 	palSetLine(LINE_EN_PHY_HS);
 
 	chThdSleepMilliseconds(100);
-	usbSerialStart();
+	usbFSSerialStart();
+	usbHSSerialStart();
 
 	sdStart(&SD5, &ser_cfg_esp32);
 	//spawn_shell();
@@ -186,7 +187,7 @@ int main(void) {
 	while (true){
 		chThdSleepMilliseconds(100);
 
-		if(isUSBConfigured()){
+		if(isUSBHSConfigured()){
 			//spawns the shell if the usb is connected
 			spawn_shell();
 		}
