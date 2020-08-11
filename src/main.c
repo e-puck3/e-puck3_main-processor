@@ -24,6 +24,7 @@
 #include "distance_sensor.h"
 #include "gdb.h"
 #include "bypass_prog.h"
+#include "uart_cmd.h"
 
 static THD_WORKING_AREA(waBlinker,128);
 static THD_FUNCTION(Blinker,arg) {
@@ -183,6 +184,9 @@ int main(void) {
 
 	initGDBEvents();
 	gdbStart();
+
+	/* UART COMMAND CONFIG */
+	uartCmdStart();
   
 	while (true){
 		chThdSleepMilliseconds(100);

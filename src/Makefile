@@ -159,7 +159,9 @@ CSRC = $(ALLCSRC) \
        pressure_sensor.c \
        distance_sensor.c \
        platform.c \
-       bypass_prog.c
+       bypass_prog.c \
+       serial_datagram.c \
+       uart_cmd.c
 
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
