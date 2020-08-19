@@ -65,6 +65,7 @@ static void uart_cmd_cb(const void *message, size_t len, void *arg){
         voltages.temperature = buffer_float[2];
         // chprintf((BaseSequentialStream *)&SD5, "vbus : %f V, Battery : %f V, Temp : %f °C\r\n\r\n", voltages.vbus, voltages.battery, voltages.temperature);
     }
+    // chprintf((BaseSequentialStream *)&SD5, "time: %d dt\r\n\r\n", chVTGetSystemTimeX());
 }
 
 /*
@@ -162,5 +163,35 @@ void motorGetTelemetry(brushless_motors_names_t motor_id, motor_telemetry_t* tel
 
     telemetry->actual_duty_cycle = motors_telemetry[motor_id].actual_duty_cycle;
     telemetry->rpm = motors_telemetry[motor_id].rpm;
+}
+
+void cmd_motor_set_duty_cycle(BaseSequentialStream *chp, int argc, char *argv[])
+{
+  (void)argv;
+  if(argc == 2)
+  {
+    char *endptr;
+    uint8_t motNumber = strtol(argv[0], &endptr, 0);
+    float speed = strtol(argv[1], &endptr, 0);
+
+    brushless_motors_names_t motor_id;
+    if(motNumber == 1){
+      motor_id = 0;
+    }else if(motNumber == 2){
+      motor_id = 1;
+    }else if(motNumber == 3){
+      motor_id = 2;
+    }else if(motNumber == 4){
+      motor_id = 3;
+    }else{
+      return;
+    }
+    motorSetDutyCycle(motor_id, speed);
+
+  }
+  else
+  {
+      chprintf(chp, "motor_set_duty_cycle motNumber speed (0-100) \r\n");
+  }
 }
 

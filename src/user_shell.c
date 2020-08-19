@@ -18,6 +18,7 @@
 #include "dfsdm_cmd.h"
 #include "dcmi_cmd.h"
 #include "threads_utilities.h"
+#include "uart_cmd.h"
 
 
 static THD_WORKING_AREA(waShell,4096);
@@ -30,6 +31,7 @@ static const ShellCommand commands[] = {
   DFSDM_SHELL_CMD
   DCMI_SHELL_CMD
   THREADS_UTILITIES_SHELL_CMD
+  UART_CMD_SHELL_CMD
   {NULL, NULL}
 };
 

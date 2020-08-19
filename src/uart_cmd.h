@@ -66,6 +66,22 @@ void motorSetDutyCycle(brushless_motors_names_t motor_id, uint8_t duty_cycle);
  */	
 void motorGetTelemetry(brushless_motors_names_t motor_id, motor_telemetry_t* telemetry);
 
+/********************                SHELL FUNCTIONS               ********************/
+
+/**     
+ * @brief 			Shell command to set the duty cycle of a motor
+ * 					Calls motorSetDutyCycle()
+ 
+ * @param chp 		Pointer to the BaseSequentialStream stream to write to
+ * @param argc 		Number of arguments given when calling this shell command
+ * @param argv 		Array of the arguments given when calling thos shell command
+ */	
+void cmd_motor_set_duty_cycle(BaseSequentialStream *chp, int argc, char *argv[]);
+
+
+#define UART_CMD_SHELL_CMD					\
+	{"motor_set_duty_cycle",cmd_motor_set_duty_cycle},			\
+
 
 
 
